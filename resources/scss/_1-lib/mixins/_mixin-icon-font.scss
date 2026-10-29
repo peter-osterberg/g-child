@@ -1,0 +1,194 @@
+@use 'sass:meta';
+@use 'sass:map';
+@use 'sass:list';
+@use '../functions' as *;
+
+// Font Awesome lookup maps
+$fa-weight-map: (
+  'thin': var(--icon-thin),
+  'light': var(--icon-light),
+  'regular': var(--icon-regular),
+  'solid': var(--icon-solid),
+) !default;
+$fa-family-map: (
+  'brands': (
+    var(--icon-fa-brands),
+    false,
+  ),
+  'Font Awesome 7 Brands': (
+    var(--icon-fa-brands),
+    false,
+  ),
+  'duotone': (
+    var(--icon-fa-duotone),
+    true,
+  ),
+  'duo': (
+    var(--icon-fa-duotone),
+    true,
+  ),
+  'Font Awesome 7 Duotone': (
+    var(--icon-fa-duotone),
+    true,
+  ),
+  'sharp': (
+    var(--icon-fa-sharp),
+    false,
+  ),
+  'Font Awesome 7 Sharp': (
+    var(--icon-fa-sharp),
+    false,
+  ),
+  'sharp-duotone': (
+    var(--icon-fa-sharp-duotone),
+    true,
+  ),
+  'sharpduo': (
+    var(--icon-fa-sharp-duotone),
+    true,
+  ),
+  'Font Awesome 7 Sharp Duotone': (
+    var(--icon-fa-sharp-duotone),
+    true,
+  ),
+) !default;
+
+// Helpers
+@function fa-is-weight($value) {
+  @return meta.type-of($value) == 'number' or (meta.type-of($value) == 'string' and map.has-key($fa-weight-map, $value));
+}
+
+@function fa-resolve-weight($value) {
+  @if not $value {
+    @return var(--icon-fw-base);
+  }
+
+  @if meta.type-of($value) == 'number' {
+    @return $value;
+  }
+
+  @if meta.type-of($value) == 'string' and map.has-key($fa-weight-map, $value) {
+    @return map.get($fa-weight-map, $value);
+  }
+
+  @return $value;
+}
+
+// Returns `(family, is-duotone)`.
+@function fa-resolve-family($value) {
+  @if not $value {
+    @return (var(--icon-ff-base), false);
+  }
+
+  @if meta.type-of($value) == 'string' and map.has-key($fa-family-map, $value) {
+    @return map.get($fa-family-map, $value);
+  }
+
+  @if $value == var(--icon-fa-duotone) or $value == var(--icon-fa-sharp-duotone) {
+    @return ($value, true);
+  }
+
+  @return ($value, false);
+}
+
+// Returns `(familyArg, weightArg)`.
+@function fa-parse-args($a: null, $b: null) {
+  $family: null;
+  $weight: null;
+
+  @each $arg in ($a, $b) {
+    @if $arg {
+      @if fa-is-weight($arg) {
+        $weight: $arg;
+      } @else {
+        $family: $arg;
+      }
+    }
+  }
+
+  @return ($family, $weight);
+}
+
+@layer theme {
+  %fa-icon {
+    display: var(--icon-display, inline-block);
+    font-family: var(--icon-ff, var(--icon-ff-base));
+    font-style: normal;
+    font-weight: var(--icon-fw, var(--icon-fw-base));
+    font-feature-settings: normal;
+    font-variant: normal;
+    font-synthesis: none;
+    text-align: center;
+    letter-spacing: normal;
+    content: var(--icon, '');
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@mixin fa-icon() {
+  @extend %fa-icon;
+}
+
+@mixin fa-render-single($icon, $family: null, $weight: null) {
+  --icon: #{$icon};
+
+  @if $family {
+    --icon-ff: #{$family};
+  }
+
+  @if $weight {
+    --icon-fw: #{$weight};
+  }
+
+  @extend %fa-icon;
+}
+
+@mixin fa-render-duo-layer($pseudo, $icon, $family: null, $weight: null, $alt: false) {
+  &::#{$pseudo} {
+    @include fa-render-single($icon, $family, $weight);
+
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+
+    @if $alt {
+      font-feature-settings: 'ss01';
+      color: var(--fa-primary-color, currentColor);
+      opacity: var(--fa-primary-opacity, 1);
+    } @else {
+      color: var(--fa-secondary-color, currentColor);
+      opacity: var(--fa-secondary-opacity, 1);
+    }
+  }
+}
+
+@mixin fa-render-duotone($icon, $family: null, $weight: null) {
+  @include fa-render-duo-layer(before, $icon, $family, $weight, false);
+  @include fa-render-duo-layer(after, $icon, $family, $weight, true);
+
+  position: relative;
+  padding-inline-start: var(--fa-fw-width, 1em);
+}
+
+// Public API
+@mixin icon($icon, $a: null, $b: null) {
+  $parsed:      fa-parse-args($a, $b);
+  $family-arg:  list.nth($parsed, 1);
+  $weight-arg:  list.nth($parsed, 2);
+  $family-data: fa-resolve-family($family-arg);
+  $family:      list.nth($family-data, 1);
+  $is-duotone:  list.nth($family-data, 2);
+  $weight:      fa-resolve-weight($weight-arg);
+
+  @if $is-duotone {
+    @include fa-render-duotone($icon, $family, $weight);
+  } @else {
+    @include fa-render-single($icon, $family, $weight);
+  }
+}
+
+@mixin fa($icon, $a: null, $b: null) {
+  @include icon($icon, $a, $b);
+}

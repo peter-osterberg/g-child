@@ -1,0 +1,111 @@
+@use '@lib' as *;
+
+// Base button shell plus shared visual variants.
+.btn {
+  @include btn;
+}
+
+.btn-filled {
+  @include btn-variant('filled');
+}
+
+.btn-outline {
+  @include btn-variant('outline');
+}
+
+.btn-ghost {
+  @include btn-variant('ghost');
+}
+
+.btn-tonal {
+  @include btn-variant('tonal');
+}
+
+.btn-text {
+  @include btn-variant('text');
+}
+
+// Shared size modifiers.
+.btn-sm {
+  @include btn-size('sm');
+}
+
+.btn-lg {
+  @include btn-size('lg');
+}
+
+// Named color themes are generated from the token registry to keep utility classes in sync with mixin support.
+@each $name in $button-colors {
+  .btn-#{$name} {
+    @include btn-color($name);
+  }
+}
+
+.btn-currentcolor {
+  @include btn-color(currentcolor);
+}
+
+// Icon alignment helpers for buttons that render SVG or pseudo-element icons.
+.btn-icon-start {
+  @include btn-icon-start;
+}
+
+.btn-icon-end {
+  @include btn-icon-end;
+}
+
+.btn-icon-only,
+.btn-custom-icon-start,
+.btn-custom-icon-end {
+  .svg-icon {
+    @include btn-icon;
+  }
+}
+
+// Shape and layout modifiers.
+.btn-square {
+  @include btn-square;
+}
+
+.btn-round {
+  @include btn-round;
+}
+
+.btn-block {
+  @include btn-block;
+}
+
+// Scroll-to-top reuses the button API but keeps a custom asymmetric radius for the docked edge.
+.scroll-to-top {
+  --btn-br: #{$btn-border-radius} 0 0 #{$btn-border-radius};
+
+  @include btn-variant('filled');
+  @include btn-color('primary');
+  @include btn-icon-only;
+
+  transition-property: opacity, visibility, transform, color, background-color, border-color, box-shadow;
+}
+
+// Keep skip links hidden until keyboard focus moves into the group.
+.skip-links {
+  @include visually-hidden-focusable;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: $z-index-header + 1;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+
+  &:not(:focus-within) {
+    transform: translateY(-100%);
+  }
+
+  a {
+    @include btn;
+    @include btn-variant('filled');
+    @include btn-color('primary');
+    @include btn-size('sm');
+  }
+}

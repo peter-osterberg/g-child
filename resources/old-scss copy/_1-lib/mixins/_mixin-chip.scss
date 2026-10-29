@@ -1,0 +1,19 @@
+@use '@lib/functions' as *;
+
+@mixin chip {
+  & {
+    --_chip-bg: var(--chip-bg, transparent);
+    --_chip-text: var(--chip-text, currentcolor);
+
+    display: inline-flex;
+    gap: 0.25ch;
+    align-items: center;
+    block-size: var(--chip-height, #{rem(28)});
+    padding-inline: var(--chip-padding-x, var(--spacing-4));
+    font-size: var(--chip-fs, var(--fs-tn));
+    color: var(--_chip-text);
+    text-decoration: none;
+    background: var(--_chip-bg);
+    border-radius: var(--chip-br, var(--br-sm));
+  }
+}

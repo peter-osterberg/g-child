@@ -1,0 +1,56 @@
+@use '@lib' as *;
+@use 'sass:map';
+
+// Shared grid shell for `.grid` helpers and listing wrappers that opt into the same column API.
+@mixin grid-base {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols, 1), minmax(0, 1fr));
+  gap: var(--gap-gy, var(--gy, var(--spacing-gutter-y))) var(--gap-gx, var(--gx, var(--spacing-gutter-x)));
+}
+
+// Apply grid defaults to both direct utility usage and nested CMS wrappers that expose `.col`.
+.grid.col,
+.grid :where(.col, .listing-items-wrapper),
+[class*='grid-'].col,
+[class*='grid-'] :where(.col, .listing-items-wrapper) {
+  --ms: 0;
+
+  @include grid-base;
+}
+
+// Generate fixed column-count utilities plus responsive overrides from the shared breakpoint map.
+@for $i from 1 through 12 {
+  .grid-#{$i} {
+    --grid-cols: #{$i};
+  }
+
+  @each $name, $value in $breakpoints {
+    @media (--#{$name}-up) {
+      .grid-#{$name}-#{$i} {
+        --grid-cols: #{$i};
+      }
+    }
+  }
+}
+
+// Full width on breakpoint
+// Use this class section/row to make it full width on breakpoint
+@each $name, $_ in $breakpoints {
+  @media (--#{$name}-down) {
+    .fw-#{$name}.col,
+    .fw-#{$name} .col {
+      --col-width: 100%;
+
+      margin-inline: 0;
+    }
+  }
+}
+
+// Use on row to make columns auto width and spread across available space. Columns will still wrap as needed.
+.auto-col {
+  --col-width: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

@@ -1,0 +1,6 @@
+// components/button/_index.scss
+
+@forward './mixins';
+
+@use './tokens';
+@use './button';

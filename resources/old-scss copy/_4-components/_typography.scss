@@ -1,0 +1,51 @@
+@use '@lib' as *;
+
+// Headings
+:where(.d1) {
+  @include h1;
+}
+
+:where(h1, .h1) {
+  @include h1;
+}
+
+:where(h2, .h2) {
+  @include h2;
+}
+
+:where(h3, .h3) {
+  @include h3;
+}
+
+:where(h4, .h4) {
+  @include h4;
+}
+
+:where(h5, .h5) {
+  @include h5;
+}
+
+:where(h6, .h6) {
+  @include h6;
+}
+
+// Text sizes
+:where(.large, .text-lg, .lg) {
+  @include text-lg;
+}
+
+:where(.medium, .text-md, .md) {
+  @include text-md;
+}
+
+:where(.small, .text-sm, .sm) {
+  @include text-sm;
+}
+
+:where(.tiny, .text-tn, .tn) {
+  @include text-tn;
+}
+
+:where(.micro, .text-mi, .mi) {
+  @include text-mi;
+}

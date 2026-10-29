@@ -1,0 +1,207 @@
+/* stylelint-disable selector-class-pattern */
+@use '@lib' as *;
+
+// ==========================================================================
+// File upload root
+// ==========================================================================
+
+.gfield--type-fileupload {
+  --_upload-action-size: #{rem(24)};
+  --_upload-preview-gap-block: 0.25rem;
+  --_upload-preview-gap-inline: 1ch;
+  --_upload-progress-size: 8px;
+}
+
+.gform_fileupload_multifile {
+  display: flex;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+// ==========================================================================
+// Drop area
+// ==========================================================================
+
+.gform_drop_area {
+  position: relative;
+  display: flex;
+  gap: 0.5ch;
+  align-items: center;
+  inline-size: 100%;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  user-select: none;
+}
+
+.gform_drop_instructions {
+  color: #{$input-placeholder};
+}
+
+.gform_button_select_files {
+  position: static !important;
+  display: inline-flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  min-inline-size: 0;
+  color: #{$input-placeholder};
+  text-transform: lowercase;
+
+  @media (--motion-ok) {
+    transition: color var(--input-duration, var(--duration-fast)) var(--input-easing, var(--easing-out));
+  }
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  &::before {
+    position: absolute;
+    inset: calc(#{$input-padding-y} * -1) calc(#{$input-padding-x} * -1);
+    content: '';
+  }
+
+  &::after {
+    @include icon('upload');
+
+    flex: 0 0 auto;
+    margin-inline-start: 0.5ch;
+    font-size: var(--input-icon-fs, #{$input-icon-font-size});
+    color: var(--input-icon-color, #{$input-icon-color});
+  }
+}
+
+// ==========================================================================
+// Preview list
+// ==========================================================================
+
+.gform-ul-reset,
+.ginput_preview_list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.ginput_preview_list:not(:empty) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_upload-preview-gap-block);
+  min-inline-size: 0;
+}
+
+.ginput_preview {
+  display: flex;
+  gap: var(--_upload-preview-gap-block) var(--_upload-preview-gap-inline);
+  align-items: center;
+  min-inline-size: 0;
+  padding: 0.25ch;
+  font-size: var(--fs-tn);
+  white-space: nowrap;
+}
+
+.gfield_fileupload_filename {
+  flex: 1 1 auto;
+  min-inline-size: 10ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gfield_fileupload_filesize {
+  flex: 0 0 auto;
+  order: 1;
+  opacity: 0.6;
+
+  &::before {
+    content: ' (';
+  }
+
+  &::after {
+    content: ')';
+  }
+}
+
+// ==========================================================================
+// Progress
+// ==========================================================================
+
+.gfield_fileupload_progress {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  inline-size: 100%;
+
+  &.gfield_fileupload_progress_complete {
+    inline-size: auto;
+
+    .gfield_fileupload_progressbar {
+      display: none;
+    }
+
+    .gfield_fileupload_percent {
+      color: var(--success);
+    }
+  }
+}
+
+.gfield_fileupload_progressbar {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  block-size: var(--_upload-progress-size);
+  overflow: hidden;
+  background-color: alpha(currentcolor, 10%);
+  border-radius: 100vi;
+}
+
+.gfield_fileupload_progressbar_progress {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 0;
+  block-size: 100%;
+  background-color: var(--primary);
+  border-radius: inherit;
+
+  @media (--motion-ok) {
+    transition: inline-size var(--duration-slow) linear;
+  }
+}
+
+// ==========================================================================
+// Action buttons
+// ==========================================================================
+
+.gfield_fileupload_cancel,
+button.gform_delete_file {
+  --btn-fs: #{rem(12)};
+  --btn-min-height: var(--_upload-action-size);
+
+  @include btn;
+  @include btn-variant('ghost');
+  @include btn-color('error');
+  @include btn-icon-only;
+
+  flex: 0 0 var(--_upload-action-size);
+  order: -1;
+  font-size: 0;
+
+  &::before {
+    font-size: var(--btn-fs);
+  }
+}
+
+.gfield_fileupload_cancel {
+  &::before {
+    @include icon('xmark', 'solid');
+  }
+}
+
+button.gform_delete_file {
+  &::before {
+    @include icon('trash', 'solid');
+  }
+}

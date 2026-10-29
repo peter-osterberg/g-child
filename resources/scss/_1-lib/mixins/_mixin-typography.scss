@@ -1,0 +1,74 @@
+/* stylelint-disable scss/at-mixin-pattern */
+@use '@lib/variables' as *;
+
+// Apply the legacy text preset using the shared typography token names.
+// Keep existing preset mixins connected to the same exported design tokens.
+@mixin text-base($size-token) {
+  --font-margin: var(--font-space-#{$size-token});
+
+  font-size: var(--font-size-#{$size-token});
+  line-height: var(--line-height-#{$size-token});
+  letter-spacing: var(--letter-spacing-#{$size-token});
+}
+
+@mixin d1 {
+  @include text-base('d1');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h1 {
+  @include text-base('h1');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h2 {
+  @include text-base('h2');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h3 {
+  @include text-base('h3');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h4 {
+  @include text-base('h4');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h5 {
+  @include text-base('h5');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h6 {
+  @include text-base('h6');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin text-lg {
+  @include text-base('lg');
+}
+
+@mixin text-md {
+  @include text-base('md');
+}
+
+@mixin text-sm {
+  @include text-base('sm');
+}
+
+@mixin text-tn {
+  @include text-base('tn');
+}
+
+@mixin text-mi {
+  @include text-base('mi');
+}

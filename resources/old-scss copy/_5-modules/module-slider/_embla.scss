@@ -1,0 +1,35 @@
+@use '@lib' as *;
+
+.embla {
+  --overflow: min(var(--slide-spacing), var(--spacing-edge-margin));
+  --slide-spacing: var(--spacing-gutter-x);
+  --slides-per-view: var(--gt-slider-slides-per-view-mobile, 1);
+
+  position: relative;
+  width: calc(100% + calc(var(--overflow) * 2));
+  margin-inline: calc(-1 * var(--overflow));
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .embla__viewport {
+    @include fade-content-x(var(--overflow));
+
+    padding-block: var(--spacing-row);
+    padding-inline: var(--overflow);
+  }
+
+  @media (--md-up) {
+    --slides-per-view: var(--gt-slider-slides-per-view-tablet, 1);
+  }
+
+  @media (--lg-up) {
+    --slides-per-view: var(--gt-slider-slides-per-view-desktop, 1);
+  }
+
+  .slider-nav-wrapper {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    padding-inline: var(--overflow);
+    background: #ffa500;
+  }
+}

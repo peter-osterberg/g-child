@@ -1,0 +1,12 @@
+@use '@lib' as *;
+
+@each $name, $_ in $breakpoints {
+  @each $direction in up, down {
+    @include as-utilities('hide', '#{$name}-#{$direction}') {
+      @media (--#{$name}-#{$direction}) {
+        /* stylelint-disable-next-line no-invalid-position-declaration */
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+@use '@lib/variables' as *;
+
+@mixin loading-overlay {
+  position: relative;
+}
+
+@mixin loading-spinner($size: 1.5em, $color: currentColor) {
+  &::after {
+    display: block;
+    font-family: $icon-font-base;
+    font-size: $size;
+    font-weight: $icon-weight-base;
+    content: $icon-loading;
+    transform-origin: center;
+    animation: spinner 0.9s linear infinite;
+  }
+}

@@ -1,0 +1,72 @@
+/* stylelint-disable scss/at-mixin-pattern */
+@use '@lib/variables' as *;
+
+@mixin text-base($size-token) {
+  --font-margin: var(--font-space-#{$size-token});
+
+  font-size: var(--fs-#{$size-token});
+  line-height: var(--lh-#{$size-token});
+  letter-spacing: var(--ls-#{$size-token});
+}
+
+@mixin d1 {
+  @include text-base('d1');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h1 {
+  @include text-base('h1');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h2 {
+  @include text-base('h2');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h3 {
+  @include text-base('h3');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h4 {
+  @include text-base('h4');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h5 {
+  @include text-base('h5');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin h6 {
+  @include text-base('h6');
+
+  font-weight: var(--fw, #{$heading-font-weight});
+}
+
+@mixin text-lg {
+  @include text-base('lg');
+}
+
+@mixin text-md {
+  @include text-base('md');
+}
+
+@mixin text-sm {
+  @include text-base('sm');
+}
+
+@mixin text-tn {
+  @include text-base('tn');
+}
+
+@mixin text-mi {
+  @include text-base('mi');
+}

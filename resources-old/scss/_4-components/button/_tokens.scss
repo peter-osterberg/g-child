@@ -1,0 +1,46 @@
+@use '@lib' as *;
+
+:root {
+  @each $size, $properties in $buttons {
+    @each $property, $value in $properties {
+      --button-#{$property}-#{$size}: #{$value};
+    }
+  }
+}
+
+// @layer ds.tokens {
+//   :root {
+//     // Base
+//     --ds-button-radius: var(--ds-radius-md);
+//     --ds-button-gap: var(--ds-space-2);
+//     --ds-button-font-weight: var(--ds-font-weight-semibold);
+
+//     // Sizes
+//     --ds-button-height-sm: 2rem;
+//     --ds-button-height-md: 2.5rem;
+//     --ds-button-height-lg: 3rem;
+
+//     --ds-button-padding-x-sm: var(--ds-space-3);
+//     --ds-button-padding-x-md: var(--ds-space-4);
+//     --ds-button-padding-x-lg: var(--ds-space-5);
+
+//     --ds-button-font-size-sm: var(--ds-font-size-sm);
+//     --ds-button-font-size-md: var(--ds-font-size-md);
+//     --ds-button-font-size-lg: var(--ds-font-size-lg);
+
+//     // Primary
+//     --ds-button-primary-bg: var(--ds-color-action-primary);
+//     --ds-button-primary-bg-hover: var(--ds-color-action-primary-hover);
+//     --ds-button-primary-fg: var(--ds-color-on-primary);
+
+//     // Secondary
+//     --ds-button-secondary-bg: var(--ds-color-action-secondary);
+//     --ds-button-secondary-bg-hover: var(--ds-color-action-secondary-hover);
+//     --ds-button-secondary-fg: var(--ds-color-on-secondary);
+
+//     // Danger
+//     --ds-button-danger-bg: var(--ds-color-danger);
+//     --ds-button-danger-bg-hover: var(--ds-color-danger-hover);
+//     --ds-button-danger-fg: var(--ds-color-on-danger);
+//   }
+// }

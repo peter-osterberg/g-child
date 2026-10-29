@@ -1,0 +1,39 @@
+/* stylelint-disable selector-class-pattern */
+@use '@lib' as *;
+
+// ==========================================================================
+// Labels
+// ==========================================================================
+
+label,
+.label,
+.form-label,
+.gfield_label {
+  // Resolve base label tokens into local variables before state overrides run.
+  --_label-text: var(--label-text, #{$label-text});
+
+  display: block;
+  margin-block: var(--label-mt, #{$label-margin-top}) var(--label-mb, #{$label-margin-bottom});
+  font-family: var(--label-ff, #{$label-font-family});
+  font-size: var(--label-fs, #{$label-font-size});
+  font-weight: var(--label-fw, #{$label-font-weight});
+  line-height: var(--label-lh, #{$label-line-height});
+  color: var(--_label-text);
+}
+
+label:has(> input[type='checkbox']),
+label:has(> input[type='radio']) {
+  margin-block: 0;
+  cursor: pointer;
+}
+
+.gfield_error label,
+.gfield_error .gfield_label {
+  --_label-text: var(--label-text-error, var(--form-border-error));
+}
+
+:where(label:has(> input:disabled), label:has(> input[aria-disabled='true']), label:has(> input.disabled)) {
+  --_label-text: var(--label-text-disabled, var(--label-text, #{$label-text}));
+
+  cursor: not-allowed;
+}

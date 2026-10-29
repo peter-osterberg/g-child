@@ -1,0 +1,111 @@
+@use '@lib' as *;
+
+.g-cookies-wrapper {
+  --_g-cookies-bg: var(--background-1);
+  --_g-cookies-content-px: var(--spacing-11);
+  --_g-cookies-content-py: var(--spacing-11);
+  --_g-cookies-settings-bg: #{alpha(currentcolor, 5%)};
+
+  // Switch
+  --_switch-accent: var(--primary);
+  --_switch-accent-contrast: var(--primary-text);
+  --_switch-dot-bg: #{alpha(currentcolor, 50%)};
+  --_switch-dot-inset: 0.25rem;
+  --_switch-dot-size: 1.25rem;
+  --_switch-track-bg: #{alpha(currentcolor, 10%)};
+  --_switch-track-height: 1.75rem;
+  --_switch-track-width: calc(var(--_switch-track-height) * 1.75);
+}
+
+.g-cookies-inner {
+  --card-bg: var(--_g-cookies-bg);
+  --card-py: var(--spacing-4);
+
+  @include card;
+}
+
+.g-cookies-intro ,
+.g-cookies-settings-inner,
+.g-cookies-settings-footer {
+  padding: var(--_g-cookies-content-py) var(--_g-cookies-content-px);
+}
+
+.g-cookies-intro {
+  .g-cookies-headline {
+    @include h4;
+  }
+}
+
+.g-cookies-settings-inner {
+  background-color: var(--_g-cookies-settings-bg);
+
+  .g-cookies-headline {
+    @include h5;
+  }
+}
+
+.g-cookies-setting {
+  background-color: var(--_g-cookies-bg);
+  border: 1px solid #{alpha(currentcolor, 15%)};
+
+  & + .g-cookies-setting {
+    border-top: 0;
+  }
+}
+
+.g-cookies-setting label {
+  // Track
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  inline-size: var(--_switch-track-width);
+  block-size: var(--_switch-track-height);
+  background-color: var(--_switch-track-bg);
+  border-radius: 100vmax;
+  transition: background-color var(--duration-base) var(--easing-base);
+
+  &:hover {
+    --_switch-track-bg: #{alpha(currentcolor, 15%)};
+  }
+
+  // Dot
+  &::before {
+    position: absolute;
+    inset-block-start: var(--_switch-dot-inset);
+    inset-inline-start: var(--_switch-dot-inset);
+    inline-size: var(--_switch-dot-size);
+    block-size: var(--_switch-dot-size);
+    content: '';
+    background-color: var(--_switch-dot-bg);
+    border-radius: 100vmax;
+    transition: all var(--duration-base) var(--easing-base);
+  }
+}
+
+// Checked
+.g-cookies-setting:has(input[type='checkbox']:checked) label {
+  background-color: var(--_switch-accent);
+
+  &:hover {
+    --_switch-accent: var(--primary-hover);
+  }
+
+  &::before {
+    inset-inline-start: calc(var(--_switch-track-width) - var(--_switch-dot-size) - calc((var(--_switch-track-height) - var(--_switch-dot-size)) / 2));
+    background-color: var(--_switch-accent-contrast);
+  }
+}
+
+// Disabled
+.g-cookies-setting:has(input[type='checkbox']:disabled) label {
+  cursor: not-allowed;
+  opacity: $disabled-opacity;
+}
+
+.g-cookies-btn {
+  @include btn;
+  @include btn-variant('filled');
+  @include btn-color('primary');
+
+  padding: var(--btn-py, #{$btn-padding-y}) var(--btn-px, #{$btn-padding-x});
+}

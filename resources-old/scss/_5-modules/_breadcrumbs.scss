@@ -1,0 +1,44 @@
+@use '@lib' as *;
+
+// Breadcrumbs stay compact by default and inherit the tiny text preset.
+.module-breadcrumbs {
+  --_breadcrumb-min-width: var(--breadcrumb-min-width, 5ch);
+
+  @include text-tn;
+}
+
+// Use a flex list so separators and crumbs wrap naturally in narrow layouts.
+.gt-breadcrumb-list {
+  display: flex;
+  gap: 1ex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+// Middle crumbs truncate first, preserving the root item and current page when space runs short.
+.gt-breadcrumb {
+  min-width: 0;
+
+  &:first-child {
+    flex-shrink: 0;
+  }
+
+  &:not(:first-child, :last-child) {
+    min-width: var(--_breadcrumb-min-width);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// Keep separators visually secondary without reducing layout contrast too aggressively.
+.gt-breadcrumbs-separator {
+  opacity: 0.6;
+}

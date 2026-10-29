@@ -1,0 +1,115 @@
+/* stylelint-disable selector-class-pattern */
+@use '@lib' as *;
+
+// ==========================================================================
+// Text inputs / textarea / select / dropdown-like controls
+// ==========================================================================
+
+input:not([type='checkbox'], [type='radio']),
+textarea,
+select,
+.gform_fileupload_multifile,
+.dropdown-label {
+  // Resolve base control tokens into local variables before state overrides run.
+  --_input-bg: var(--input-bg, #{$input-bg});
+  --_input-border: var(--input-border, #{$input-border});
+  --_input-ring: transparent;
+  --_input-text: var(--input-text, #{$input-text});
+
+  width: 100%;
+  min-height: var(--input-min-height, #{$input-min-height});
+  padding-block: var(--input-padding-y, #{$input-padding-y});
+  padding-inline: var(--input-padding-x, #{$input-padding-x});
+  font-family: var(--input-font-family, #{$input-font-family});
+  font-size: var(--input-font-size, #{$input-font-size});
+  font-weight: var(--input-font-weight, #{$input-font-weight});
+  line-height: var(--input-line-height, #{$input-line-height});
+  color: var(--_input-text);
+  appearance: none;
+  background-color: var(--_input-bg);
+  border: var(--input-border-width, #{$input-border-width}) solid var(--_input-border);
+  border-radius: var(--input-border-radius, #{$input-border-radius});
+  box-shadow:
+    0 0 0
+    var(--input-ring-width, calc(#{$input-border-width-focus} - var(--input-border-width, #{$input-border-width})))
+    var(--_input-ring);
+
+  @media (--motion-ok) {
+    transition: var(--input-duration, var(--duration-fast)) var(--input-easing, var(--easing-out));
+    transition-property: background-color, border-color, color, box-shadow;
+  }
+
+  &:hover:not(:disabled, [aria-disabled='true'], .disabled, :focus, :focus-visible, :focus-within) {
+    --_input-bg: var(--input-bg-hover, #{$input-bg-hover});
+    --_input-border: var(--input-border-hover, #{$input-border-hover});
+    --_input-text: var(--input-text-hover, #{$input-text});
+  }
+
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    --_input-bg: var(--input-bg-focus, #{$input-bg-focus});
+    --_input-border: var(--input-border-focus, #{$input-border-focus});
+    --_input-ring: var(--input-ring-focus, #{$input-border-focus});
+    --_input-text: var(--input-text-focus, #{$input-text});
+
+    outline: 0;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'],
+  &.disabled {
+    --_input-bg: var(--input-bg-disabled, #{$input-bg-disabled});
+    --_input-border: var(--input-border-disabled, #{$input-border-disabled});
+    --_input-text: var(--input-text-disabled, #{$input-text-disabled});
+
+    cursor: not-allowed;
+    opacity: #{$input-disabled-opacity};
+  }
+
+  &::placeholder {
+    color: var(--input-placeholder, #{$input-placeholder});
+  }
+
+  .gfield_error &:user-valid {
+    --_input-bg: var(--input-bg-success, #{$input-bg});
+    --_input-border: var(--input-border-success, #{$input-border-success});
+    --_input-ring: var(--input-ring-success, var(--form-border-success));
+    --_input-text: var(--input-text-success, #{$input-text});
+  }
+
+  .gfield_error &,
+  &:user-invalid {
+    --_input-bg: var(--input-bg-error, #{$input-bg});
+    --_input-border: var(--input-border-error, #{$input-border-error});
+    --_input-ring: var(--input-ring-error, var(--form-border-error));
+    --_input-text: var(--input-text-error, #{$input-text});
+  }
+}
+
+textarea {
+  display: block;
+  height:
+    calc(
+      var(--textarea-min-height, #{$textarea-min-height}) + (2 * var(--input-padding-y, #{$input-padding-y})) + (2 * var(--input-border-width, #{$input-border-width}))
+    );
+  min-height:
+    calc(
+      var(--textarea-min-height, #{$textarea-min-height}) + (2 * var(--input-padding-y, #{$input-padding-y})) + (2 * var(--input-border-width, #{$input-border-width}))
+    );
+  resize: vertical;
+  scroll-padding-block: var(--input-padding-y, #{$input-padding-y});
+}
+
+// ==========================================================================
+// Select icon
+// ==========================================================================
+
+.dropdown-label,
+select {
+  padding-inline-end: calc(var(--input-padding-x, #{$input-padding-x}) + #{$input-icon-width});
+  background-image: var(--select-icon, #{escape-svg($select-icon)});
+  background-repeat: no-repeat;
+  background-position: right var(--input-padding-x, #{$input-padding-x}) center;
+  background-size: #{$select-icon-size} auto;
+}

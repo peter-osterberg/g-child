@@ -1,0 +1,15 @@
+@use '@lib' as *;
+
+.card {
+  @include card;
+}
+
+@each $name, $values in $cards {
+  .card-#{$name} {
+    @include card-size($name);
+  }
+}
+
+.card-dropdown {
+  @include card-dropdown;
+}

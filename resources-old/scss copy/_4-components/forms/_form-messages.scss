@@ -1,0 +1,57 @@
+/* stylelint-disable selector-class-pattern */
+@use '@lib' as *;
+
+// ==========================================================================
+// Help / description / validation messages
+// ==========================================================================
+
+.field-description,
+.form-description,
+.gfield_description,
+.description,
+.help-text,
+.validation_message,
+.gform_submission_error,
+.gfield_error .validation_message {
+  // Resolve base message tokens into local variables before state overrides run.
+  --_message-bg: var(--message-bg, #{$message-bg});
+  --_message-text: var(--message-text, #{$message-text});
+
+  display: block;
+  padding-block: var(--message-py, #{$message-padding-y});
+  padding-inline: var(--message-px, #{$message-padding-x});
+  margin-block: var(--message-my, #{$message-margin-y}) 0;
+  font-size: var(--message-fs, #{$message-font-size});
+  line-height: 1.4;
+  color: var(--_message-text);
+  background-color: var(--_message-bg);
+  border-radius: var(--message-border-radius, #{$message-border-radius});
+
+  &::before {
+    @include icon('circle-info');
+
+    display: inline-block;
+    margin-inline-end: var(--message-icon-gap, 0.5em);
+  }
+}
+
+.gform_submission_error,
+.validation_message,
+.gfield_error .gfield_description,
+.gfield_error .validation_message {
+  --_message-bg: var(--message-bg-error, #{$message-bg-error});
+  --_message-text: var(--message-text-error, #{$message-text-error});
+
+  &::before {
+    --icon: 'circle-exclamation';
+  }
+}
+
+.gform_submission_error {
+  --message-fs: var(--message-submission-fs, var(--fs-h5));
+
+  display: grid;
+  grid-auto-columns: auto auto;
+  grid-auto-flow: column;
+  place-content: baseline;
+}

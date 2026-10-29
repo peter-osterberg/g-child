@@ -1,0 +1,31 @@
+@use 'sass:meta';
+
+// App entrypoint: declare the layer order once, then load each bucket into its assigned layer.
+@layer theme, base, components.root, components.color, components.variant, components.size, components.extend, components, modules, layouts, utilities;
+
+@layer theme {
+  @include meta.load-css('@themes');
+}
+
+@layer base {
+  @include meta.load-css('@base');
+}
+
+@layer components {
+  @include meta.load-css('@components');
+}
+
+@layer modules {
+  @include meta.load-css('@modules');
+}
+
+@layer layouts {
+  @include meta.load-css('@layouts');
+}
+
+@layer utilities {
+  @include meta.load-css('@utilities');
+}
+
+// Gravity Forms dashicon overrides must stay outside the layer stack to beat the plugin stylesheet.
+@include meta.load-css('./_8-no-layer/index');

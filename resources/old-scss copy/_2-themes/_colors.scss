@@ -1,0 +1,34 @@
+@use '@lib' as *;
+
+// Publish the raw palette as CSS custom properties for every downstream theme and component token.
+:root {
+  @include theme-colors($colors);
+}
+
+// Default the document to the light theme, then allow explicit class/data-attribute overrides.
+html,
+.theme-light,
+[data-theme='light'] {
+  @include apply-theme(light);
+}
+
+.theme-dark,
+[data-theme='dark'] {
+  @include apply-theme(dark);
+}
+
+// Background utility classes can override local surface/text colors without redefining component styles.
+:where([class*='has-bg-c-']) {
+  --_bg: var(--bg-color, #{$background-base});
+  --_text: var(--text-color, #{$text-base});
+
+  color: var(--_text);
+  background-color: var(--_bg);
+}
+
+// Match builder background choices to the appropriate theme map so nested tokens stay readable.
+@each $color, $theme-name in $theme-by-background {
+  .has-bg-c-#{$color} {
+    @include apply-theme($theme-name);
+  }
+}

@@ -1,0 +1,91 @@
+@use '@lib' as *;
+
+@layer theme, base, components.root, components.color, components.variant, components.size, components.extend, components, modules, layouts, utilities;
+
+@layer modules {
+  // Expand blocks clamp rich text by row count, then release the max-height when opened.
+  .module-gchild-expand {
+    --fade-line-height: calc(1em * var(--line-height));
+    --line-height: var(--lh-md);
+    --rows-to-show: 3;
+
+    .expand-content {
+      max-height: calc(var(--line-height) * var(--rows-to-show) * 1em);
+      overflow: hidden;
+      font-size: var(--fs-md);
+      line-height: var(--line-height);
+      transition:
+        max-height var(--expand-duration, var(--expand-transition, var(--duration-slow)))
+        var(--expand-easing, var(--trns-timing, var(--easing-base)));
+
+      @media (--motion-not-ok) {
+        transition: none;
+      }
+
+      // Match the clamp height to the first text size utility used inside the content wrapper.
+      &:has(.expand-content-inner > .large:first-child) {
+        --line-height: var(--lh-lg);
+
+        font-size: var(--fs-lg);
+      }
+
+      &:has(.expand-content-inner > .small:first-child) {
+        --line-height: var(--lh-sm);
+
+        font-size: var(--fs-sm);
+      }
+
+      &:has(.expand-content-inner > .tiny:first-child) {
+        --line-height: var(--lh-tn);
+
+        font-size: var(--fs-tn);
+      }
+
+      &[aria-hidden='false'] {
+        max-height: var(--max-height, initial);
+      }
+
+      // `truncate-rows` uses line-clamp, while `fade-line` keeps the last line readable behind a fade mask.
+      &.truncate-rows {
+        display: -webkit-box;
+        -webkit-line-clamp: var(--rows-to-show);
+        line-clamp: var(--rows-to-show);
+        -webkit-box-orient: vertical;
+      }
+
+      &.fade-line {
+        @include fade-content-bottom(var(--fade-line-height));
+      }
+    }
+
+    // Stack the open/close labels in one grid cell and toggle visibility from `aria-expanded`.
+    .expand-toggle {
+      display: grid;
+      grid-template-areas: 'stack';
+      place-items: baseline;
+
+      &[aria-expanded='true'] {
+        .open-label {
+          visibility: hidden;
+        }
+
+        .close-label {
+          visibility: visible;
+        }
+      }
+
+      .close-label {
+        visibility: hidden;
+      }
+
+      > * {
+        grid-area: stack;
+      }
+    }
+
+    // JS hides the trigger entirely when the content height never exceeds the clamp.
+    .hide-toggle {
+      display: none;
+    }
+  }
+}

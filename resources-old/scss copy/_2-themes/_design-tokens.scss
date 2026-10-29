@@ -1,0 +1,43 @@
+@use '@lib' as *;
+
+:root {
+  // Generate spacing variables
+  @each $name, $value in $spacing {
+    @include as-props('spacing', $name, $value, true);
+  }
+
+  // Generate font-family variables
+  @each $name, $value in $font-family {
+    @include as-props('ff', $name, $value);
+  }
+
+  // Generate font-weight variables
+  @each $name, $value in $font-weight {
+    @include as-props('fw', $name, $value);
+  }
+
+  // Generate font-size variables
+  @each $name, $value in $font-size {
+    @include as-props('fs', $name, $value, true);
+  }
+
+  // Generate font-space variables
+  @each $name, $value in $font-space {
+    @include as-props('font-space', $name, $value, true);
+  }
+
+  // Generate line-height variables
+  @each $name, $value in $line-height {
+    @include as-props('lh', $name, $value, true);
+  }
+
+  // Generate letter-spacing variables
+  @each $name, $value in $letter-spacing {
+    @include as-props('ls', $name, $value, true);
+  }
+
+  // Generate radius variables
+  @each $name, $value in $radius {
+    @include as-props('br', $name, $value, true);
+  }
+}

@@ -1,0 +1,7 @@
+/node_modules/
+/vendor/
+/dist/
+/resources/_archive/
+/resources/lib/intellisense/intellisense.css
+*.min.*
+.lock

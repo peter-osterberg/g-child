@@ -1,0 +1,14 @@
+@use '@lib' as *;
+@use 'sass:string';
+
+// Generate color utilities for all theme colors
+@each $color-name, $color-value in $theme-light {
+
+  @include as-utilities('text', $color-name) {
+    color: #{var(--#{$color-name})};
+  }
+
+  @include as-utilities('bg', $color-name) {
+    background-color: #{var(--#{$color-name})};
+  }
+}

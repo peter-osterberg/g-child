@@ -1,0 +1,128 @@
+// components/button/_mixins.scss
+
+@mixin base {
+  --_button-bg: var(--button-bg, transparent);
+  --_button-bg-hover: var(--button-bg-hover, transparent);
+  --_button-border-color: var(--button-border-color, transparent);
+  --_button-border-color-hover: var(--button-border-color-hover, transparent);
+  --_button-fg: var(--ds-button-primary-fg);
+  --_button-font-size: var(--ds-button-font-size-md);
+
+  // --_button-bg: var(--ds-button-primary-bg);
+  // --_button-bg-hover: var(--ds-button-primary-bg-hover);
+  // --_button-border-color: transparent;
+  // --_button-border-color-hover: transparent;
+  // --_button-fg: var(--ds-button-primary-fg);
+  // --_button-font-size: var(--ds-button-font-size-md);
+
+  // // Default internal configuration
+  // --_button-height: var(--ds-button-height-md);
+  // --_button-padding-x: var(--ds-button-padding-x-md);
+
+  // display: inline-flex;
+  // gap: var(--ds-button-gap);
+  // align-items: center;
+  // justify-content: center;
+  // min-height: var(--_button-height);
+  // padding-inline: var(--_button-padding-x);
+  // font: inherit;
+  // font-size: var(--_button-font-size);
+  // font-weight: var(--ds-button-font-weight);
+  // line-height: 1;
+  // color: var(--_button-fg);
+  // text-align: center;
+  // text-decoration: none;
+  // cursor: pointer;
+  // user-select: none;
+  // background: var(--_button-bg);
+  // border: 1px solid var(--_button-border-color);
+  // border-radius: var(--ds-button-radius);
+  // transition: background-color var(--ds-duration-fast), border-color var(--ds-duration-fast), color var(--ds-duration-fast);
+
+  // &:focus-visible {
+  //   outline: var(--ds-focus-width) solid var(--ds-color-focus);
+  //   outline-offset: var(--ds-focus-offset);
+  // }
+
+  // &:hover:not(:disabled, [aria-disabled='true']) {
+  //   background: var(--_button-bg-hover);
+  //   border-color: var(--_button-border-color-hover);
+  // }
+
+  // &:disabled,
+  // &[aria-disabled='true'] {
+  //   cursor: not-allowed;
+  //   opacity: 0.5;
+  // }
+}
+
+@mixin size($size) {
+  @if $size == sm {
+    --_button-font-size: var(--ds-button-font-size-sm);
+    --_button-height: var(--ds-button-height-sm);
+    --_button-padding-x: var(--ds-button-padding-x-sm);
+  } @else if $size == md {
+    --_button-font-size: var(--ds-button-font-size-md);
+    --_button-height: var(--ds-button-height-md);
+    --_button-padding-x: var(--ds-button-padding-x-md);
+  } @else if $size == lg {
+    --_button-font-size: var(--ds-button-font-size-lg);
+    --_button-height: var(--ds-button-height-lg);
+    --_button-padding-x: var(--ds-button-padding-x-lg);
+  } @else {
+    @error 'Unknown button size `#{$size}`.';
+  }
+}
+
+@mixin color($color) {
+  @if $color == primary {
+    --_button-color-bg: var(--ds-button-primary-bg);
+    --_button-color-bg-hover: var(--ds-button-primary-bg-hover);
+    --_button-color-fg: var(--ds-button-primary-fg);
+  } @else if $color == secondary {
+    --_button-color-bg: var(--ds-button-secondary-bg);
+    --_button-color-bg-hover: var(--ds-button-secondary-bg-hover);
+    --_button-color-fg: var(--ds-button-secondary-fg);
+  } @else if $color == danger {
+    --_button-color-bg: var(--ds-button-danger-bg);
+    --_button-color-bg-hover: var(--ds-button-danger-bg-hover);
+    --_button-color-fg: var(--ds-button-danger-fg);
+  } @else {
+    @error 'Unknown button color `#{$color}`.';
+  }
+}
+
+@mixin variant($variant) {
+  @if $variant == filled {
+    --_button-bg: var(--_button-color-bg);
+    --_button-bg-hover: var(--_button-color-bg-hover);
+    --_button-fg: var(--_button-color-fg);
+    --_button-border-color: var(--_button-color-bg);
+    --_button-border-color-hover: var(--_button-color-bg-hover);
+  } @else if $variant == outlined {
+    --_button-bg: transparent;
+    --_button-bg-hover: var(--_button-color-bg);
+    --_button-fg: var(--_button-color-bg);
+    --_button-border-color: var(--_button-color-bg);
+    --_button-border-color-hover: var(--_button-color-bg);
+  } @else if $variant == ghost {
+    --_button-bg: transparent;
+    --_button-bg-hover: transparent;
+    --_button-fg: var(--_button-color-bg);
+    --_button-border-color: transparent;
+    --_button-border-color-hover: transparent;
+  } @else {
+    @error 'Unknown button variant `#{$variant}`.';
+  }
+}
+
+@mixin button(
+  $variant: filled,
+  $color: primary,
+  $size: md
+) {
+  @include base;
+  @include size($size);
+  @include color($color);
+  @include variant($variant);
+}

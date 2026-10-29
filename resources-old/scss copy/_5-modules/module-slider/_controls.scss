@@ -1,0 +1,82 @@
+@use '@lib' as *;
+
+.slider-nav-wrapper {
+  display: flex;
+  gap: var(--spacing-gutter-y) var(--spacing-gutter-x);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--spacing-row);
+}
+
+.slider-arrows-wrapper {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--spacing-8);
+}
+
+// Button styles for slider navigation
+.slider-arrow {
+  @include btn;
+  @include btn-variant('filled');
+  @include btn-color('primary');
+  @include btn-icon-only;
+
+  .svg-icon {
+    display: none;
+  }
+}
+
+.slider-prev {
+  @include btn-icon-start('angle-left', $animate: false);
+}
+
+.slider-next {
+  @include btn-icon-end('angle-right', $animate: false);
+}
+
+// Pagination bullets
+.slider-dots-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.swiper-pagination-bullet {
+  --bullet: #{tonal(var(--bg-color, #{$background-base}))};
+  --ring-offset: -2px;
+
+  @include btn;
+  @include btn-variant('filled');
+  @include btn-color(var(--bullet));
+  @include btn-size(1.5rem);
+  @include btn-icon-only;
+
+  background-color: transparent;
+  border-color: transparent;
+
+  &.swiper-pagination-bullet-active {
+    @include btn-color('primary');
+  }
+}
+
+.slider-dot-number {
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0;
+  background-color: var(--_btn-bg);
+  border-radius: inherit;
+}
+
+// Progress bar styles
+.slider-progress {
+  display: flex;
+  width: 100%;
+  height: rem(8);
+  overflow: hidden;
+  background: tonal(var(--bg-color, #{$background-base}));
+  border-radius: var(--br-pill);
+}
+
+.swiper-pagination-progressbar-fill {
+  background: var(--primary);
+}

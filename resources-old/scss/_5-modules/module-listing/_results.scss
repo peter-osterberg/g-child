@@ -1,0 +1,43 @@
+@use '@lib' as *;
+
+.module-listing {
+  &.loading {
+    * {
+      cursor: wait;
+    }
+
+    .listing-items-wrapper {
+      > *:not(.preloader) {
+        opacity: 0.4;
+      }
+    }
+  }
+}
+
+.listing-items-wrapper {
+  position: relative;
+  display: grid;
+  gap: var(--gap-gy, var(--gy, var(--spacing-gutter-y))) var(--gap-gx, var(--gx, var(--spacing-gutter-x)));
+}
+
+.preloader {
+  // Keep the loading overlay anchored over the current results while filters refresh.
+  position: absolute;
+  inset: 0;
+  z-index: $z-index-preloader;
+  display: grid;
+  justify-content: center;
+  padding: 0;
+}
+
+.preloader-inner {
+  @include loading-spinner;
+
+  position: sticky;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  margin-block: 2em;
+}

@@ -1,0 +1,116 @@
+@use '@lib' as *;
+
+// Map utility prefixes to the properties or custom properties they drive.
+$spacing-utilities: (
+  'pt': (
+    padding-block-start,
+  ),
+  'pr': (
+    padding-inline-end,
+  ),
+  'pb': (
+    padding-block-end,
+  ),
+  'pl': (
+    padding-inline-start,
+  ),
+  'py': (
+    padding-block,
+  ),
+  'px': (
+    padding-inline,
+  ),
+  'p': (
+    padding,
+  ),
+  'mt': (
+    margin-block-start,
+  ),
+  'mr': (
+    margin-inline-end,
+  ),
+  'mb': (
+    margin-block-end,
+  ),
+  'ml': (
+    margin-inline-start,
+  ),
+  'my': (
+    margin-block,
+  ),
+  'mx': (
+    margin-inline,
+  ),
+  'm': (
+    margin,
+  ),
+  'gap': (
+    gap,
+  ),
+  'gap-x': (
+    column-gap,
+  ),
+  'gap-y': (
+    row-gap,
+  ),
+  'ms': (
+    --ms,
+  ),
+  'g': (
+    --gx,
+    --gy,
+  ),
+  'gx': (
+    --gx,
+  ),
+  'gy': (
+    --gy,
+  ),
+);
+$auto-utilities:    (
+  'mt': (
+    margin-block-start,
+  ),
+  'mr': (
+    margin-inline-end,
+  ),
+  'mb': (
+    margin-block-end,
+  ),
+  'ml': (
+    margin-inline-start,
+  ),
+  'my': (
+    margin-block,
+  ),
+  'mx': (
+    margin-inline,
+  ),
+  'm': (
+    margin,
+  ),
+);
+
+// Generate spacing utilities from the shared spacing scale.
+@each $abbr, $props in $spacing-utilities {
+  @each $name, $value in $spacing {
+    @include as-utilities($abbr, $name) {
+      @each $prop in $props {
+        #{$prop}: var(--spacing-#{$name});
+      }
+    }
+  }
+}
+
+@each $abbr, $props in $auto-utilities {
+  @each $name, $value in $breakpoints {
+    @include as-utilities($abbr, $name) {
+      @each $prop in $props {
+        @media (--#{$name}-up) {
+          /* stylelint-disable-next-line no-invalid-position-declaration */
+          #{$prop}: auto;
+        }
+      }
+    }
+  }
+}

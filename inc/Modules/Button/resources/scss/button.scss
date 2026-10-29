@@ -1,0 +1,34 @@
+@use '@lib' as *;
+
+@layer theme, base, components.root, components.color, components.variant, components.size, components.extend, components, modules, layouts, utilities;
+
+@layer modules {
+  // Button modules are alignment wrappers around one or more button primitives.
+  .module-gchild-button {
+    display: flex;
+    flex-flow: var(--btn-direction, row) wrap;
+    gap: var(--btn-gap-y, var(--gap-y, var(--spacing-gutter-y))) var(--btn-gap-x, var(--gap-x, var(--spacing-gutter-x)));
+    align-items: center;
+    justify-content: var(--btn-align, start);
+
+    // Block layout stacks each button vertically while preserving the alignment token.
+    &.btn-layout-block {
+      --btn-direction: column;
+
+      align-items: var(--btn-align, start);
+    }
+
+    // Alignment modifiers only set tokens so editor controls and utility classes can compose cleanly.
+    &.btn-align-left {
+      --btn-align: start;
+    }
+
+    &.btn-align-right {
+      --btn-align: end;
+    }
+
+    &.btn-align-center {
+      --btn-align: center;
+    }
+  }
+}

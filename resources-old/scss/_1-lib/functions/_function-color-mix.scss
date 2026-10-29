@@ -1,0 +1,46 @@
+@use 'sass:color';
+@use 'sass:meta';
+@use 'sass:string';
+
+@function alpha($color, $alpha) {
+  @return color-mix(in oklch, $color $alpha, transparent);
+}
+
+@function light($color, $value) {
+  @return color-mix(in oklch, $color, #fff $value);
+}
+
+@function dark($color, $value) {
+  @return color-mix(in oklch, $color, #000 $value);
+}
+
+@function tonal($color) {
+  @return color-mix(in oklch, $color, #7f7f7f 25%);
+}
+
+// Return a text color that keeps readable contrast against the given background color.
+@function contrast-color($value, $light: #fff, $dark: #000, $threshold: 60%) {
+  @if meta.type-of($value) != color {
+    @return currentcolor;
+  }
+
+  @if color.channel($value, 'lightness', $space: hsl) > $threshold {
+    @return $dark;
+  }
+
+  @return $light;
+}
+
+@function is-current-color($value) {
+  @return meta.type-of($value) == string and string.to-lower-case($value) == 'currentcolor';
+}
+
+@function is-css-var($value) {
+  @if meta.type-of($value) != string {
+    @return false;
+  }
+
+  $value: string.to-lower-case($value);
+
+  @return string.slice($value, 1, 4) == 'var(';
+}

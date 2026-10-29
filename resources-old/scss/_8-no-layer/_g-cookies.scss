@@ -1,0 +1,17 @@
+@use '@lib' as *;
+
+// This is used to make cookies to inherit style added by theme in layers
+#g-cookies {
+  .g-cookies-inner,
+  .g-cookies-intro,
+  .g-cookies-intro *,
+  .g-cookies-headline,
+  .g-cookies-settings-inner,
+  .g-cookies-setting,
+  .g-cookies-settings-footer,
+  .g-cookies-btn,
+  label,
+  label::before {
+    all: revert-layer;
+  }
+}

@@ -1,0 +1,92 @@
+@use 'sass:list';
+
+// Overlay link helpers
+
+$overlay-targets:        ('.blurb-read-more', '.listing-item-title a', '.listing-item-read-more a') !default;
+$overlay-enabled-filter: ':not(:disabled, [aria-disabled="true"])' !default;
+
+@mixin overlay-host {
+  &:not(a, button) {
+    position: relative;
+    isolation: isolate;
+  }
+}
+
+@mixin overlay-link($selector: '> a') {
+  @include overlay-host;
+
+  #{$selector} {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    cursor: pointer;
+    border-radius: inherit;
+  }
+}
+
+@mixin link-reset {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+@mixin overlay-link-pseudo($pseudo: before, $targets: $overlay-targets) {
+  @include overlay-host;
+
+  @each $target in $targets {
+    #{$target}:focus-visible {
+      outline: none;
+    }
+
+    #{$target}::#{$pseudo} {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      content: '';
+    }
+  }
+}
+
+@mixin overlay-link-before($targets: $overlay-targets) {
+  @include overlay-link-pseudo(before, $targets);
+}
+
+@mixin overlay-link-after($targets: $overlay-targets) {
+  @include overlay-link-pseudo(after, $targets);
+}
+
+@mixin overlay-when($condition, $targets: $overlay-targets) {
+  $qualified-targets: ();
+
+  @each $target in $targets {
+    $qualified-targets: list.append($qualified-targets, '#{$target}#{$condition}', comma);
+  }
+
+  &:has(#{$qualified-targets}) {
+    @content;
+  }
+}
+
+@mixin overlay-hover($targets: $overlay-targets) {
+  @include overlay-when(':hover#{$overlay-enabled-filter}', $targets) {
+    @content;
+  }
+
+  @include overlay-when(':focus-visible#{$overlay-enabled-filter}', $targets) {
+    @content;
+  }
+}
+
+@mixin overlay-focus-ring($targets: $overlay-targets) {
+  @include overlay-when(':focus-visible#{$overlay-enabled-filter}', $targets) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--focus-ring));
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+}
+
+@mixin overlay-active($targets: $overlay-targets) {
+  @include overlay-when(':active#{$overlay-enabled-filter}', $targets) {
+    @content;
+  }
+}

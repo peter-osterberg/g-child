@@ -1,0 +1,182 @@
+@use '@lib' as *;
+
+*,
+::before,
+::after {
+  // Set box sizing instead of inheriting
+
+  // https://www.oddbird.net/2025/09/04/box-model/
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+* {
+  scrollbar-width: thin;
+}
+
+:where(html) {
+  --_page-bg-color: #{$background-base};
+
+  block-size: 100%;
+  scrollbar-gutter: stable;
+  font-family: $font-family-base;
+  line-height: $line-height-base;
+  color: $text-base;
+  background-color: var(--_page-bg-color);
+  interpolate-size: allow-keywords;
+
+  // https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+
+  @media (--motion-ok) {
+    scroll-behavior: smooth;
+  }
+}
+
+:where(body) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  min-inline-size: 320px;
+  min-block-size: 100%;
+  margin: 0;
+  container-type: inline-size;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  font-synthesis: style;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  ::selection {
+    color: currentcolor;
+    background-color: alpha(currentcolor, 20%);
+  }
+}
+
+:where(#main) {
+  flex: 1;
+}
+
+/* stylelint-disable-next-line selector-type-no-unknown, selector-class-pattern */
+:where(:not(dialog, popover, .section, .row, .col, .embla__container, .embla)) {
+  margin: 0;
+}
+
+:where(:not(fieldset, progress, meter)) {
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  border-style: solid;
+  border-width: 0;
+}
+
+:where(input, button, textarea),
+:where(input[type='file'])::-webkit-file-upload-button {
+  font: inherit;
+  font-size: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+// :where(input):-webkit-autofill,
+// :where(input):-webkit-autofill:hover,
+// :where(input):-webkit-autofill:focus,
+// :where(textarea):-webkit-autofill,
+// :where(textarea):-webkit-autofill:hover,
+// :where(textarea):-webkit-autofill:focus,
+// :where(select):-webkit-autofill,
+// :where(select):-webkit-autofill:hover,
+// :where(select):-webkit-autofill:focus,
+// :where(input):autofill,
+// :where(input):autofill:hover,
+// :where(input):autofill:focus,
+// :where(textarea):autofill,
+// :where(textarea):autofill:hover,
+// :where(textarea):autofill:focus,
+// :where(select):autofill,
+// :where(select):autofill:hover,
+// :where(select):autofill:focus,
+:where(input):autofill,
+:where(textarea):autofill,
+:where(select):autofill {
+  &,
+  &:focus,
+  &:hover {
+    -webkit-text-fill-color: currentcolor;
+    box-shadow: 0 0 0 1e5px $input-bg-autocomplete inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+::placeholder {
+  color: $input-placeholder;
+}
+
+::placeholder {
+  opacity: 1;
+}
+
+:focus:where(:not(:focus-visible)) {
+  outline: none;
+}
+
+:focus-visible {
+  --_focus-ring-color: var(--ring-color, #{$focus-ring-color});
+  --_focus-ring-offset: var(--ring-offset, #{$focus-ring-offset});
+  --_focus-ring-width: var(--ring-width, #{$focus-ring-width});
+
+  outline: var(--_focus-ring-width) solid var(--_focus-ring-color);
+  outline-offset: var(--_focus-ring-offset);
+}
+
+:where(
+  a[href],
+  area,
+  button,
+  input:not([type='text'], [type='email'], [type='number'], [type='password'], [type=''], [type='tel'], [type='url']),
+  label[for],
+  select,
+  summary
+) {
+  cursor: pointer;
+}
+
+:where(
+  a[href],
+  area,
+  button,
+  [role='button'],
+  input,
+  label[for],
+  select,
+  summary,
+  textarea,
+  [tabindex]:not([tabindex*='-'])
+) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+:where(img, svg, video, canvas, audio, iframe, embed, object) {
+  display: block;
+}
+
+:where(img, svg, video) {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+:where(symbol) {
+  overflow: visible;
+}
+
+:where(.svg-icon svg) {
+  block-size: 1em;
+}
+
+:target {
+  scroll-margin-block-start: var(--scroll-margin-block, var(--header-shell-height, 2rem));
+}

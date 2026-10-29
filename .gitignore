@@ -1,0 +1,50 @@
+# macOS Finder metadata
+.DS_Store
+**/.DS_Store
+.idea
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# These will be built
+dist/
+vendor/
+
+# VisualStudioCode
+.vscode/**/*
+!.vscode/gc.code-snippets
+
+# Performant Translations PHP file
+languages/*.php
+languages/*-backup-*.po~
+
+# g-boost-gitignore:start
+# G-Boost
+.agents
+.claude/skills
+.gemini/skills
+.cursor/skills
+.codex/skills
+.github/skills
+.codex/config.toml
+.mcp.json
+.vscode/settings.json
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+# g-boost-gitignore:end
+
+# Vite local configuration and generated icon subsets
+.env.local
+.env.*.local
+.vite-fonts/
+/vite.hot

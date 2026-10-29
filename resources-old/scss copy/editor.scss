@@ -1,0 +1,20 @@
+@use 'sass:meta';
+
+// Editor styles reuse the shared theme/base/component/utilities layers without frontend-only modules or layouts.
+@layer theme, base, components.root, components.color, components.variant, components.size, components.extend, components, utilities;
+
+@layer theme {
+  @include meta.load-css('@themes');
+}
+
+@layer base {
+  @include meta.load-css('@base');
+}
+
+@layer components {
+  @include meta.load-css('@components');
+}
+
+@layer utilities {
+  @include meta.load-css('@utilities');
+}

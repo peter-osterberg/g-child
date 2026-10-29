@@ -1,0 +1,71 @@
+@use '@lib/mixins/mixin-api' as *;
+@use './intellisense-maps' as *;
+
+:root {
+  @each $color, $hex in $colors {
+    @include color-as-props('color', $color, $hex);
+  }
+
+  @each $color, $hex in $theme-light {
+    @include color-as-props('color', $color, $hex);
+  }
+
+  @each $color, $hex in $theme-dark {
+    @include color-as-props('color', $color, $hex);
+  }
+
+  // Generate spacing variables
+  @each $name, $value in $spacing {
+    @include as-props('spacing', $name, $value, true);
+  }
+
+  // Generate font-family variables
+  @each $name, $value in $font-family {
+    @include as-props('ff', $name, $value);
+  }
+
+  // Generate font-weight variables
+  @each $name, $value in $font-weight {
+    @include as-props('fw', $name, $value);
+  }
+
+  // Generate font-size variables
+  @each $name, $value in $font-size {
+    @include as-props('fs', $name, $value, true);
+  }
+
+  // Generate font-space variables
+  @each $name, $value in $font-space {
+    @include as-props('font-space', $name, $value, true);
+  }
+
+  // Generate letter-spacing variables
+  @each $name, $value in $letter-spacing {
+    @include as-props('ls', $name, $value, true);
+  }
+
+  // Generate radius variables
+  @each $name, $value in $radius {
+    @include as-props('br', $name, $value, true);
+  }
+
+  // Generate line-height variables
+  @each $name, $value in $line-height {
+    @include as-props('lh', $name, $value, true);
+  }
+
+  // Generate transition duration variables
+  @each $name, $value in $duration {
+    @include as-props('duration', $name, $value, true);
+  }
+
+  // Generate transition timing variables
+  @each $name, $value in $easing {
+    @include as-props('easing', $name, $value, true);
+  }
+
+  // Generate shadow variables
+  @each $name, $value in $shadow {
+    @include as-props('shadow', $name, $value, true);
+  }
+}

@@ -1,0 +1,30 @@
+@use '@lib' as *;
+
+// #footer {
+// }
+
+#footer-logo {
+  display: grid;
+
+  img,
+  svg,
+  svg * {
+    transition: none;
+  }
+
+  img,
+  svg {
+    inline-size: auto;
+    block-size: rem(32);
+  }
+}
+
+.footer-bottom-row {
+  --col-width: auto;
+  --menu-gap-x: 0.5ch;
+  --ms: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

@@ -1,0 +1,59 @@
+// Form defaults reference semantic theme colors so they follow each section's light/dark mode.
+$colors: (
+  'bg': var(--bg-surface-1),
+  'color': var(--text-2),
+  'border': var(--border),
+  'hover': (
+    'border-color': var(--border-strong),
+    'background': var(--bg-surface-1),
+    'color': var(--text-2),
+  ),
+  'focus': (
+    'border-color': var(--border),
+    'background': var(--bg-surface-1),
+    'ring-color': var(--focus-ring-color),
+    'color': var(--text-2),
+  ),
+  'error': (
+    'border-color': var(--danger-border),
+    'background': var(--bg-surface-1),
+    'color': var(--text-2),
+  ),
+  'disabled': (
+    'border-color': var(--border),
+    'background': var(--bg-surface-3),
+    'color': var(--text-disabled),
+  ),
+);
+
+// Text-control sizes.
+$sizes: (
+  'sm': (
+    'padding-y': var(--spacing-1),
+    'padding-x': var(--spacing-3),
+    'font-size': var(--font-size-sm),
+    'min-height': 2.5rem,
+    'radius': var(--radius-sm),
+  ),
+  'md': (
+    'padding-y': var(--spacing-2),
+    'padding-x': var(--spacing-4),
+    'font-size': var(--font-size-md),
+    'min-height': 3rem,
+    'radius': var(--radius-md),
+  ),
+  'lg': (
+    'padding-y': var(--spacing-3),
+    'padding-x': var(--spacing-5),
+    'font-size': var(--font-size-lg),
+    'min-height': 3.5rem,
+    'radius': var(--radius-lg),
+  ),
+);
+
+// Native checkbox and radio sizes.
+$choice-sizes: (
+  'sm': 1rem,
+  'md': 1.25rem,
+  'lg': 1.5rem,
+);

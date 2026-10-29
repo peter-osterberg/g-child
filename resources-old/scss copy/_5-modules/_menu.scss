@@ -1,0 +1,199 @@
+/* stylelint-disable selector-class-pattern */
+@use '@lib' as *;
+
+// List reset
+
+.module-menu {
+  :where(ul) {
+    margin: 0;
+    list-style: none;
+  }
+}
+
+// Base menu layout
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--menu-gap-y, 0) var(--menu-gap-x, 0);
+  padding: 0;
+  margin-block: var(--menu-margin-y, 0);
+}
+
+// Menu links
+
+:where(.menu a) {
+  // Resolve menu item tokens into local variables before hover/current states reuse them.
+  --_menu-item-bg: var(--menu-item-bg, transparent);
+  --_menu-item-text: var(--menu-item-text, #{$link-text});
+
+  display: flex;
+  align-items: center;
+  padding-block: var(--menu-item-padding-y);
+  padding-inline: var(--menu-item-padding-x);
+  color: var(--_menu-item-text);
+  background-color: var(--_menu-item-bg);
+  border-radius: var(--menu-item-border-radius);
+
+  @media (--motion-ok) {
+    transition-timing-function: var(--menu-item-easing, var(--easing-out));
+    transition-duration: var(--menu-item-duration, var(--duration-fast));
+    transition-property: color, background-color, text-decoration-color, box-shadow;
+  }
+
+  &:focus-visible {
+    --_menu-item-bg: var(--menu-item-bg-hover, var(--menu-item-bg, transparent));
+    --_menu-item-text: var(--menu-item-text-hover, var(--menu-item-text, #{$link-text-hover}));
+  }
+
+  &:hover {
+    --_menu-item-bg: var(--menu-item-bg-hover, var(--menu-item-bg, transparent));
+    --_menu-item-text: var(--menu-item-text-hover, var(--menu-item-text, #{$link-text-hover}));
+  }
+
+  &:active {
+    --_menu-item-bg: var(--menu-item-bg-active, var(--menu-item-bg-hover, var(--menu-item-bg, transparent)));
+    --_menu-item-text:
+      var(
+        --menu-item-text-active,
+        var(--menu-item-text-hover, var(--menu-item-text, #{$link-text-active}))
+      );
+  }
+
+  &:has(.gt-menu-item-description) {
+    display: grid;
+  }
+}
+
+// Current and active states
+
+:where(
+  .menu a[aria-current='page'],
+  .menu :is(.current-menu-item, .current_page_item, .current-menu-ancestor, .current_page_ancestor),
+  .menu :is(.current-menu-item, .current_page_item, .current-menu-ancestor, .current_page_ancestor) > a
+) {
+  --_menu-item-bg: var(--menu-item-bg-current, var(--menu-item-bg-hover, var(--menu-item-bg, transparent)));
+  --_menu-item-text:
+    var(
+      --menu-item-text-current,
+      var(--menu-item-text-active, var(--menu-item-text-hover, var(--menu-item-text)))
+    );
+}
+
+// Items with children
+
+.menu-item-has-children:where(:not(.menu-label)) {
+  --_menu-toggle-space: var(--menu-toggle-space, calc(var(--menu-item-padding-x, 0px) + var(--menu-arrow-size, 1em)));
+
+  position: relative;
+
+  > a {
+    padding-inline-end: var(--_menu-toggle-space);
+  }
+
+  > .sub-menu-toggle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: max(#{rem(24)}, var(--_menu-toggle-space));
+    padding: 0;
+  }
+}
+
+// Submenu toggle
+
+.sub-menu-toggle {
+  font-size: var(--menu-item-font-size, inherit);
+  font-weight: var(--menu-toggle-font-weight, inherit);
+  color: var(--menu-item-text, currentColor);
+}
+
+.is-trigger-hover .sub-menu-toggle {
+  pointer-events: none;
+}
+
+// Arrow icon
+
+.menu-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--menu-arrow-color, currentColor);
+
+  @media (--motion-ok) {
+    transition-timing-function: var(--menu-arrow-easing, var(--easing-out));
+    transition-duration: var(--menu-arrow-duration, var(--duration-fast));
+    transition-property: color;
+  }
+
+  &::after {
+    @include icon($icon-chevron);
+
+    display: block;
+    width: round(1em, 2px);
+    font-size: var(--menu-arrow-size, 1em);
+    text-align: center;
+
+    @media (--motion-ok) {
+      transition: transform var(--menu-arrow-duration, var(--duration-fast)) var(--menu-arrow-easing, var(--easing-out));
+    }
+  }
+
+  [aria-expanded='true'] > &::after {
+    transform: var(--menu-arrow-rotate-open, rotateX(180deg));
+  }
+}
+
+.gt-menu-item-description {
+  display: block;
+  font-size: 0.875em;
+  opacity: 0.8;
+}
+
+// Labels
+
+.menu-label > a {
+  font-size: var(--menu-label-font-size, #{$header-menu-label-font-size});
+  font-weight: var(--menu-label-font-weight, #{$header-menu-label-font-weight});
+  color: var(--menu-label-color, #{$header-menu-label-color});
+  text-decoration: none;
+  pointer-events: none;
+  touch-action: none;
+}
+
+// Icons
+@if $menu-icons-enabled {
+  [class*='menu-icon-'] {
+    > a {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1rem;
+
+      &::before {
+        @include icon('display', $icon-menu-item-weight);
+
+        grid-row: 1 / span 2;
+        align-self: start;
+        aspect-ratio: 1;
+        font-size: 1.25em;
+      }
+
+      * {
+        grid-column: 2 / span 1;
+      }
+    }
+  }
+
+  @each $icon in $icon-menu-item {
+    .menu-icon-#{$icon} {
+      > a::before {
+        --icon: '#{$icon}';
+        --icon-fw: #{$icon-menu-item-weight};
+      }
+    }
+  }
+}

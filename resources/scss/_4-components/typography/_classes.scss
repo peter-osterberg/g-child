@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '@lib/tokens' as tokens;
+@use 'base';
+@use 'mixins' as typography;
+
+@layer components {
+  .body {
+    @include typography.body;
+  }
+
+  .heading {
+    @include typography.heading;
+  }
+
+  @each $size in map.keys(tokens.$font-size) {
+    .text-#{$size} {
+      @include typography.size($size);
+    }
+  }
+
+  .prose {
+    @include typography.prose;
+  }
+}

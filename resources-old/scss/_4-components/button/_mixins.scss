@@ -1,0 +1,219 @@
+@use '@lib' as *;
+
+// components/button/_mixins.scss
+
+@mixin base {
+  --_button-bg: var(--button-bg, transparent);
+  --_button-bg-hover: var(--button-bg-hover, var(--_button-bg));
+  --_button-bg-pressed: var(--button-bg-pressed, var(--_button-bg-hover));
+  --_button-border-color: var(--button-border-color, transparent);
+  --_button-border-color-hover: var(--button-border-color-hover, var(--_button-border-color));
+  --_button-border-color-pressed: var(--button-border-color-pressed, var(--_button-border-color));
+  --_button-border-radius: var(--button-border-radius, inherit);
+  --_button-border-width: var(--button-border-width, 1px);
+  --_button-content: var(--button-content, currentcolor);
+  --_button-content-hover: var(--button-content-hover, var(--_button-content));
+  --_button-content-pressed: var(--button-content-pressed, var(--_button-content-hover));
+  --_button-font-size: var(--button-font-size, inherit);
+  --_button-line-height: var(--button-line-height, var(--line-height-button));
+  --_button-padding-x: var(--button-padding-x, inherit);
+  --_button-padding-y: var(--button-padding-y, inherit);
+
+  box-sizing: content-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: calc(var(--_button-padding-y) - var(--_button-border-width));
+  padding-inline: calc(var(--_button-padding-x) - var(--_button-border-width));
+  font-size: var(--_button-font-size);
+  line-height: var(--_button-line-height);
+  color: var(--_button-content);
+  background: var(--_button-bg);
+  border: var(--_button-border-width) solid var(--_button-border-color);
+  border-radius: var(--_button-border-radius);
+
+  // --_button-bg: var(--ds-button-primary-bg);
+  // --_button-bg-hover: var(--ds-button-primary-bg-hover);
+  // --_button-border-color: transparent;
+  // --_button-border-color-hover: transparent;
+  // --_button-fg: var(--ds-button-primary-fg);
+  // --_button-font-size: var(--ds-button-font-size-md);
+
+  // // Default internal configuration
+  // --_button-height: var(--ds-button-height-md);
+  // --_button-padding-x: var(--ds-button-padding-x-md);
+
+  // display: inline-flex;
+  // gap: var(--ds-button-gap);
+  // align-items: center;
+  // justify-content: center;
+  // min-height: var(--_button-height);
+  // padding-inline: var(--_button-padding-x);
+  // font: inherit;
+  // font-size: var(--_button-font-size);
+  // font-weight: var(--ds-button-font-weight);
+  // line-height: 1;
+  // color: var(--_button-fg);
+  // text-align: center;
+  // text-decoration: none;
+  // cursor: pointer;
+  // user-select: none;
+  // background: var(--_button-bg);
+  // border: 1px solid var(--_button-border-color);
+  // border-radius: var(--ds-button-radius);
+  // transition: background-color var(--ds-duration-fast), border-color var(--ds-duration-fast), color var(--ds-duration-fast);
+
+  &:not(:active):focus-visible {
+    color: var(--_button-content-hover);
+    outline: var(--focus-width, 2px) solid var(--focus-ring);
+    outline-offset: 2px;
+    background: var(--_button-bg-hover);
+    border-color: var(--_button-border-color-hover);
+  }
+
+  &:not(:active,:disabled,[aria-disabled='true']):hover {
+    color: var(--_button-content-hover);
+    background: var(--_button-bg-hover);
+    border-color: var(--_button-border-color-hover);
+  }
+
+  &:active {
+    color: var(--_button-content-pressed);
+    background: var(--_button-bg-pressed);
+    border-color: var(--_button-border-color-pressed);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    color: var(--content-disabled);
+    cursor: not-allowed;
+    background: var(--background-disabled);
+    border-color: var(--border-disabled);
+
+    // opacity: 0.5;
+  }
+}
+
+@mixin size($size) {
+  & {
+    --button-border-radius: var(--button-border-radius-#{$size});
+    --button-border-width: var(--button-border-width-#{$size});
+    --button-font-size: var(--button-font-size-#{$size});
+    --button-padding-x: var(--button-padding-x-#{$size});
+    --button-padding-y: var(--button-padding-y-#{$size});
+  }
+
+  // @if $size == sm {
+  //   --_button-font-size: var(--ds-button-font-size-sm);
+  //   --_button-height: var(--ds-button-height-sm);
+  //   --_button-padding-x: var(--ds-button-padding-x-sm);
+  // } @else if $size == md {
+  //   --_button-font-size: var(--ds-button-font-size-md);
+  //   --_button-height: var(--ds-button-height-md);
+  //   --_button-padding-x: var(--ds-button-padding-x-md);
+  // } @else if $size == lg {
+  //   --_button-font-size: var(--ds-button-font-size-lg);
+  //   --_button-height: var(--ds-button-height-lg);
+  //   --_button-padding-x: var(--ds-button-padding-x-lg);
+  // } @else {
+  //   @error 'Unknown button size `#{$size}`.';
+  // }
+}
+
+@mixin color($color) {
+  & {
+    --_button-color-bg: var(--#{$color}-background);
+    --_button-color-bg-active: var(--#{$color}-background-pressed);
+    --_button-color-bg-hover: var(--#{$color}-background-hover);
+    --_button-color-border: var(--#{$color}-border);
+    --_button-color-border-hover: var(--#{$color}-border-hover);
+    --_button-color-border-pressed: var(--#{$color}-border-pressed);
+    --_button-color-content: var(--#{$color}-content);
+    --_button-color-content-hover: var(--#{$color}-content-hover);
+    --_button-color-content-pressed: var(--#{$color}-content-pressed);
+    --_button-color-on-accent: var(--#{$color}-content-on-accent);
+    --_button-color-subtle: var(--#{$color}-surface-subtle);
+    --_button-color-subtle-hover: var(--#{$color}-surface-subtle-hover);
+    --_button-color-subtle-pressed: var(--#{$color}-surface-subtle-pressed);
+    --focus-ring: var(--#{$color}-focus-ring);
+
+    // --button-bg: var(--#{$color}-background);
+    // --button-bg-active: var(--#{$color}-background-pressed);
+    // --button-bg-hover: var(--#{$color}-background-hover);
+    // --button-border-color: var(--#{$color}-border);
+    // --button-border-color-hover: var(--#{$color}-border-hover);
+    // --button-border-color-pressed: var(--#{$color}-border-pressed);
+    // --button-color: var(--#{$color}-content-on-accent);
+  }
+}
+
+// @mixin color($color) {
+//   @if $color == primary {
+//     --_button-color-bg: var(--ds-button-primary-bg);
+//     --_button-color-bg-hover: var(--ds-button-primary-bg-hover);
+//     --_button-color-fg: var(--ds-button-primary-fg);
+//   } @else if $color == secondary {
+//     --_button-color-bg: var(--ds-button-secondary-bg);
+//     --_button-color-bg-hover: var(--ds-button-secondary-bg-hover);
+//     --_button-color-fg: var(--ds-button-secondary-fg);
+//   } @else if $color == danger {
+//     --_button-color-bg: var(--ds-button-danger-bg);
+//     --_button-color-bg-hover: var(--ds-button-danger-bg-hover);
+//     --_button-color-fg: var(--ds-button-danger-fg);
+//   } @else {
+//     @error 'Unknown button color `#{$color}`.';
+//   }
+// }
+
+@mixin variant($variant) {
+  & {
+
+    @if $variant == filled {
+      // --_button-bg: var(--button-bg, var(--_button-color-bg));
+      --button-bg: var(--_button-color-bg);
+      --button-bg-hover: var(--_button-color-bg-hover);
+      --button-border-color: var(--_button-color-bg);
+      --button-border-color-hover: var(--_button-color-bg-hover);
+      --button-content: var(--_button-color-on-accent);
+    } @else if $variant == outlined {
+      --button-bg: transparent;
+      --button-bg-hover: var(--_button-color-subtle-hover);
+      --button-bg-pressed: var(--_button-color-subtle-pressed);
+      --button-border-color: var(--_button-color-border);
+      --button-border-color-hover: var(--_button-color-border-hover);
+      --button-border-color-pressed: var(--_button-color-border-pressed);
+      --button-content: var(--_button-content);
+      --button-content-hover: var(--_button-content-hover);
+      --button-content-pressed: var(--_button-content-pressed);
+    } @else if $variant == ghost {
+      --button-bg: transparent;
+      --button-bg-hover: var(--_button-color-subtle-hover);
+      --button-bg-pressed: var(--_button-color-subtle-pressed);
+      --button-border-color: transparent;
+      --button-content: currentcolor;
+      --button-content-hover: var(--_button-content);
+      --button-content-pressed: var(--_button-content);
+
+      // --_button-bg: transparent;
+      // --_button-bg-hover: transparent;
+      // --_button-fg: var(--_button-color-bg);
+      // --_button-border-color: transparent;
+      // --_button-border-color-hover: transparent;
+    } @else {
+      @error 'Unknown button variant `#{$variant}`.';
+    }
+  }
+}
+
+@mixin button(
+  $variant: filled,
+  $color: primary,
+  $size: md
+) {
+  @include base;
+  @include color($color);
+
+  // @include size($size);
+
+  // @include variant($variant);
+}

@@ -1,0 +1,257 @@
+/* stylelint-disable selector-class-pattern */
+@use '@lib' as *;
+
+// ==========================================================================
+// Gravity Forms config
+// ==========================================================================
+
+$form-grid-breakpoint:       35ch;
+$form-width-breakpoint-sm:   40ch;
+$form-width-breakpoint-lg:   70ch;
+$gfield-widths-sm:           (
+  'three-quarter': 6,
+  'two-thirds': 6,
+  'seven-twelfths': 6,
+  'five-twelfths': 6,
+  'third': 6,
+  'quarter': 6,
+);
+$gfield-widths-lg:           (
+  'eleven-twelfths': 11,
+  'five-sixths': 10,
+  'three-quarter': 9,
+  'two-thirds': 8,
+  'seven-twelfths': 7,
+  'half': 6,
+  'five-twelfths': 5,
+  'third': 4,
+  'quarter': 3,
+);
+$gfield-choice-cols-sm:      (
+  1: 1,
+  2: 2,
+  3: 2,
+  4: 2,
+  5: 2,
+);
+$gfield-choice-cols-lg:      (
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+);
+$gfield-input-icons:         (
+  '.gfield--type-text .ginput_container': 'user',
+  '.gfield--type-phone .ginput_container': 'phone',
+  '.gfield--type-email .ginput_container': 'at',
+  '.gfield--type-date .ginput_container': 'calendar',
+  '.gfield--type-textarea .ginput_container': 'envelope',
+);
+$gfield-complex-input-icons: (
+  '.ginput_complex .name_first': 'user',
+);
+
+// ==========================================================================
+// Gravity Forms utilities
+// ==========================================================================
+
+@mixin gfield-widths($widths) {
+  @each $name, $span in $widths {
+    &--width-#{$name} {
+      grid-column: auto / span #{$span};
+    }
+  }
+}
+
+@mixin choice-cols($cols) {
+  @each $name, $count in $cols {
+    &.gf_list_#{$name}col {
+      .gfield_checkbox {
+        display: grid;
+        grid-template-columns: repeat(#{$count}, minmax(0, 1fr));
+        gap: var(--_form-gap-y) var(--_form-gap-x);
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Wrapper / submission state
+// ==========================================================================
+
+.gform_wrapper {
+  position: relative;
+
+  &.submitting {
+    pointer-events: none;
+
+    > *:not(.gform-loading-overlay) {
+      opacity: 0.4;
+    }
+  }
+}
+
+.gform-loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: $z-index-preloader;
+  display: grid;
+  place-items: center;
+
+  &[aria-hidden='true'] {
+    display: none;
+  }
+}
+
+.gform-loading-overlay-spinner {
+  @include loading-spinner;
+}
+
+// ==========================================================================
+// Grid / field layout
+// ==========================================================================
+
+:is(.gform-grid-row, .gform_fields) {
+  display: grid;
+  gap: var(--_form-gap-y) var(--_form-gap-x);
+
+  @container (min-width: #{$form-grid-breakpoint}) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+.gfield {
+  position: relative;
+  grid-column: 1 / -1;
+  contain: layout;
+
+  &--width-full {
+    grid-column: 1 / -1;
+  }
+
+  @container (min-width: #{$form-width-breakpoint-sm}) {
+    @include gfield-widths($gfield-widths-sm);
+    @include choice-cols($gfield-choice-cols-sm);
+  }
+
+  @container (min-width: #{$form-width-breakpoint-lg}) {
+    @include gfield-widths($gfield-widths-lg);
+    @include choice-cols($gfield-choice-cols-lg);
+  }
+}
+
+.gfield--type-honeypot {
+  display: none;
+  visibility: hidden;
+}
+
+// ==========================================================================
+// Field icons
+// ==========================================================================
+
+@if $input-icons-enabled {
+  @each $selector, $icon in $gfield-input-icons {
+    #{$selector} {
+      @include input-leading-icon($icon);
+    }
+  }
+
+  @each $selector, $icon in $gfield-complex-input-icons {
+    #{$selector} {
+      @include input-leading-icon($icon);
+    }
+  }
+}
+
+.gfield--type-textarea .ginput_container::before {
+  inset-block-end: auto;
+}
+
+.gform-footer {
+  margin-top: var(--_form-gap-y);
+}
+
+// ==========================================================================
+// Actions
+// ==========================================================================
+
+.gform_button {
+  @include btn;
+  @include btn-variant('filled');
+  @include btn-color('primary');
+}
+
+// ==========================================================================
+// Confirmation UI
+// ==========================================================================
+
+.gform_confirmation_wrapper {
+  .gform_confirmation_message {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 30px;
+    place-items: center;
+    font-size: 2rem;
+    color: var(--success);
+    text-align: center;
+
+    &::before,
+    &::after {
+      --size: 176px;
+
+      display: grid;
+      grid-row: 1 / span 1;
+      grid-column: 1 / -1;
+      place-items: center;
+      width: var(--size);
+      aspect-ratio: 1;
+      font-size: 100px;
+    }
+
+    &::before {
+      --fill: currentcolor;
+      --hole: var(--bg-color, #{$background-base});
+      --progress: 0;
+      --target: 100;
+      --thickness: 4px;
+
+      content: '';
+      background: linear-gradient(var(--hole), var(--hole)) padding-box, conic-gradient(var(--fill) calc(var(--progress) * 1%), transparent 0) border-box;
+      background-clip: padding-box, border-box;
+      background-origin: border-box;
+      border: var(--thickness) solid transparent;
+      border-radius: 50%;
+      transform: rotate(90deg);
+      animation: fill-progress 0.8s var(--easing-out) forwards;
+    }
+
+    &::after {
+      @include icon('check');
+
+      z-index: 1;
+      opacity: 0;
+      animation: fade-in 0.28s var(--easing-out) 0.42s forwards;
+    }
+  }
+}
+
+// ==========================================================================
+// Animation primitives
+// ==========================================================================
+@property --progress {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes fill-progress {
+  from {
+    --progress: 0;
+  }
+
+  to {
+    --progress: var(--target);
+  }
+}

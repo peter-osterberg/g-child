@@ -1,0 +1,23 @@
+@use '@lib' as *;
+
+:root {
+  --gx: var(--spacing-gutter-x, 1rem);
+  --gy: var(--spacing-gutter-y, 1rem);
+  --row-py: var(--spacing-row, 2rem);
+  --row-width: min((100% - (var(--spacing-edge-margin, 1rem) * 2)), #{$site-max-width});
+  --row-width-vw: min((100vw - (var(--spacing-edge-margin, 1rem) * 2)), #{$site-max-width});
+  --section-py: var(--spacing-section, 4rem);
+}
+
+.row-fw,
+.module-row {
+  --row-width: 100%;
+
+  max-width: calc(#{$site-max-width} + (var(--spacing-edge-margin, 1rem) * 2));
+}
+
+[class^='module-'] + [class^='module-'] {
+  --_ms: var(--ms, var(--spacing-module, 2rem));
+
+  margin-block-start: var(--_ms);
+}

@@ -1,0 +1,29 @@
+@use '@lib' as *;
+
+a {
+  font-size: inherit;
+  font-weight: $link-font-weight;
+  line-height: inherit;
+  color: $link-text;
+  text-decoration: $link-decoration;
+  text-decoration-color: $link-decoration-color;
+  text-underline-offset: $link-underline-offset;
+
+  &:where([href]) {
+    &:hover,
+    &:focus-visible {
+      color: $link-text-hover;
+      text-decoration-color: $link-decoration-color-hover;
+    }
+
+    &:active {
+      color: $link-text-active;
+      text-decoration-color: $link-decoration-color-active;
+    }
+  }
+}
+
+// Mailto links
+a[href^='mailto:'] {
+  overflow-wrap: break-word;
+}

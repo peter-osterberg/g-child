@@ -1,0 +1,14 @@
+// Hide scrollbars while maintaining scroll functionality
+@mixin hide-scrollbar {
+  // Hide scrollbar in Firefox
+  scrollbar-width: none;
+
+  // Hide scrollbar in IE/Edge
+  -ms-overflow-style: none;
+
+  // Hide scrollbar in WebKit browsers
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
+}

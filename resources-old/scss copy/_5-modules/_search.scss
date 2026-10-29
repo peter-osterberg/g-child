@@ -1,0 +1,50 @@
+@use '@lib' as *;
+
+// Search forms share the same leading-icon hook as listing filters.
+$module-search-input-icons: (
+  'form': 'magnifying-glass',
+);
+
+.module-search {
+  // Add the leading icon only when the global input-icon feature flag is enabled.
+  @if $input-search-icons-enabled {
+    @each $selector, $icon in $module-search-input-icons {
+      #{$selector} {
+        @include input-leading-icon($icon);
+      }
+    }
+  }
+
+  // Dropdown-mounted search modules need a width cap so they do not overflow narrow menus.
+  &.card-dropdown {
+    min-inline-size: min(400px, calc(100% - var(--spacing-edge-margin) * 2));
+  }
+
+  form {
+    position: relative;
+  }
+
+  // The submit button is visually embedded inside the input shell.
+  button {
+    --btn-min-height: calc(#{$input-min-height} - 8px);
+
+    @include btn;
+    @include btn-variant('ghost');
+    @include btn-color(currentcolor);
+    @include btn-icon-only;
+
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+
+    .search-submit-text {
+      @include sr-only;
+    }
+
+    &::after {
+      @include icon('arrow-turn-down-left');
+
+      font-size: $input-icon-font-size;
+    }
+  }
+}

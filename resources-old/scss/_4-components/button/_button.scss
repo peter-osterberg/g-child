@@ -1,0 +1,93 @@
+// components/button/_button.scss
+
+@use '@lib' as *;
+@use 'mixins' as button;
+
+.btn {
+  @include button.base;
+  @include button.size('md');
+
+  // @include button.color(primary);
+  // @include button.variant(filled);
+}
+
+// Generate button size classes variables
+@each $size, $properties in $buttons {
+  .btn-#{$size} {
+    @include button.size($size);
+
+    // @each $property, $value in $properties {
+    //   @include button.size($size);
+    // }
+  }
+}
+
+.btn-primary {
+  @include button.color(primary);
+}
+
+.btn-secondary {
+  @include button.color(secondary);
+}
+
+.btn-filled {
+  @include button.variant(filled);
+}
+
+.btn-outline {
+  @include button.variant(outlined);
+}
+
+.btn-ghost {
+  @include button.variant(ghost);
+}
+
+// @layer ds.components {
+//   .button {
+//     @include button.base;
+//     @include button.color(primary);
+//     @include button.variant(filled);
+//   }
+
+//   // Sizes
+
+//   .button--sm {
+//     @include button.size(sm);
+//   }
+
+//   .button--md {
+//     @include button.size(md);
+//   }
+
+//   .button--lg {
+//     @include button.size(lg);
+//   }
+
+// Colors
+
+//   .button--primary {
+//     @include button.color(primary);
+//   }
+
+//   .button--secondary {
+//     @include button.color(secondary);
+//   }
+
+//   .button--danger {
+//     @include button.color(danger);
+//   }
+
+//   // Variants
+
+//   .button--filled {
+//     @include button.variant(filled);
+//   }
+
+//   .button--outlined {
+//     @include button.variant(outlined);
+//   }
+
+//   .button--ghost {
+//     @include button.variant(ghost);
+//   }
+// }

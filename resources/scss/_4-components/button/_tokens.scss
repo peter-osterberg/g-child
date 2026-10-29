@@ -1,0 +1,55 @@
+// $sizes: (
+//   'sm': (
+//     'padding-y': var(--spacing-2),
+//     'padding-x': var(--spacing-3),
+//     'font-size': var(--font-size-sm),
+//   ),
+//   'md': (
+//     'padding-y': var(--spacing-3),
+//     'padding-x': var(--spacing-4),
+//     'font-size': var(--font-size-md),
+//   ),
+//   'lg': (
+//     'padding-y': var(--spacing-4),
+//     'padding-x': var(--spacing-5),
+//     'font-size': var(--font-size-lg),
+//   ),
+// );
+$sizes: (
+  'sm': (
+    'padding-y': var(--spacing-2),
+    'padding-x': var(--spacing-3),
+    'border-radius': var(--radius-md),
+    'font-size': var(--text-sm),
+    'icon-gap': var(--spacing-2),
+    'icon-only-font-size': var(--button-font-size-sm),
+    'icon-only-width': 32px,
+    'icon-only-height': 32px,
+    'border-width': 1px,
+  ),
+  'md': (
+    'padding-y': var(--spacing-3),
+    'padding-x': var(--spacing-4),
+    'border-radius': var(--radius-md),
+    'font-size': var(--text-md),
+    'icon-gap': var(--spacing-3),
+    'icon-only-font-size': var(--button-font-size-md),
+    'icon-only-width': 44px,
+    'icon-only-height': 44px,
+    'border-width': 1px,
+  ),
+  'lg': (
+    'padding-y': var(--spacing-4),
+    'padding-x': var(--spacing-5),
+    'border-radius': var(--radius-md),
+    'font-size': var(--text-lg),
+    'icon-gap': var(--spacing-4),
+    'icon-only-font-size': var(--button-font-size-lg),
+    'icon-only-width': 54px,
+    'icon-only-height': 54px,
+    'border-width': 1px,
+  ),
+);
+
+// Named button color variants.
+$colors: (primary, secondary);

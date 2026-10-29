@@ -1,0 +1,43 @@
+@use '@lib' as *;
+
+// Mega-menu dropdowns are wide card-based submenus rather than the default stacked flyout.
+#main-header {
+  .mega-menu {
+    > .sub-menu {
+      --col-width: 100%;
+      --row-py: 0;
+      --row-width: 100%;
+
+      @include card-dropdown;
+
+      display: block;
+      inline-size: max-content;
+      margin: 0;
+
+      .sub-menu-toggle {
+        display: none;
+      }
+
+      .sub-menu {
+        padding: 0;
+      }
+
+      .menu-item-has-children {
+        flex-direction: column;
+
+        > a {
+          flex: initial;
+        }
+      }
+    }
+
+    // Inner rows auto-fit columns while respecting a viewport-based width cap.
+    .mega-menu-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 20ch), 1fr));
+      gap: 0 var(--spacing-gutter-x);
+      max-inline-size: var(--row-width-vw);
+      margin-inline: auto;
+    }
+  }
+}

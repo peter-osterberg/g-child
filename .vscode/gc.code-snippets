@@ -1,0 +1,698 @@
+{
+	// Place your themes workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	// Import Folders
+	// Scss
+	"Import Lib": {
+		"scope": "scss,sass",
+		"prefix": ["@lib", "gc@lib", "l@", "lib@"],
+		"body": ["@use '@lib' as *;$1"],
+		"description": "Import lib folder",
+	},
+
+	"Import Base": {
+		"scope": "scss,sass",
+		"prefix": ["@base", "gc@base", "b@", "base@"],
+		"body": ["@use '@base' as *;$1"],
+		"description": "Import base folder",
+	},
+
+	"Import Extends": {
+		"scope": "scss,sass",
+		"prefix": ["@extends", "gc@extends", "ext@", "extends@"],
+		"body": ["@use '@extends' as *;$1"],
+		"description": "Import extends folder",
+	},
+
+	"Import Layouts": {
+		"scope": "scss,sass",
+		"prefix": ["@layouts", "gc@layouts", "lay@", "layouts@"],
+		"body": ["@use '@layouts' as *;$1"],
+		"description": "Import layouts folder",
+	},
+
+	"Import Modules": {
+		"scope": "scss,sass",
+		"prefix": ["@modules", "gc@modules", "mod@", "modules@"],
+		"body": ["@use '@modules' as *;$1"],
+		"description": "Import modules folder",
+	},
+
+	"Import Utilities": {
+		"scope": "scss,sass",
+		"prefix": ["@utilities", "gc@utilities", "util@", "utils@"],
+		"body": ["@use '@utilities' as *;$1"],
+		"description": "Import utilities folder",
+	},
+
+	// Media Queries
+
+	"Breakpoint xxs only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxs-only", "@media-xxs-only", "@bp-xxs-only", "@breakpoint-xxs-only"],
+		"body": ["@media (--xxs-only) {", "\t$1", "}"],
+		"description": "Media query for xxs only",
+	},
+	"Breakpoint xxs and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxs-up", "@media-xxs-up", "@bp-xxs-up", "@breakpoint-xxs-up"],
+		"body": ["@media (--xxs-up) {", "\t$1", "}"],
+		"description": "Media query for xxs and up",
+	},
+	"Breakpoint xxs and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxs-down", "@media-xxs-down", "@bp-xxs-down", "@breakpoint-xxs-down"],
+		"body": ["@media (--xxs-down) {", "\t$1", "}"],
+		"description": "Media query for xxs and down",
+	},
+	"Breakpoint xxs phone": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxs-phone", "@media-xxs-phone", "@bp-xxs-phone", "@breakpoint-xxs-phone"],
+		"body": ["@media (--xxs-phone) {", "\t$1", "}"],
+		"description": "Media query for xxs phone",
+	},
+
+	"Breakpoint xs only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xs-only", "@media-xs-only", "@bp-xs-only", "@breakpoint-xs-only"],
+		"body": ["@media (--xs-only) {", "\t$1", "}"],
+		"description": "Media query for xs only",
+	},
+	"Breakpoint xs and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xs-up", "@media-xs-up", "@bp-xs-up", "@breakpoint-xs-up"],
+		"body": ["@media (--xs-up) {", "\t$1", "}"],
+		"description": "Media query for xs and up",
+	},
+	"Breakpoint xs and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xs-down", "@media-xs-down", "@bp-xs-down", "@breakpoint-xs-down"],
+		"body": ["@media (--xs-down) {", "\t$1", "}"],
+		"description": "Media query for xs and down",
+	},
+	"Breakpoint xs phone": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xs-phone", "@media-xs-phone", "@bp-xs-phone", "@breakpoint-xs-phone"],
+		"body": ["@media (--xs-phone) {", "\t$1", "}"],
+		"description": "Media query for xs phone",
+	},
+
+	"Breakpoint sm only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-sm-only", "@media-sm-only", "@bp-sm-only", "@breakpoint-sm-only"],
+		"body": ["@media (--sm-only) {", "\t$1", "}"],
+		"description": "Media query for sm only",
+	},
+	"Breakpoint sm and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-sm-up", "@media-sm-up", "@bp-sm-up", "@breakpoint-sm-up"],
+		"body": ["@media (--sm-up) {", "\t$1", "}"],
+		"description": "Media query for sm and up",
+	},
+	"Breakpoint sm and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-sm-down", "@media-sm-down", "@bp-sm-down", "@breakpoint-sm-down"],
+		"body": ["@media (--sm-down) {", "\t$1", "}"],
+		"description": "Media query for sm and down",
+	},
+	"Breakpoint sm phone": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-sm-phone", "@media-sm-phone", "@bp-sm-phone", "@breakpoint-sm-phone"],
+		"body": ["@media (--sm-phone) {", "\t$1", "}"],
+		"description": "Media query for sm phone",
+	},
+
+	"Breakpoint md only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-md-only", "@media-md-only", "@bp-md-only", "@breakpoint-md-only"],
+		"body": ["@media (--md-only) {", "\t$1", "}"],
+		"description": "Media query for md only",
+	},
+	"Breakpoint md and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-md-up", "@media-md-up", "@bp-md-up", "@breakpoint-md-up"],
+		"body": ["@media (--md-up) {", "\t$1", "}"],
+		"description": "Media query for md and up",
+	},
+	"Breakpoint md and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-md-down", "@media-md-down", "@bp-md-down", "@breakpoint-md-down"],
+		"body": ["@media (--md-down) {", "\t$1", "}"],
+		"description": "Media query for md and down",
+	},
+	"Breakpoint md phone": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-md-phone", "@media-md-phone", "@bp-md-phone", "@breakpoint-md-phone"],
+		"body": ["@media (--md-phone) {", "\t$1", "}"],
+		"description": "Media query for md phone",
+	},
+
+	"Breakpoint lg only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-lg-only", "@media-lg-only", "@bp-lg-only", "@breakpoint-lg-only"],
+		"body": ["@media (--lg-only) {", "\t$1", "}"],
+		"description": "Media query for lg only",
+	},
+	"Breakpoint lg and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-lg-up", "@media-lg-up", "@bp-lg-up", "@breakpoint-lg-up"],
+		"body": ["@media (--lg-up) {", "\t$1", "}"],
+		"description": "Media query for lg and up",
+	},
+	"Breakpoint lg and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-lg-down", "@media-lg-down", "@bp-lg-down", "@breakpoint-lg-down"],
+		"body": ["@media (--lg-down) {", "\t$1", "}"],
+		"description": "Media query for lg and down",
+	},
+	"Breakpoint lg phone": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-lg-phone", "@media-lg-phone", "@bp-lg-phone", "@breakpoint-lg-phone"],
+		"body": ["@media (--lg-phone) {", "\t$1", "}"],
+		"description": "Media query for lg phone",
+	},
+
+	"Breakpoint xl only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xl-only", "@media-xl-only", "@bp-xl-only", "@breakpoint-xl-only"],
+		"body": ["@media (--xl-only) {", "\t$1", "}"],
+		"description": "Media query for xl only",
+	},
+	"Breakpoint xl and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xl-up", "@media-xl-up", "@bp-xl-up", "@breakpoint-xl-up"],
+		"body": ["@media (--xl-up) {", "\t$1", "}"],
+		"description": "Media query for xl and up",
+	},
+	"Breakpoint xl and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xl-down", "@media-xl-down", "@bp-xl-down", "@breakpoint-xl-down"],
+		"body": ["@media (--xl-down) {", "\t$1", "}"],
+		"description": "Media query for xl and down",
+	},
+
+	"Breakpoint xxl only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxl-only", "@media-xxl-only", "@bp-xxl-only", "@breakpoint-xxl-only"],
+		"body": ["@media (--xxl-only) {", "\t$1", "}"],
+		"description": "Media query for xxl only",
+	},
+	"Breakpoint xxl and up": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxl-up", "@media-xxl-up", "@bp-xxl-up", "@breakpoint-xxl-up"],
+		"body": ["@media (--xxl-up) {", "\t$1", "}"],
+		"description": "Media query for xxl and up",
+	},
+	"Breakpoint xxl and down": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-xxl-down", "@media-xxl-down", "@bp-xxl-down", "@breakpoint-xxl-down"],
+		"body": ["@media (--xxl-down) {", "\t$1", "}"],
+		"description": "Media query for xxl and down",
+	},
+
+	"Breakpoint between custom media": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-between", "@media-between", "@bp-between", "@breakpoint-between"],
+		"body": ["@media (--${1:sm}-only) and (--${2:landscape}) {", "\t$3", "}"],
+		"description": "Media query combining custom media aliases",
+	},
+
+	"Motion OK": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-motion-ok", "@media-motion-ok", "@motion-ok"],
+		"body": ["@media (--motion-ok) {", "\t$1", "}"],
+		"description": "Media query for reduced motion not requested",
+	},
+	"Motion Not OK": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-motion-not-ok", "@media-motion-not-ok", "@motion-not-ok"],
+		"body": ["@media (--motion-not-ok) {", "\t$1", "}"],
+		"description": "Media query for reduced motion requested",
+	},
+	"Opacity OK": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-opacity-ok", "@media-opacity-ok", "@opacity-ok"],
+		"body": ["@media (--opacity-ok) {", "\t$1", "}"],
+		"description": "Media query for reduced transparency not requested",
+	},
+	"Opacity Not OK": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-opacity-not-ok", "@media-opacity-not-ok", "@opacity-not-ok"],
+		"body": ["@media (--opacity-not-ok) {", "\t$1", "}"],
+		"description": "Media query for reduced transparency requested",
+	},
+	"Use Data OK": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-use-data-ok", "@media-use-data-ok", "@use-data-ok"],
+		"body": ["@media (--use-data-ok) {", "\t$1", "}"],
+		"description": "Media query for reduced data not requested",
+	},
+	"Use Data Not OK": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-use-data-not-ok", "@media-use-data-not-ok", "@use-data-not-ok"],
+		"body": ["@media (--use-data-not-ok) {", "\t$1", "}"],
+		"description": "Media query for reduced data requested",
+	},
+
+	"OS Dark": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-os-dark", "@media-os-dark", "@os-dark", "@dark-mode"],
+		"body": ["@media (--os-dark) {", "\t$1", "}"],
+		"description": "Media query for dark color scheme",
+	},
+	"OS Light": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-os-light", "@media-os-light", "@os-light", "@light-mode"],
+		"body": ["@media (--os-light) {", "\t$1", "}"],
+		"description": "Media query for light color scheme",
+	},
+
+	"High Contrast": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-high-contrast", "@media-high-contrast", "@high-contrast"],
+		"body": ["@media (--high-contrast) {", "\t$1", "}"],
+		"description": "Media query for high contrast",
+	},
+	"Low Contrast": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-low-contrast", "@media-low-contrast", "@low-contrast"],
+		"body": ["@media (--low-contrast) {", "\t$1", "}"],
+		"description": "Media query for low contrast",
+	},
+	"Inverted Colors": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-inverted-colors", "@media-inverted-colors", "@inverted-colors"],
+		"body": ["@media (--inverted-colors) {", "\t$1", "}"],
+		"description": "Media query for inverted colors",
+	},
+	"Forced Colors": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-forced-colors", "@media-forced-colors", "@forced-colors"],
+		"body": ["@media (--forced-colors) {", "\t$1", "}"],
+		"description": "Media query for forced colors",
+	},
+
+	"Portrait": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-portrait", "@media-portrait", "@portrait"],
+		"body": ["@media (--portrait) {", "\t$1", "}"],
+		"description": "Media query for portrait orientation",
+	},
+	"Landscape": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-landscape", "@media-landscape", "@landscape"],
+		"body": ["@media (--landscape) {", "\t$1", "}"],
+		"description": "Media query for landscape orientation",
+	},
+
+	"HD Color": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-hd-color", "@media-hd-color", "@hd-color"],
+		"body": ["@media (--hd-color) {", "\t$1", "}"],
+		"description": "Media query for high dynamic range or P3 gamut",
+	},
+
+	"Touch Only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-touch", "@media-touch", "@touch", "@touch-only"],
+		"body": ["@media (--touch) {", "\t$1", "}"],
+		"description": "Media query for touch devices",
+	},
+	"Stylus Only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-stylus", "@media-stylus", "@stylus", "@stylus-only"],
+		"body": ["@media (--stylus) {", "\t$1", "}"],
+		"description": "Media query for stylus input",
+	},
+	"Pointer Only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-pointer", "@media-pointer", "@pointer", "@pointer-only"],
+		"body": ["@media (--pointer) {", "\t$1", "}"],
+		"description": "Media query for coarse pointer with hover",
+	},
+	"Mouse Only": {
+		"scope": "scss,sass",
+		"prefix": ["gc@media-mouse", "@media-mouse", "@mouse", "@mouse-only", "@hover"],
+		"body": ["@media (--mouse) {", "\t&:hover {", "\t\t$1", "\t}", "}"],
+		"description": "Media query for mouse / fine pointer hover",
+	},
+
+	// Gc templates
+	// Js
+	"JavaScript class template": {
+		"scope": "javascript",
+		"prefix": "gcJsClassTemplate",
+		"body": [
+			"/**",
+			" * $1 - A class for handling functionality",
+			" */",
+			"class $1 {",
+			"\t/**",
+			"\t * Setup method",
+			"\t * Static method to set up the class on the page",
+			"\t *",
+			"\t * @return {void}",
+			"\t */",
+			"\tstatic setup() {",
+			"\t\tconst elements = document.querySelectorAll('${2:class/tag/id}');",
+			"",
+			"\t\tfor (const element of elements) {",
+			"\t\t\tconst instance = new $1(element);",
+			"\t\t\tinstance.init();",
+			"\t\t}",
+			"\t}",
+			"",
+			"\t/**",
+			"\t * Constructor method",
+			"\t *",
+			"\t * @param {HTMLElement} element",
+			"\t * @return {void}",
+			"\t */",
+			"\tconstructor(element) {",
+			"\t\tthis.element = element;",
+			"\t\t$3",
+			"\t}",
+			"",
+			"\t/**",
+			"\t * Initialize method",
+			"\t * Method to initialize a class instance",
+			"\t */",
+			"\tinit() {",
+			"\t\tthis.addEventListeners();",
+			"\t}",
+			"",
+			"\t/**",
+			"\t * Add event listeners",
+			"\t *",
+			"\t * @return {void}",
+			"\t */",
+			"\taddEventListeners() {",
+			"\t\t// this.element.addEventListener('click', this.methodName.bind(this));",
+			"\t}",
+			"",
+			"\t/**",
+			"\t * Method name",
+			"\t *",
+			"\t * @return {void}",
+			"\t */",
+			"\tmethodName() {",
+			"\t\t// do something",
+			"\t}",
+			"}",
+			"",
+			"// The document is checked if it is ready. If it is, the setup() method is called.",
+			"if (document.readyState === 'interactive' || document.readyState === 'complete') {",
+			"\t$1.setup();",
+			"} else {",
+			"\tdocument.addEventListener('DOMContentLoaded', $1.setup);",
+			"}",
+		],
+		"description": "JavaScript class template",
+	},
+
+	// Php Fields
+	// Text field
+	"Text": {
+		"scope": "php",
+		"prefix": ["gcFields-text"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'text',",
+			"\t'placeholder' => '$3',",
+			"\t'description' => esc_html__( '$4', 'g-theme-child' ),",
+			"],",
+		],
+		"description": "Text field",
+	},
+	// Link field
+	"Link field": {
+		"scope": "php",
+		"prefix": ["gcFields-link"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type'\t=> 'link',", "],"],
+		"description": "Link field",
+	},
+	// Number field
+	"Number": {
+		"scope": "php",
+		"prefix": ["gcFields-number"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'number',",
+			"\t'min'  => 5,",
+			"\t'max' => 100,",
+			"\t'step' => 0.1,",
+			"],",
+		],
+		"description": "Number field",
+	},
+	// Content field
+	"Content": {
+		"scope": "php",
+		"prefix": ["gcFields-content"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'editor',", "],"],
+		"description": "Content field",
+	},
+	// Code field
+	"Code": {
+		"scope": "php",
+		"prefix": ["gcFields-code"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'code',", "],"],
+		"description": "Code field",
+	},
+	// Color field
+	"Color": {
+		"scope": "php",
+		"prefix": ["gcFields-color"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'color',", "],"],
+		"description": "Color field",
+	},
+	// Date field
+	"Date": {
+		"scope": "php",
+		"prefix": ["gcFields-date"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'date',", "],"],
+		"description": "Date field",
+	},
+	// Time field
+	"Time": {
+		"scope": "php",
+		"prefix": ["gcFields-time"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'time',", "],"],
+		"description": "Time field",
+	},
+	// Image id field
+	"Image id": {
+		"scope": "php",
+		"prefix": ["gcFields-image-id"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'media',",
+			"\t'storage' => 'id',",
+			"\t'media_types' => ['image'],",
+			"],",
+		],
+		"description": "Image id field",
+	},
+	// Image url field
+	"Image url": {
+		"scope": "php",
+		"prefix": ["gcFields-image-url"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'media',",
+			"\t'storage' => 'url',",
+			"\t'media_types' => ['image'],",
+			"],",
+		],
+		"description": "Image url field",
+	},
+	// Video id field
+	"Video id": {
+		"scope": "php",
+		"prefix": ["gcFields-video-id"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'media',",
+			"\t'storage' => 'id',",
+			"\t'media_types' => ['video'],",
+			"],",
+		],
+		"description": "Video id field",
+	},
+	// Video url field
+	"Video url": {
+		"scope": "php",
+		"prefix": ["gcFields-video-url"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'media',",
+			"\t'storage' => 'url',",
+			"\t'media_types' => ['video'],",
+			"],",
+		],
+		"description": "Video url field",
+	},
+	// Url field
+	"Url": {
+		"scope": "php",
+		"prefix": ["gcFields-url"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'url',", "],"],
+		"description": "Url field",
+	},
+	// Phonw field
+	"Phone": {
+		"scope": "php",
+		"prefix": ["gcFields-phone"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'phone',",
+			"\t'placeholder' => '$3',",
+			"],",
+		],
+		"description": "Phone field",
+	},
+	// Email field
+	"Email": {
+		"scope": "php",
+		"prefix": ["gcFields-email"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'email',",
+			"\t'placeholder' => '$3',",
+			"],",
+		],
+		"description": "Email field",
+	},
+	// Select field
+	"Select": {
+		"scope": "php",
+		"prefix": ["gcFields-select"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'select',",
+			"\t'options' => [",
+			"\t\t'$3' => esc_html__( '$4', 'g-theme-child' ),",
+			"\t],",
+			"],",
+		],
+		"description": "Select field",
+	},
+	// Multiple select field
+	"Multiple select": {
+		"scope": "php",
+		"prefix": ["gcFields-multiple-select", "gcFields-select-multiple"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'select-multiple',",
+			"\t'options' => [",
+			"\t\t'$3' => esc_html__( '$4', 'g-theme-child' ),",
+			"\t],",
+			"],",
+		],
+		"description": "Multiple select field",
+	},
+	// Toggle field
+	"Toggle": {
+		"scope": "php",
+		"prefix": ["gcFields-toggle"],
+		"body": ["'$1' => [", "\t'title' => esc_html__( '$2', 'g-theme-child' ),", "\t'type' => 'toggle',", "],"],
+		"description": "Toggle field",
+	},
+	// Conditional field
+	"Conditional": {
+		"scope": "php",
+		"prefix": ["gcFields-conditional"],
+		"body": [
+			"'conditional' => [",
+			"\t[",
+			"\t\t'field' => '$1',",
+			"\t\t'operator' => '==',",
+			"\t\t'value' => '$2',",
+			"\t],",
+			"],",
+		],
+		"description": "Conditional field",
+	},
+	// Repeatable field
+	"Repeatable": {
+		"scope": "php",
+		"prefix": ["gcFields-repeater", "gcFields-repeatable"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'repeatable',",
+			"\t'fields' => [",
+			"\t\t[",
+			"\t\t\t'title' => esc_html__( '$3', 'g-theme-child' ),",
+			"\t\t\t'type' => 'text',",
+			"\t\t\t'placeholder' => '$4',",
+			"\t\t],",
+			"\t],",
+			"],",
+		],
+		"description": "Repeatable field",
+	},
+	// Section field
+	"Section": {
+		"scope": "php",
+		"prefix": ["gcFields-section"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'section',",
+			"\t'fields' => [",
+			"\t\t'$3' => [",
+			"\t\t\t'title' => esc_html__( '$4', 'g-theme-child' ),",
+			"\t\t\t'type' => 'text',",
+			"\t\t\t'placeholder' => '$5',",
+			"\t\t],",
+			"\t],",
+			"],",
+		],
+		"description": "Section field",
+	},
+	// Container field
+	"Container": {
+		"scope": "php",
+		"prefix": ["gcFields-container"],
+		"body": [
+			"'$1' => [",
+			"\t'title' => esc_html__( '$2', 'g-theme-child' ),",
+			"\t'type' => 'container',",
+			"\t'fields' => [",
+			"\t\t'$3' => [",
+			"\t\t\t'title' => esc_html__( '$4', 'g-theme-child' ),",
+			"\t\t\t'type' => 'text',",
+			"\t\t\t'placeholder' => '$5',",
+			"\t\t],",
+			"\t],",
+			"],",
+		],
+		"description": "Container field",
+	},
+}

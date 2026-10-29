@@ -1,0 +1,43 @@
+@function fade-width($fallback) {
+  @return var(--fade-width, #{$fallback});
+}
+
+@mixin mask-image($value) {
+  mask-image: $value;
+}
+
+@mixin fade-mask($direction, $fade-width, $dual: false) {
+  $w: fade-width($fade-width);
+
+  @if $dual {
+    @include mask-image(
+      linear-gradient($direction, transparent 0%, #000 $w, #000 calc(100% - #{$w}), transparent 100%)
+    );
+  } @else {
+    @include mask-image(linear-gradient($direction, transparent 0%, #000 $w, #000 100%));
+  }
+}
+
+@mixin fade-content-x($fade-width) {
+  @include fade-mask(90deg, $fade-width, true);
+}
+
+@mixin fade-content-left($fade-width) {
+  @include fade-mask(90deg, $fade-width);
+}
+
+@mixin fade-content-right($fade-width) {
+  @include fade-mask(-90deg, $fade-width);
+}
+
+@mixin fade-content-y($fade-width) {
+  @include fade-mask(0deg, $fade-width, true);
+}
+
+@mixin fade-content-top($fade-width) {
+  @include fade-mask(180deg, $fade-width);
+}
+
+@mixin fade-content-bottom($fade-width) {
+  @include fade-mask(0deg, $fade-width);
+}

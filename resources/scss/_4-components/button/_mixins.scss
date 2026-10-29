@@ -1,0 +1,141 @@
+/* stylelint-disable order/custom-properties-alphabetical-order */
+@use 'sass:map';
+@use 'sass:list';
+
+@use 'tokens';
+
+// Set padding and font size from the shared scale so buttons use consistent sizes.
+// Public CSS variables allow local adjustments without adding another size.
+@mixin size($size: md) {
+  $config: map.get(tokens.$sizes, $size);
+
+  @if $config {
+    @each $key, $value in $config {
+      --_button-#{$key}: var(--button-#{$key}, #{$value});
+    }
+  } @else {
+    @error 'Unknown button size: #{$size}';
+  }
+}
+
+// Select the palette for normal, hover and pressed states.
+// Keeping the palette separate lets the same color work with every variant.
+@mixin color($color: primary) {
+  $config: list.index(tokens.$colors, $color);
+
+  @if not $config {
+    @error 'Unknown button color: #{$color}';
+  }
+
+  --_button-fill: var(--#{$color}-bg);
+  --_button-fill-hover: var(--#{$color}-bg-hover);
+  --_button-fill-pressed: var(--#{$color}-bg-pressed);
+  --_button-on: var(--#{$color}-on-color);
+  --_button-on-hover: var(--#{$color}-on-color-hover);
+  --_button-on-pressed: var(--#{$color}-on-color-pressed);
+  --_button-stroke: var(--#{$color}-border);
+  --_button-stroke-hover: var(--#{$color}-border-hover);
+  --_button-stroke-pressed: var(--#{$color}-border-pressed);
+}
+
+// Assign background, text and border colors for each variant and interaction state.
+// Each variant has a complete block so its appearance can be understood in one place.
+@mixin variant($variant: filled) {
+  @if $variant == filled {
+    --_button-bg: var(--_button-fill);
+    --_button-color: var(--_button-on);
+    --_button-border: var(--_button-stroke);
+    --_button-hover-bg: var(--_button-fill-hover);
+    --_button-hover-color: var(--_button-on-hover);
+    --_button-hover-border: var(--_button-stroke-hover);
+    --_button-pressed-bg: var(--_button-fill-pressed);
+    --_button-pressed-color: var(--_button-on-pressed);
+    --_button-pressed-border: var(--_button-stroke-pressed);
+  } @else if $variant == outline {
+    --_button-bg: transparent;
+    --_button-color: var(--_button-fill);
+    --_button-border: var(--_button-stroke);
+    --_button-hover-bg: color-mix(in srgb, var(--_button-fill) 8%, transparent);
+    --_button-hover-color: var(--_button-fill);
+    --_button-hover-border: var(--_button-stroke-hover);
+    --_button-pressed-bg: color-mix(in srgb, var(--_button-fill) 16%, transparent);
+    --_button-pressed-color: var(--_button-fill);
+    --_button-pressed-border: var(--_button-stroke-pressed);
+  } @else if $variant == ghost {
+    --_button-bg: transparent;
+    --_button-color: var(--_button-fill);
+    --_button-border: transparent;
+    --_button-hover-bg: color-mix(in srgb, var(--_button-fill) 8%, transparent);
+    --_button-hover-color: var(--_button-fill);
+    --_button-hover-border: transparent;
+    --_button-pressed-bg: color-mix(in srgb, var(--_button-fill) 16%, transparent);
+    --_button-pressed-color: var(--_button-fill);
+    --_button-pressed-border: transparent;
+  } @else {
+    @error 'Unknown button variant: #{$variant}';
+  }
+}
+
+// Render a usable neutral button with basic sizing and interaction fallbacks.
+// Modifier classes replace these defaults without requiring a full button preset.
+// Remove link underlines so anchors and buttons share the same shell.
+@mixin shell {
+  --_button-padding-y: var(--button-padding-y, var(--spacing-3));
+  --_button-padding-x: var(--button-padding-x, var(--spacing-4));
+  --_button-font-size: var(--button-font-size, var(--font-size-md));
+  --_button-bg: transparent;
+  --_button-color: currentcolor;
+  --_button-border: transparent;
+  --_button-hover-bg: var(--_button-bg);
+  --_button-hover-color: var(--_button-color);
+  --_button-hover-border: var(--_button-border);
+  --_button-pressed-bg: var(--_button-bg);
+  --_button-pressed-color: var(--_button-color);
+  --_button-pressed-border: var(--_button-border);
+
+  display: inline-flex;
+  gap: var(--button-gap, var(--spacing-2));
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--_button-padding-y);
+  padding-inline: var(--_button-padding-x);
+  font-family: var(--button-font-family, sans-serif), sans-serif;
+  font-size: var(--_button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  color: var(--button-color, var(--_button-color));
+  letter-spacing: var(--button-letter-spacing);
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--button-bg, var(--_button-bg));
+  border: var(--button-border-width, 1px) solid;
+  border-color: var(--button-border, var(--_button-border));
+  border-radius: var(--button-radius, var(--radius-md));
+
+  &:hover:not(:disabled, [aria-disabled='true']) {
+    color: var(--button-hover-color, var(--_button-hover-color));
+    background: var(--button-hover-bg, var(--_button-hover-bg));
+    border-color: var(--button-hover-border, var(--_button-hover-border));
+  }
+
+  &:active:not(:disabled, [aria-disabled='true']) {
+    color: var(--button-pressed-color, var(--_button-pressed-color));
+    background: var(--button-pressed-bg, var(--_button-pressed-bg));
+    border-color: var(--button-pressed-border, var(--_button-pressed-border));
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// Build a complete button with default color, variant, size and interaction states.
+// Apply the shell first so the selected options replace its neutral defaults.
+@mixin button($color: primary, $variant: filled, $size: md) {
+  @include shell;
+  @include size($size);
+  @include color($color);
+  @include variant($variant);
+}

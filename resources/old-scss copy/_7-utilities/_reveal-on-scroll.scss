@@ -1,0 +1,45 @@
+@mixin reveal-on-scroll {
+  @media (--motion-ok) {
+    &:not(.is-revealed) {
+      opacity: 0;
+      will-change: opacity, transform;
+
+      @starting-style {
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+    }
+  }
+}
+
+.animate-this {
+  @include reveal-on-scroll;
+}
+
+.animate-row .row,
+.animate-row.row {
+  @include reveal-on-scroll;
+}
+
+.animate-module [class*='module-'],
+.animate-module[class*='module-'],
+.animate-mod [class*='module-'],
+.animate-mod[class*='module-'] {
+  @include reveal-on-scroll;
+}
+
+.animate-text .module-text,
+.animate-text.module-text {
+  > *:not(ul, ol) {
+    @include reveal-on-scroll;
+  }
+
+  > ul > li,
+  > ol > li {
+    @include reveal-on-scroll;
+  }
+}
+
+.animate-list .listing-post {
+  @include reveal-on-scroll;
+}

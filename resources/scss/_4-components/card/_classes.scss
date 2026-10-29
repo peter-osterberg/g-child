@@ -1,0 +1,19 @@
+@use 'sass:map';
+@use 'tokens';
+@use 'mixins' as card;
+
+@layer components {
+  :where(.card) {
+    @include card.shell;
+  }
+
+  .card-interactive {
+    @include card.interactive;
+  }
+
+  @each $size in map.keys(tokens.$sizes) {
+    .card-#{$size} {
+      @include card.size($size);
+    }
+  }
+}

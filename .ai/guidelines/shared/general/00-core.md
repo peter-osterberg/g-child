@@ -1,0 +1,29 @@
+# Core Guidelines
+
+- Complete the requested outcome with the smallest correct change. Keep unrelated refactoring, cleanup, and speculative improvements out of scope.
+- For clear requests, choose reasonable implementation details and proceed. Ask only when missing information materially affects the outcome, safety, or correctness.
+- Search for relevant files and symbols before reading. Read the context needed for the task, expand investigation when evidence requires it, and reuse unchanged context already inspected.
+- Give concise updates for meaningful findings, blockers, or decisions. Omit routine narration and prompt restatements; explain in more detail when requested.
+- Briefly flag significant unrelated bugs or security risks without implementing fixes or turning them into a follow-up task list.
+- Plan when complexity, risk, or coordination warrants it. Execute small, obvious changes directly; touching multiple files alone does not require a written plan.
+- Once the requested outcome is complete and verified, briefly summarize the result, verification, and material limitations, then stop.
+- Understand the surrounding code, ownership, and existing patterns before changing behavior.
+- For frontend or theme work, inspect the relevant nearby templates, components, styles, JavaScript modules, or rendering helpers before adding a new pattern.
+- Prefer clear, readable code over clever abstractions.
+- Separate logical steps within functions, methods, and callbacks with a single blank line. Group related statements together. Separate setup, guards, processing, external calls, side effects, persistence, and returns where they represent distinct steps. Preserve this spacing when refactoring; do not add blank lines mechanically after every statement.
+- Separate control-flow blocks from preceding and following statements with a blank line, including consecutive independent conditions. Apply the same rule inside nested blocks.
+- Keep connected branches together, such as `else`, `elseif`, `catch`, and `finally`. Do not add blank lines immediately inside opening or closing braces just to surround a block.
+- Keep comments and documentation blocks attached to the declarations or statements they describe; place any separating blank line before the comment.
+- When the user gives contextual wording or says what they do not want, infer the intended positive end state and produce clear, natural output that satisfies it without mechanically echoing the provided wording or negation.
+- Avoid duplication when the shared abstraction makes the code easier to follow.
+- Keep local duplication when extracting a helper would hide the final shape or force readers to jump between files.
+- Keep behavior close to the code or component that owns it unless a shared abstraction already exists.
+- Do not introduce new dependencies, component systems, helpers, or architecture without a clear recurring need.
+- Use descriptive names that explain intent instead of vague abbreviations.
+- Treat long parameter lists and multi-line method signatures as design pressure to simplify inputs or split behavior.
+- Do not add speculative fallbacks or defensive support for unsupported data shapes. Prefer clear contracts and normalize data at the boundary.
+- Do not edit generated, vendored, or SDK-like code by hand. Change the source schema, template, generator, dependency, or application wrapper instead.
+- Treat deployed migrations, published schemas, and irreversible history as immutable. Add a new change rather than rewriting history.
+- Test changes programmatically with the smallest relevant scope first, then broaden testing when the risk or surface area requires it. Run required repository checks; repeat checks only when further changes, failures, or unresolved concerns justify it.
+- Put short, always-on project rules in guidelines. Put repeatable workflows, checklists, examples, and specialized procedures in skills.
+- Repository-specific conventions override these general rules.

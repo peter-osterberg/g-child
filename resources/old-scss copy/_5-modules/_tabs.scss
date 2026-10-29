@@ -1,0 +1,30 @@
+@use '@lib' as *;
+
+// Allow the tab row to scroll horizontally while hiding the scrollbar chrome.
+.tabs-wrapper {
+  --_border: var(--bg-color, #{$background-base});
+
+  @include hide-scrollbar;
+
+  margin-bottom: var(--spacing-8);
+  overflow-x: auto;
+  border-bottom: 1px solid tonal(var(--_border));
+}
+
+// Tabs piggyback on button tokens so active/inactive states stay consistent with the rest of the UI.
+.tab {
+  --btn-bw: 0;
+
+  @include btn;
+  @include btn-variant('ghost');
+  @include btn-color('primary');
+
+  flex-shrink: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+
+  &.active {
+    // Use the border only as the active marker so the fill stays visually light.
+    border-bottom-color: currentcolor;
+  }
+}

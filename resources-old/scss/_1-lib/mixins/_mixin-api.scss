@@ -1,0 +1,28 @@
+// Emit raw theme colors without a prefix because the design system consumes names like `--primary`.
+@mixin color-as-props($prefix, $name, $value) {
+  --#{$name}: #{$value};
+}
+
+// Generic token-to-custom-property bridge used by spacing, typography, motion, and radius maps.
+@mixin as-props($prefix, $name, $value, $size: false) {
+  --#{$prefix}-#{$name}: #{$value};
+}
+
+// Shadow tokens use the `--surface-shadow` naming pattern instead of the standard prefix-first format.
+@mixin as-bg-shadow-props($prefix, $name, $value) {
+  --#{$name}-#{$prefix}: #{$value};
+}
+
+// Utility generator wrapper for map-driven utility classes.
+@mixin as-utilities($prefix, $name) {
+  .#{$prefix}-#{$name} {
+    @content;
+  }
+}
+
+// Turn a theme map into runtime color variables.
+@mixin theme-colors($theme) {
+  @each $color, $hex in $theme {
+    @include color-as-props('color', $color, $hex);
+  }
+}

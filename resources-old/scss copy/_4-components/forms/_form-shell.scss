@@ -1,0 +1,8 @@
+@use '@lib' as *;
+
+form {
+  --_form-gap-x: var(--form-column-gap, #{$field-spacing-y});
+  --_form-gap-y: var(--form-row-gap, #{$field-spacing-y});
+
+  container-type: inline-size;
+}

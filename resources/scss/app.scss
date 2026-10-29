@@ -1,0 +1,12 @@
+@use '_2-themes/design-tokens';
+@use '_2-themes/colors';
+@use '_4-components/typography/classes' as typography;
+@use '_4-components/button/classes' as button;
+@use '_4-components/card/classes' as card;
+@use '_4-components/forms/classes' as forms;
+@use '_4-components/forms/gravity-forms';
+
+#header,
+#footer {
+  display: none;
+}

@@ -1,0 +1,21 @@
+@use '@lib' as *;
+
+.last-edit {
+  --col-width: auto;
+  --ms: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .col,
+  .module-text,
+  .module-posted-info {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .scroll-to-top {
+    all: unset;
+  }
+}

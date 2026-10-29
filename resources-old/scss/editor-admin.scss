@@ -1,0 +1,8 @@
+@use 'sass:meta';
+
+// The admin editor only needs design tokens and theme variables.
+@layer theme;
+
+@layer theme {
+  @include meta.load-css('@themes');
+}

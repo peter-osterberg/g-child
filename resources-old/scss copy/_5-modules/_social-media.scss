@@ -1,0 +1,28 @@
+@use '@lib' as *;
+
+// Allow an optional heading above a wrapped list of icon buttons.
+.module-social-media {
+  --font-margin: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8) var(--spacing-8);
+  align-items: baseline;
+}
+
+// Reserve a full row for the heading when it is present.
+.social-media-heading {
+  flex-basis: 100%;
+}
+
+// Each icon link is styled as an icon-only tonal button.
+.social-media-icon {
+  position: relative;
+
+  a {
+    @include btn;
+    @include btn-variant('tonal');
+    @include btn-color('primary');
+    @include btn-icon-only;
+  }
+}

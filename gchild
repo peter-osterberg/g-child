@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use GChild_Console\Commands\MasterCommand;
+use GChild_Console\Commands\Insert_Module_Command;
+use GChild_Console\Commands\Make_Module_Command;
+use GChild_Console\Commands\Make_Post_Type_Command;
+use GChild_Console\Commands\Make_Taxonomy_Command;
+use GChild_Console\Commands\Make_Metabox_Command;
+
+// Instantiate the Console Application
+$application = new Application('G-Child CLI', '1.0.0');
+
+// Add the Master Command
+$application->add(new MasterCommand());
+
+// Add Sub-Commands
+$application->add( new Insert_Module_Command() );
+$application->add( new Make_Module_Command() );
+$application->add( new Make_Post_Type_Command() );
+$application->add( new Make_Taxonomy_Command() );
+$application->add( new Make_Metabox_Command() );
+
+// Set the master command as the default command
+$application->setDefaultCommand('manage', true);
+
+// Run the application
+$application->run();

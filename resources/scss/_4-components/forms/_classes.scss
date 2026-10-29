@@ -1,0 +1,70 @@
+@use 'sass:map';
+@use 'tokens';
+@use 'mixins' as forms;
+
+@layer components {
+  :where(
+    input:not([type]),
+    input[type='text'],
+    input[type='email'],
+    input[type='password'],
+    input[type='search'],
+    input[type='tel'],
+    input[type='url'],
+    input[type='number'],
+    input[type='date'],
+    input[type='datetime-local'],
+    input[type='month'],
+    input[type='week'],
+    input[type='time'],
+    select,
+    textarea
+  ),
+  :where(.input) {
+    @include forms.shell;
+  }
+
+  :where(input[type='checkbox']),
+  :where(.checkbox) {
+    @include forms.checkbox;
+  }
+
+  :where(input[type='radio']),
+  :where(.radio) {
+    @include forms.radio;
+  }
+
+  @each $size in map.keys(tokens.$sizes) {
+    .input-#{$size} {
+      @include forms.size($size);
+    }
+  }
+
+  @each $size in map.keys(tokens.$choice-sizes) {
+    .checkbox-#{$size},
+    .radio-#{$size} {
+      @include forms.choice-size($size);
+    }
+  }
+
+  .field {
+    @include forms.field;
+  }
+
+  :where(label, legend),
+  .field-label {
+    @include forms.label;
+  }
+
+  .field-help {
+    @include forms.help;
+  }
+
+  .field-error {
+    @include forms.error;
+  }
+
+  .choice {
+    @include forms.choice;
+  }
+}

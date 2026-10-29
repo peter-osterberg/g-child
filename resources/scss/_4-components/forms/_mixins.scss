@@ -1,0 +1,202 @@
+/* stylelint-disable order/custom-properties-alphabetical-order */
+@use 'sass:map';
+@use 'tokens';
+
+// Space a label, control and message consistently in any form integration.
+// Keep layout separate from the control shell so native controls stay reusable.
+@mixin field {
+  display: grid;
+  gap: var(--field-gap, var(--spacing-2));
+  min-inline-size: 0;
+}
+
+// Give field labels the same weight across native and plugin-generated forms.
+@mixin label {
+  font-weight: var(--field-label-font-weight, var(--font-weight-medium));
+}
+
+// Render supporting instructions consistently without browser paragraph margins.
+@mixin help {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--field-help-color, #{map.get(tokens.$colors, 'color')});
+}
+
+// Share error typography and color so integrations follow the same validation styling.
+@mixin error {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--field-error-color, var(--danger-text));
+}
+
+// Align a native choice control beside its label, including labels that wrap.
+@mixin choice {
+  display: inline-flex;
+  gap: var(--choice-gap, var(--spacing-2));
+  align-items: start;
+}
+
+// Set text-control dimensions from the shared form size scale.
+// Public input variables allow local adjustments without adding another size.
+@mixin size($size: md) {
+  $config: map.get(tokens.$sizes, $size);
+
+  @if $config {
+    @each $key, $value in $config {
+      --_input-#{$key}: var(--input-#{$key}, #{$value});
+    }
+  } @else {
+    @error 'Unknown input size: #{$size}';
+  }
+}
+
+// Render text inputs, selects and textareas with medium defaults and native states.
+// Keep the states together and use outlines for focus so the layout stays stable.
+@mixin shell {
+  --_input-padding-y: var(--input-padding-y, var(--spacing-2));
+  --_input-padding-x: var(--input-padding-x, var(--spacing-4));
+  --_input-font-size: var(--input-font-size, var(--font-size-md));
+  --_input-min-height: var(--input-min-height, 3rem);
+  --_input-radius: var(--input-radius, var(--radius-md));
+  --_input-bg: #{map.get(tokens.$colors, 'bg')};
+  --_input-color: #{map.get(tokens.$colors, 'color')};
+  --_input-border: #{map.get(tokens.$colors, 'border')};
+
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--_input-min-height);
+  padding-block: var(--_input-padding-y);
+  padding-inline: var(--_input-padding-x);
+  font-family: var(--input-font-family, var(--body-font-family, sans-serif)), sans-serif;
+  font-size: var(--_input-font-size);
+  font-weight: var(--input-font-weight, var(--body-font-weight, 400));
+  line-height: var(--input-line-height, var(--body-line-height, 1.5));
+  color: var(--input-color, var(--_input-color));
+  letter-spacing: var(--input-letter-spacing, var(--body-letter-spacing, normal));
+  background-color: var(--input-bg, var(--_input-bg));
+  border: var(--input-border-width, 1px) solid var(--input-border, var(--_input-border));
+  border-radius: var(--_input-radius);
+
+  &:focus-visible {
+    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
+    outline-offset: 2px;
+  }
+
+  &:focus {
+    color: var(--input-color-focus, #{map.get(tokens.$colors, 'focus', 'color')});
+    background-color: var(--input-bg-focus, #{map.get(tokens.$colors, 'focus', 'background')});
+    border-color: var(--input-border-focus, #{map.get(tokens.$colors, 'focus', 'border-color')});
+  }
+
+  &:where(textarea) {
+    min-block-size: var(--textarea-min-height, 8rem);
+    resize: vertical;
+  }
+
+  &[aria-invalid='true']:not(:disabled) {
+    color: var(--input-color-error, #{map.get(tokens.$colors, 'error', 'color')});
+    background-color: var(--input-bg-error, #{map.get(tokens.$colors, 'error', 'background')});
+    border-color: var(--input-border-error, #{map.get(tokens.$colors, 'error', 'border-color')});
+  }
+
+  &[readonly] {
+    cursor: default;
+    background-color: var(--input-bg-readonly, #{map.get(tokens.$colors, 'disabled', 'background')});
+  }
+
+  &:disabled {
+    color: var(--input-color-disabled, #{map.get(tokens.$colors, 'disabled', 'color')});
+    cursor: not-allowed;
+    background-color: var(--input-bg-disabled, #{map.get(tokens.$colors, 'disabled', 'background')});
+    border-color: var(--input-border-disabled, #{map.get(tokens.$colors, 'disabled', 'border-color')});
+    opacity: var(--input-opacity-disabled, 0.5);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled, [readonly], [aria-invalid='true'], :focus) {
+      color: var(--input-color-hover, #{map.get(tokens.$colors, 'hover', 'color')});
+      background-color: var(--input-bg-hover, #{map.get(tokens.$colors, 'hover', 'background')});
+      border-color: var(--input-border-hover, #{map.get(tokens.$colors, 'hover', 'border-color')});
+    }
+  }
+}
+
+// Build a complete text control for components that do not use the .input class.
+// Apply the selected size after the shell so it replaces the medium defaults.
+@mixin input($size: md) {
+  @include shell;
+  @include size($size);
+}
+
+// Size native checkboxes and radio buttons using their own shared scale.
+// Keep their compact dimensions independent of text-control padding and height.
+@mixin choice-size($size: md) {
+  $value: map.get(tokens.$choice-sizes, $size);
+
+  @if not $value {
+    @error 'Unknown choice size: #{$size}';
+  }
+
+  --_choice-size: #{$value};
+}
+
+// Style a native checkbox while keeping its checked and keyboard behavior.
+// Keep its states explicit so checkbox styling can change independently of radio buttons.
+@mixin checkbox {
+  flex-shrink: 0;
+  inline-size: var(--checkbox-size, var(--_choice-size, 1.25rem));
+  block-size: var(--checkbox-size, var(--_choice-size, 1.25rem));
+  margin: 0;
+  vertical-align: middle;
+  accent-color: var(--checkbox-accent, var(--primary-bg));
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
+    outline-offset: 2px;
+  }
+
+  &:checked {
+    accent-color: var(--checkbox-accent-checked, var(--checkbox-accent, var(--primary-bg)));
+  }
+
+  &[aria-invalid='true']:not(:disabled) {
+    outline: 2px solid var(--input-border-error, #{map.get(tokens.$colors, 'error', 'border-color')});
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: var(--checkbox-opacity-disabled, 0.5);
+  }
+}
+
+// Style a native radio button while keeping browser-managed selection and keyboard behavior.
+// Keep its states explicit so radio styling can change independently of checkboxes.
+@mixin radio {
+  flex-shrink: 0;
+  inline-size: var(--radio-size, var(--_choice-size, 1.25rem));
+  block-size: var(--radio-size, var(--_choice-size, 1.25rem));
+  margin: 0;
+  vertical-align: middle;
+  accent-color: var(--radio-accent, var(--primary-bg));
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
+    outline-offset: 2px;
+  }
+
+  &:checked {
+    accent-color: var(--radio-accent-checked, var(--radio-accent, var(--primary-bg)));
+  }
+
+  &[aria-invalid='true']:not(:disabled) {
+    outline: 2px solid var(--input-border-error, #{map.get(tokens.$colors, 'error', 'border-color')});
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: var(--radio-opacity-disabled, 0.5);
+  }
+}

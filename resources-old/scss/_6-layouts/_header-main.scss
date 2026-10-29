@@ -1,0 +1,197 @@
+@use '@lib' as *;
+
+@mixin header-menu-vars {
+  --menu-arrow-color: var(--header-menu-arrow-color, #{$header-menu-arrow-color});
+  --menu-arrow-duration: var(--header-menu-arrow-duration, #{$header-menu-arrow-duration});
+  --menu-arrow-easing: var(--header-menu-arrow-easing, #{$header-menu-arrow-easing});
+  --menu-arrow-size: var(--header-menu-arrow-size, #{$header-menu-arrow-size});
+  --menu-gap-x: var(--header-menu-gap-x, #{$header-menu-gap-x});
+  --menu-gap-y: var(--header-menu-gap-y, #{$header-menu-gap-y});
+  --menu-item-bg: var(--header-menu-item-bg, #{$header-menu-item-bg});
+  --menu-item-bg-current: var(--header-menu-item-bg-current, #{$header-menu-item-bg-current});
+  --menu-item-bg-hover: var(--header-menu-item-bg-hover, #{$header-menu-item-bg-hover});
+  --menu-item-border-radius: var(--header-menu-item-border-radius, #{$header-menu-item-border-radius});
+  --menu-item-duration: var(--header-menu-item-duration, #{$header-menu-item-duration});
+  --menu-item-easing: var(--header-menu-item-easing, #{$header-menu-item-easing});
+  --menu-item-padding-x: var(--header-menu-item-padding-x, #{$header-menu-item-padding-x});
+  --menu-item-padding-y: var(--header-menu-item-padding-y, #{$header-menu-item-padding-y});
+  --menu-item-text: var(--header-menu-item-text, #{$header-menu-item-text});
+  --menu-item-text-active: var(--header-menu-item-text-active, #{$header-menu-item-text-active});
+  --menu-item-text-current: var(--header-menu-item-text-current, #{$header-menu-item-text-current});
+  --menu-item-text-hover: var(--header-menu-item-text-hover, #{$header-menu-item-text-hover});
+  --menu-label-color: var(--header-menu-label-color, #{$header-menu-label-color});
+  --menu-label-font-size: var(--header-menu-label-font-size, #{$header-menu-label-font-size});
+  --menu-label-font-weight: var(--header-menu-label-font-weight, #{$header-menu-label-font-weight});
+  --menu-margin-y: var(--header-menu-margin-y, #{$header-menu-margin-y});
+  --menu-toggle-font-weight: var(--header-menu-toggle-font-weight, #{$header-menu-toggle-font-weight});
+}
+
+@mixin header-submenu-vars {
+  --menu-arrow-rotate-open: var(--header-submenu-arrow-rotate-open, #{$header-submenu-arrow-rotate-open});
+  --menu-item-bg: var(--header-submenu-item-bg, #{$header-submenu-item-bg});
+  --menu-item-bg-current: var(--header-submenu-item-bg-current, #{$header-submenu-item-bg-current});
+  --menu-item-bg-hover: var(--header-submenu-item-bg-hover, #{$header-submenu-item-bg-hover});
+  --menu-item-border-radius: var(--header-submenu-item-border-radius, #{$header-submenu-item-border-radius});
+  --menu-item-padding-x: var(--header-submenu-item-padding-x, #{$header-submenu-item-padding-x});
+  --menu-item-padding-y: var(--header-submenu-item-padding-y, #{$header-submenu-item-padding-y});
+  --menu-item-text: var(--header-submenu-item-text, #{$header-submenu-item-text});
+  --menu-item-text-active: var(--header-submenu-item-text-active, #{$header-submenu-item-text-active});
+  --menu-item-text-current: var(--header-submenu-item-text-current, #{$header-submenu-item-text-current});
+  --menu-item-text-hover: var(--header-submenu-item-text-hover, #{$header-submenu-item-text-hover});
+}
+
+#main-header {
+  --_header-bg: var(--header-bg, #{$header-bg});
+  --_header-logo-height: var(--header-logo-height, #{$header-logo-height});
+  --_header-min-height: var(--header-min-height, #{$header-min-height});
+  --_header-transform-duration: var(--header-transition-duration-show, #{$header-transition-duration-show});
+  --_header-transform-easing: var(--header-transition-easing-show, #{$header-transition-easing-show});
+  --btn-gap-x: var(--header-button-gap-x, var(--spacing-8));
+  --col-width: auto;
+  --gx: var(--header-gap-x, var(--spacing-8));
+  --gy: var(--header-gap-y, 0);
+  --ms: var(--header-margin-start, 0);
+  --row-py: var(--header-padding-y, #{$header-padding-y});
+  --section-py: var(--header-section-padding-y, 0);
+
+  @include header-menu-vars;
+
+  z-index: var(--header-z-index, #{$header-z-index});
+  display: grid;
+  inline-size: 100%;
+  block-size: var(--_header-min-height);
+  contain: layout;
+
+  // Shared header menu typography
+  font-family: var(--header-menu-item-font-family, #{$header-menu-item-font-family});
+  font-size: var(--header-menu-item-font-size, #{$header-menu-item-font-size});
+  font-weight: var(--header-menu-item-font-weight, #{$header-menu-item-font-weight});
+  line-height: var(--header-menu-item-line-height, #{$header-menu-item-line-height});
+  color: var(--text-color, #{$text-base});
+  pointer-events: auto;
+  background-color: var(--_header-bg);
+  backdrop-filter: none;
+  transform: translateY(0);
+
+  @media (--motion-ok) {
+    transition: transform var(--_header-transform-duration) var(--_header-transform-easing) 0ms;
+    will-change: transform;
+  }
+
+  &.is-trigger-hover {
+    .sub-menu-toggle {
+      @media (--mouse) {
+        pointer-events: none;
+      }
+    }
+  }
+
+  // Sticky shell keeps the header hidden above the viewport by default.
+  // When scrolled mode starts, slide the inner header down into view.
+  &.is-scrolled {
+    --_header-min-height: var(--header-min-height-scrolled, #{$header-min-height-sticky});
+
+    transform: translateY(100%);
+
+    @media (--md-down) {
+      --_header-min-height: var(--header-min-height-mobile, #{$header-min-height-mobile});
+    }
+  }
+
+  // The sticky surface skin is separate from the slide mechanics so it can
+  // switch while the header is hidden instead of during visible motion.
+  &.is-solid {
+    --_header-bg: var(--header-bg-scrolled, #{alpha(var(--header-bg, #{$header-bg}), 80%)});
+
+    backdrop-filter: blur(var(--header-backdrop-blur, #{$backdrop-blur-base}));
+  }
+
+  // Hide by sliding back into the sticky shell pocket.
+  &.is-scrolled.is-hidden {
+    --_header-transform-duration: var(--header-transition-duration-hide, #{$header-transition-duration-hide});
+    --_header-transform-easing: var(--header-transition-easing-hide, #{$header-transition-easing-hide});
+
+    pointer-events: none;
+    transform: translateY(0);
+  }
+
+  &.is-swapping-scroll-state {
+    visibility: hidden;
+  }
+
+  :where(.menu a) {
+    text-decoration: none;
+  }
+
+  .sub-menu:not(.mega-menu .sub-menu) {
+    @include card-dropdown;
+  }
+
+  &.auto-hide-header-no-transition,
+  &.auto-hide-header-no-transition > .row {
+    transition: none !important;
+  }
+
+  .menu-arrow::after {
+    @include icon($header-menu-arrow-icon);
+  }
+
+  @media (--nav-down) {
+    --_header-logo-height: var(--header-logo-height-mobile, #{$header-logo-height-mobile});
+
+    .module-menu {
+      display: none !important;
+    }
+  }
+
+  @media (--md-down) {
+    --_header-min-height: var(--header-min-height-mobile, #{$header-min-height-mobile});
+  }
+
+  .sub-menu {
+    @include header-submenu-vars;
+  }
+
+  > .row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 0;
+  }
+
+  #header-logo {
+    display: grid;
+    place-content: center;
+
+    img,
+    svg,
+    svg * {
+      transition: none;
+    }
+
+    img,
+    svg {
+      inline-size: auto;
+      block-size: var(--_header-logo-height);
+    }
+  }
+}
+
+// When the first section is a media hero, keep the transparent / dark theme
+// whenever the solid sticky surface is not active.
+// html:has(#main > :first-child:is(.has-bg-image, .has-bg-video)) {
+//   #main-header:not(.is-solid) {
+//     --header-bg: transparent;
+
+//     @include apply-theme(dark);
+
+//     #header-logo {
+//       img,
+//       svg {
+//         * {
+//           fill: var(--text-1);
+//         }
+//       }
+//     }
+//   }
+// }

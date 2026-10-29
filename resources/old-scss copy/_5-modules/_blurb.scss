@@ -1,0 +1,27 @@
+@use '@lib' as *;
+
+// Blurbs are thin wrappers around the shared content-card primitives.
+.module-blurb {
+  @include content-card;
+  @include content-card-interaction;
+}
+
+// Structural regions stay split out so modules can override just one part without forking the full pattern.
+.blurb-inner {
+  @include content-card-frame;
+}
+
+.blurb-image {
+  @include content-card-media;
+}
+
+.blurb-content-wrapper {
+  @include content-card-body;
+}
+
+// Read-more links inherit the text-button affordance used elsewhere in listing-style cards.
+.blurb-read-more {
+  @include btn;
+  @include btn-variant('text');
+  @include btn-icon-end;
+}

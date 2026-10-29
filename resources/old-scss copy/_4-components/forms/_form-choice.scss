@@ -1,0 +1,82 @@
+@use '@lib' as *;
+
+// ==========================================================================
+// Checkbox / radio wrapper
+// ==========================================================================
+
+*:has(>:where([type='checkbox'],[type='radio'])) {
+  display: grid;
+  grid-auto-columns: auto auto;
+  grid-auto-flow: column;
+  gap: 0 $check-label-margin-left;
+  align-items: start;
+  inline-size: fit-content;
+  font-size: $check-label-font-size;
+  line-height: $check-label-line-height;
+
+  & + & {
+    margin-top: $check-spacing-y;
+  }
+}
+
+// ==========================================================================
+// Checkbox / radio controls
+// ==========================================================================
+
+input:where([type='checkbox'], [type='radio']) {
+  @include choice-control-vars;
+  @include choice-control-base;
+
+  display: inline-block;
+  appearance: none;
+  print-color-adjust: exact;
+
+  &:hover:not(:disabled, [aria-disabled='true'], .disabled, :checked, :focus, :focus-visible) {
+    @include choice-control-state-hover;
+  }
+
+  &:focus,
+  &:focus-visible {
+    @include choice-control-state-focus;
+
+    outline: 0;
+  }
+
+  &:checked {
+    @include choice-control-state-checked;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      @include choice-control-state-checked-focus;
+    }
+  }
+
+  &:disabled,
+  &[aria-disabled='true'],
+  &.disabled {
+    @include choice-control-state-disabled;
+  }
+
+  + label {
+    display: inline-block;
+    font-size: $check-label-font-size;
+    font-weight: $check-label-font-weight;
+    line-height: $check-label-line-height;
+    color: $check-label-text;
+    cursor: pointer;
+  }
+}
+
+input[type='checkbox'] {
+  --check-icon-size: var(--check-check-size, 85%);
+}
+
+input[type='radio'] {
+  --check-border-radius: 50%;
+  --check-icon-size: var(--check-radio-size, 50%);
+
+  &:checked {
+    --_choice-icon: var(--radio-icon, #{escape-svg($radio-icon)});
+  }
+}

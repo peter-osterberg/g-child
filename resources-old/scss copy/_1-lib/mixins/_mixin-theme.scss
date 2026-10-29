@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use 'sass:string';
+@use './mixin-api' as *;
+@use '@lib/functions' as *;
+@use '@lib/tokens' as *;
+@use '@lib/variables' as *;
+
+@mixin apply-theme($theme-name) {
+  @if not map.has-key($themes, $theme-name) {
+    @error 'Unknown theme `#{$theme-name}`.';
+  }
+
+  $theme: map.get($themes, $theme-name);
+
+  @layer theme {
+    & {
+      @include theme-colors($theme);
+
+      @if $theme-name == dark {
+        // Swap form-control icons to the dark variants so they stay visible on dark surfaces.
+        --check-icon: #{escape-svg($check-icon-dark)};
+        --radio-icon: #{escape-svg($radio-icon-dark)};
+        --select-icon: #{escape-svg($select-icon-dark)};
+      }
+
+      color-scheme: only #{string.unquote($theme-name)};
+    }
+  }
+}

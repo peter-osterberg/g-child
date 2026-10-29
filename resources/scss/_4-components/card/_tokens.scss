@@ -1,0 +1,26 @@
+$sizes: (
+  'sm': (
+    'padding-y': var(--spacing-2),
+    'padding-x': var(--spacing-2),
+    'border-radius': var(--radius-none),
+    'border-width': var(--border-width-none),
+  ),
+  'md': (
+    'padding-y': var(--spacing-4),
+    'padding-x': var(--spacing-4),
+    'border-radius': var(--radius-md),
+    'border-width': var(--border-width-sm),
+  ),
+  'lg': (
+    'padding-y': var(--spacing-5),
+    'padding-x': var(--spacing-5),
+    'border-radius': var(--radius-lg),
+    'border-width': var(--border-width-md),
+  ),
+  'xl': (
+    'padding-y': var(--spacing-6),
+    'padding-x': var(--spacing-6),
+    'border-radius': var(--radius-none),
+    'border-width': var(--border-width-none),
+  ),
+);

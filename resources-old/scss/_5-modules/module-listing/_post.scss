@@ -1,0 +1,67 @@
+@use '@lib' as *;
+
+// Listing cards and slider cards share the same structural content-card pattern.
+.slide-post,
+.listing-post {
+  @include content-card;
+  @include content-card-interaction;
+}
+
+.slide-post-inner,
+.listing-post-inner {
+  @include content-card-frame;
+}
+
+// Metadata rows wrap rather than force the card wider than its grid column.
+.listing-item-meta-wrapper,
+.listing-item-terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2) var(--spacing-4);
+}
+
+.listing-item-meta-wrapper {
+  margin-bottom: var(--listing-item-meta-mb);
+}
+
+// Terms are rendered as chips so taxonomies can read as lightweight badges.
+.listing-item-term {
+  @include chip;
+}
+
+.listing-item-image-wrapper {
+  @include content-card-media;
+}
+
+.listing-placeholder-image {
+  background-color: var(--background-4);
+}
+
+.listing-item-text-wrapper {
+  @include content-card-body;
+}
+
+// Keep title, excerpt, and CTA aligned with the shared content-card helpers.
+.listing-item-date {
+  @include text-sm;
+}
+
+.listing-item-title {
+  @include content-card-title-link;
+}
+
+.listing-item-excerpt {
+  @include clamp-lines(3);
+}
+
+// The read-more area anchors itself to the bottom when cards have uneven excerpt lengths.
+.listing-item-read-more {
+  display: flex;
+  margin-top: auto;
+
+  a {
+    @include btn;
+    @include btn-variant('text');
+    @include btn-icon-end;
+  }
+}

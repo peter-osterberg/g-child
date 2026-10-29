@@ -1,0 +1,55 @@
+@use 'mixins' as typography;
+
+@layer base {
+  :where(body) {
+    @include typography.body;
+    @include typography.size;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) {
+    @include typography.heading;
+  }
+
+  :where(h1) {
+    @include typography.size(4xl);
+  }
+
+  :where(h2) {
+    @include typography.size(3xl);
+  }
+
+  :where(h3) {
+    @include typography.size(2xl);
+  }
+
+  :where(h4) {
+    @include typography.size(xl);
+  }
+
+  :where(h5) {
+    @include typography.size(lg);
+  }
+
+  :where(h6) {
+    @include typography.size(md);
+  }
+
+  :where(a[href]) {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+
+    &:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 3px;
+    }
+
+    &:hover {
+      color: var(--link-hover);
+    }
+
+    &:active {
+      color: var(--link-pressed);
+    }
+  }
+}

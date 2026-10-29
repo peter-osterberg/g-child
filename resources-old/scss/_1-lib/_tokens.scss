@@ -1,0 +1,375 @@
+@use 'sass:map';
+@use '@lib/functions' as *;
+
+// Layout tokens
+
+// Breakpoints
+$breakpoints: (
+  'xs': 350px,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'nav': 1100px,
+  'xl': 1200px,
+  'xxl': 1440px,
+);
+$site-max-width: 1440px;
+
+// Spacing tokens
+
+// 0.0001px is to avoid collapsing when calculated as 0 in a gap or margin context
+$spacing: (
+  '0': 0.0001px,
+  '1': size(2),
+  '2': size(4),
+  '3': size(6),
+  '4': size(8),
+  '5': size(10),
+  '6': size(12),
+  '7': size(14),
+  '8': size(16),
+  '9': size(18),
+  '10': size(20),
+  '11': size(24),
+  '12': size(32),
+  '13': size(48),
+  '14': size(64),
+  '15': size(96),
+  '16': size(96),
+  'row': size(32),
+  'section': size(48),
+  'section-row': calc(var(--spacing-section) + var(--spacing-row)),
+  'row-row': calc(var(--spacing-row) * 2),
+  'gutter-x': size(32),
+  'gutter-y': size(32),
+  'column': size(72),
+  'button-top': size(32),
+  'edge-margin': size(16, 112),
+  'hero': calc(var(--spacing-section) + var(--header-shell-height, #{rem(70)})),
+);
+
+// Theme maps
+$colors: (
+  'black': #000,
+  'gray-50': #fafaf9,
+  'gray-100': #e3dfdd,
+  'gray-200': #ccc3c0,
+  'gray-300': #b6a4a2,
+  'gray-400': #a18384,
+  'gray-500': #8a666c,
+  'gray-600': #735760,
+  'gray-700': #5c4851,
+  'gray-800': #463841,
+  'gray-900': #31282f,
+  'gray-950': #1c171b,
+  'green-50': #e5ffe7,
+  'green-100': #b4fabc,
+  'green-200': #7df190,
+  'green-300': #19e65e,
+  'green-400': #1dc752,
+  'green-500': #1faa47,
+  'green-600': #1e8d3c,
+  'green-700': #1c7131,
+  'green-800': #195627,
+  'green-900': #143d1c,
+  'green-950': #0e2512,
+  'pink-50': #fcf9f8,
+  'pink-100': #f4dcd9,
+  'pink-200': #f1afae,
+  'pink-300': #f47380,
+  'pink-400': #f50035,
+  'pink-500': #cc0b44,
+  'pink-600': #a5124a,
+  'pink-700': #821748,
+  'pink-800': #621840,
+  'pink-900': #451733,
+  'pink-950': #2b1223,
+  'red-50': #ffede8,
+  'red-100': #ffc1b8,
+  'red-200': #ff9488,
+  'red-300': #f76359,
+  'red-400': #e61923,
+  'red-500': #c51f22,
+  'red-600': #a62120,
+  'red-700': #87211e,
+  'red-800': #691f1b,
+  'red-900': #4d1b17,
+  'red-950': #321613,
+  'white': #fff,
+);
+
+// Light theme
+$theme-light: (
+  'backdrop': #{alpha(var(--gray-950), 25%)},
+  'background-1': var(--white),
+  'background-2': var(--gray-50),
+  'background-3': var(--gray-100),
+  'background-4': var(--gray-950),
+  'border': var(--gray-300),
+  'focus-ring': #1e78ff,
+  'form-bg': var(--white),
+  'form-bg-active': var(--white),
+  'form-bg-error': var(--white),
+  'form-bg-hover': var(--white),
+  'form-border': var(--gray-300),
+  'form-border-active': var(--pink-500),
+  'form-border-error': var(--red-600),
+  'form-border-hover': var(--gray-500),
+  'form-icon': var(--gray-950),
+  'form-label': var(--gray-950),
+  'form-message-bg': var(--gray-100),
+  'form-message-error-bg': var(--red-50),
+  'form-message-error-text': var(--red-800),
+  'form-message-text': var(--gray-950),
+  'form-placeholder': var(--gray-700),
+  'form-text': var(--gray-950),
+  'link': var(--pink-500),
+  'link-active': var(--pink-700),
+  'link-hover': var(--pink-600),
+  'primary': var(--pink-500),
+  'primary-active': var(--pink-700),
+  'primary-hover': var(--pink-600),
+  'primary-text': var(--white),
+  'secondary': var(--gray-50),
+  'secondary-active': var(--gray-200),
+  'secondary-hover': var(--gray-100),
+  'secondary-text': var(--gray-950),
+  'text-1': var(--gray-950),
+  'text-2': var(--gray-800),
+  'text-3': var(--gray-700),
+  'text-muted': var(--gray-700),
+);
+
+// Dark theme
+$theme-dark: (
+  'text-1': var(--white),
+  'text-2': var(--gray-200),
+  'text-3': var(--gray-200),
+  'text-muted': var(--gray-200),
+  'form-bg': var(--gray-950),
+  'form-bg-active': var(--gray-950),
+  'form-bg-error': var(--gray-950),
+  'form-bg-hover': var(--gray-950),
+  'form-border': var(--gray-700),
+  'form-border-active': var(--pink-500),
+  'form-border-error': var(--red-600),
+  'form-border-hover': var(--gray-500),
+  'form-icon': var(--gray-50),
+  'form-label': var(--gray-50),
+  'form-message-bg': var(--gray-800),
+  'form-message-error-bg': var(--red-800),
+  'form-message-error-text': var(--red-50),
+  'form-message-text': var(--gray-50),
+  'form-placeholder': var(--gray-500),
+  'form-text': var(--gray-50),
+  'link': var(--pink-500),
+  'link-active': var(--pink-700),
+  'link-hover': var(--pink-600),
+);
+
+// Theme registry
+$themes: (
+  'dark': $theme-dark,
+  'light': $theme-light,
+);
+
+// Track whether the dark theme map is available.
+$has-dark-theme: map.has-key($themes, 'dark');
+
+// Map builder bg choices to the theme they should render against.
+$theme-by-background: (
+  'background-1': light,
+  'background-2': light,
+  'background-3': light,
+  'background-4': dark,
+);
+
+// Named button color variants.
+$button-colors: (primary, secondary);
+
+// Shadow tokens
+$shadow: (
+  'base': 0 1px 3px rgb(0 0 0 / 10%),
+  'elevation-100': (
+    size(0) size(1) size(3) size(0) alpha(var(--gray-950), 15%),
+    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 30%),
+  ),
+  'elevation-200': (
+    size(0) size(1) size(3) size(0) alpha(var(--gray-950), 10%),
+    size(0) size(3) size(8) size(0) alpha(var(--gray-950), 10%),
+    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 18%),
+  ),
+  'elevation-300': (
+    size(0) size(1) size(3) size(0) alpha(var(--gray-950), 10%),
+    size(0) size(3) size(12) size(0) alpha(var(--gray-950), 12%),
+    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 15%),
+  ),
+  'elevation-400': (
+    size(0) size(2) size(5) size(0) alpha(var(--gray-950), 15%),
+    size(0) size(10) size(16) size(0) alpha(var(--gray-950), 12%),
+    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 12%),
+  ),
+  'elevation-500': (
+    size(0) size(2) size(5) size(0) alpha(var(--gray-950), 15%),
+    size(0) size(10) size(24) size(0) alpha(var(--gray-950), 18%),
+    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 8%),
+  ),
+);
+
+// Typography tokens
+
+// Font families
+$font-family: (
+  'primary': 'inter tight',
+  'secondary': 'inter',
+  'mono': 'ui-monospace, sfmono-regular, menlo, consolas, monospace',
+  'base': var(--ff-primary),
+);
+
+// Font weights
+$font-weight: (
+  'thin': 200,
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semi-bold': 600,
+  'bold': 700,
+  'base': 400,
+  'heading': 600,
+  'link': 500,
+  'highlight': 500,
+  'heading-highlight': 700,
+);
+
+// Font sizes
+$font-size: (
+  'base': var(--fs-md),
+  'd1': fs(56, 72),
+  'h1': fs(36, 56),
+  'h2': fs(24, 36),
+  'h3': fs(20, 32),
+  'h4': fs(16, 24),
+  'h5': fs(14, 20),
+  'h6': fs(12, 16),
+  'lg': fs(20),
+  'md': fs(16),
+  'sm': fs(14),
+  'tn': fs(12),
+  'mi': fs(10),
+);
+
+// Vertical rhythm spacing
+$font-space: (
+  'base': var(--font-space-md),
+  'd1': em(24, 110),
+  'h1': em(20, 36),
+  'h2': em(18, 24),
+  'h3': em(16, 20),
+  'h4': em(14, 16),
+  'h5': em(12, 14),
+  'h6': em(10, 12),
+  'lg': em(18, 24),
+  'md': em(20, 16),
+  'sm': em(16, 14),
+  'tn': em(12, 12),
+  'mi': em(10, 10),
+);
+
+// Line heights
+$line-height: (
+  'd1': lh(1.2),
+  'h1': lh(1),
+  'h2': lh(1.1),
+  'h3': lh(1.3),
+  'h4': lh(1.3),
+  'h5': lh(1.3),
+  'h6': lh(1.3),
+  'lg': lh(1.6),
+  'md': lh(1.75),
+  'sm': lh(1.75),
+  'tn': lh(1.75),
+  'mi': lh(1.75),
+  'base': var(--lh-md),
+  'display': lh(1.2),
+);
+
+// Letter spacing
+$letter-spacing: (
+  'd1': 0em,
+  'h1': 0em,
+  'h2': 0em,
+  'h3': 0em,
+  'h4': 0em,
+  'h5': 0em,
+  'h6': 0em,
+  'lg': 0em,
+  'md': 0em,
+  'sm': 0em,
+  'tn': 0em,
+  'mi': 0em,
+  'lg-link': 0em,
+  'md-link': 0em,
+  'sm-link': 0em,
+  'tn-link': 0em,
+  'mi-link': 0em,
+  'base': var(--ls-md),
+  'display': 0em,
+);
+
+// Radius tokens
+
+$radius: (
+  '0': 0,
+  'sm': size(4),
+  'md': size(8),
+  'lg': size(14),
+  'round': 50%,
+  'pill': 9999px,
+);
+
+// Motion tokens
+
+$duration: (
+  'fast': 0.18s,
+  'normal': 0.28s,
+  'slow': 0.48s,
+  'popup': var(--duration-normal),
+  'base': var(--duration-normal),
+);
+$easing: (
+  'in': cubic-bezier(0.32, 0, 0.67, 0),
+  'out': cubic-bezier(0.16, 1, 0.3, 1),
+  'in-out': cubic-bezier(0.65, 0, 0.35, 1),
+  'popup': var(--easing-out),
+  'base': var(--easing-out),
+);
+
+// Card size variants
+
+$cards: (
+  'sm': (
+    'py': var(--spacing-4),
+    'px': var(--spacing-4),
+    'br': var(--br-sm),
+  ),
+  'md': (
+    'py': var(--spacing-8),
+    'px': var(--spacing-8),
+    'br': var(--br-sm),
+  ),
+  'lg': (
+    'py': var(--spacing-12),
+    'px': var(--spacing-12),
+    'br': var(--br-lg),
+  ),
+);
+$button-variants: (primary, secondary);
+$layout: (
+  'design-width': size(420),
+  'max-width-logo': size(90),
+  'mobile-element': 'true',
+  'desktop-element': 'false',
+  'filter-max-width': size(500),
+  'filter-min-width': size(250),
+  'button-styleguide-gap': size(300),
+);

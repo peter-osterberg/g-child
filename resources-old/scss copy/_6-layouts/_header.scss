@@ -1,0 +1,32 @@
+@use '@lib' as *;
+
+:root {
+  --header-shell-height: #{$header-min-height};
+
+  @media (--md-down) {
+    --header-shell-height: #{$header-min-height-mobile};
+  }
+}
+
+// The header shell stays sticky, but disables pointer events so only the interactive inner rows catch clicks.
+#header {
+  position: sticky;
+  top: calc((var(--header-shell-height, #{$header-min-height}) - var(--wp-admin--admin-bar--height, 0px)) * -1);
+  right: 0;
+  left: 0;
+  z-index: #{$header-z-index};
+  display: grid;
+  align-items: end;
+  min-block-size: var(--header-shell-height, #{$header-min-height});
+  pointer-events: none;
+
+  .preloader {
+    display: none;
+  }
+}
+
+// Offset the first hero section so its content starts below the overlaid header.
+// #main > :first-child:is(.has-bg-image, .has-bg-video) {
+//   padding-top: calc(var(--header-shell-height, #{$header-min-height}) + var(--spacing-section-row));
+//   margin-top: calc(var(--header-shell-height) * -1);
+// }

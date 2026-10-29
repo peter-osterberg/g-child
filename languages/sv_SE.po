@@ -1,0 +1,603 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2026-04-10 11:51+0000\n"
+"PO-Revision-Date: 2026-04-10 11:57+0000\n"
+"Last-Translator: Peter Österberg\n"
+"Language-Team: Svenska\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Report-Msgid-Bugs-To: \n"
+"X-Loco-Version: 2.8.3; wp-6.9.4; php-8.3.30"
+
+#: inc/Modules/Button/Button_Controller.php:124
+#: inc/Modules/Button/Button_Controller.php:140
+#: console/Commands/Modules/Counter/fields.php:33
+msgid "- Select size -"
+msgstr "- Välj storlek -"
+
+#: console/Commands/Modules/Counter/fields.php:47
+msgid "A character in the beginning of the number, e.g. + 10"
+msgstr "En karaktär i början av numret, t.ex. + 10"
+
+#: console/Commands/Modules/Counter/fields.php:52
+msgid "A character in the end of the number, e.g. 10 %"
+msgstr "En karaktär i slutet av numret, t.ex. 10 %"
+
+#: inc/Modules/Button/fields.php:313
+msgid "Add a unique CSS ID for styling or JavaScript targeting."
+msgstr "Lägg till ett unikt CSS-ID för styling eller JavaScript-målning."
+
+#: inc/Modules/Button/fields.php:326
+msgid "Add custom classes for additional styling."
+msgstr "Lägg till anpassade klasser för ytterligare styling."
+
+#: inc/Modules/Button/fields.php:339
+msgid "Add custom data attributes for JavaScript integrations."
+msgstr "Lägg till anpassade data-attribut för JavaScript-integrationer."
+
+#: inc/Modules/Button/fields.php:325
+msgid "Add one or more CSS classes"
+msgstr "Lägg till en eller flera CSS-klasser"
+
+#: inc/Modules/Button/fields.php:338
+msgid "Add one or more data-* attributes"
+msgstr "Lägg till en eller flera data-* attribut"
+
+#: inc/Modules/Button/fields.php:195 inc/Modules/Button/fields.php:203
+#| msgid "Additional Styles"
+msgid "Additional styles"
+msgstr "Ytterligare stilar"
+
+#: inc/Modules/Button/fields.php:304
+msgid "Advanced settings"
+msgstr "Avancerade inställningar"
+
+#: inc/Modules/Button/fields.php:390
+msgid "Align the button group within its container."
+msgstr "Justera knappgruppens placering inom dess behållare."
+
+#: inc/Modules/Button/fields.php:382
+msgid "Alignment"
+msgstr "Justering"
+
+#: inc/Customization/Style_Options.php:215
+msgid "Background 1"
+msgstr "Bakgrund 1"
+
+#: inc/Customization/Style_Options.php:216
+msgid "Background 2"
+msgstr "Bakgrund 2"
+
+#: inc/Customization/Style_Options.php:217
+msgid "Background 3"
+msgstr "Bakgrund 3"
+
+#: inc/Customization/Style_Options.php:218
+msgid "Background 4"
+msgstr "Bakgrund 4"
+
+#: inc/Modules/Button/Button_Controller.php:25
+#: inc/Modules/Button/fields.php:396
+msgid "Button"
+msgstr "Knapp"
+
+#: inc/Customization/Style_Options.php:71
+msgid "Button colors"
+msgstr "Knappfärger"
+
+#: inc/Customization/Style_Options.php:86
+msgid "Button sizes"
+msgstr "Knappstorlekar"
+
+#: inc/Customization/Style_Options.php:101
+msgid "Button type"
+msgstr "Knapptyp"
+
+#: inc/Modules/Button/fields.php:394
+msgid "Buttons"
+msgstr "Knappar"
+
+#: inc/Modules/Button/fields.php:387
+msgid "Center"
+msgstr "Centrera"
+
+#: inc/Customization/Style_Options.php:149
+msgid "Checklist"
+msgstr "Checklista"
+
+#: inc/Modules/Button/fields.php:378
+msgid "Choose how multiple buttons are arranged."
+msgstr "Välj hur flera knappar är arrangerade."
+
+#: inc/Modules/Button/fields.php:162
+msgid "Choose the button color scheme."
+msgstr "Välj knappens färgschema."
+
+#: inc/Modules/Button/fields.php:171
+msgid "Choose the button size."
+msgstr "Välj knappstorlek."
+
+#: inc/Modules/Button/fields.php:154
+msgid "Choose the overall button style."
+msgstr "Välj den övergripande knappstilen."
+
+#: inc/Modules/Button/fields.php:215
+msgid "Choose the shape or style for icon-only buttons."
+msgstr "Välj form eller stil för ikon-only knappar."
+
+#: inc/Modules/Button/fields.php:189
+msgid "Choose the text color for text-style buttons."
+msgstr "Välj textfärg för textstilsknappar."
+
+#: inc/Modules/Button/fields.php:180
+msgid "Choose the text size for text-style buttons."
+msgstr "Välj textstorlek för textstilsknappar."
+
+#: inc/Customization/Child_Functions.php:109
+msgid "Clear"
+msgstr "Rensa"
+
+#: inc/Modules/Button/fields.php:113
+#| msgid "Click Here"
+msgid "Click here"
+msgstr "Klicka här"
+
+#: console/Commands/Dummy/fields.php:69
+msgid "Code field"
+msgstr "Kodfält"
+
+#: inc/Modules/Button/fields.php:158 inc/Modules/Button/fields.php:185
+msgid "Color"
+msgstr "Färg"
+
+#: console/Commands/Dummy/fields.php:73
+msgid "Color field"
+msgstr "Färgfält"
+
+#: console/Commands/Dummy/fields.php:12
+msgid "Conditional field"
+msgstr "Villkorat fält"
+
+#: console/Commands/Modules/Counter/fields.php:7
+msgid "Count to number"
+msgstr "Räkna till nummer"
+
+#: console/Commands/Modules/Counter/Counter_Controller.php:25
+msgid "Counter"
+msgstr "Räknare"
+
+#: console/Commands/Modules/Counter/fields.php:55
+msgid "Counter duration"
+msgstr "Räknarens varaktighet"
+
+#: inc/Modules/Button/fields.php:322
+msgid "CSS classes"
+msgstr "CSS-klasser"
+
+#: inc/Modules/Button/fields.php:310
+msgid "CSS ID"
+msgstr "CSS-ID"
+
+#: inc/Modules/Button/Button_Controller.php:112
+msgid "Current Color"
+msgstr "Aktuell färg"
+
+#: console/Commands/Dummy/fields.php:7
+msgid "Custom admin label example"
+msgstr "Exempel på anpassad administratörsetikett"
+
+#: inc/Customization/Style_Options.php:136
+msgid "D1 text"
+msgstr "D1-text"
+
+#: inc/Modules/Button/fields.php:335
+msgid "Data attributes"
+msgstr "Data-attribut"
+
+#: inc/Customization/Child_Functions.php:160
+msgid "dd Month, Year"
+msgstr "dd månad, år"
+
+#: console/Commands/Modules/Counter/fields.php:66
+msgid "Description"
+msgstr "Beskrivning"
+
+#: inc/Modules/Button/fields.php:348
+msgid "Disabled state"
+msgstr "Inaktiverat tillstånd"
+
+#: inc/Modules/Button/fields.php:137
+msgid "Display the button as an icon without visible text."
+msgstr "Visa knappen som en ikon utan synlig text."
+
+#: inc/Modules/Button/fields.php:351
+msgid "Display the button as disabled and prevent interaction."
+msgstr "Visa knappen som inaktiverad och förhindra interaktion."
+
+#: console/Commands/Dummy/Dummy_Controller.php:25
+msgid "Dummy module"
+msgstr "Dummy-modul"
+
+#: console/Commands/Dummy/fields.php:109
+msgid "E-mail field"
+msgstr "E-postfält"
+
+#: console/Commands/Modules/Expand/fields.php:41
+msgid "Editor "
+msgstr "Redigerare"
+
+#: console/Commands/Dummy/fields.php:64
+msgid "Editor field"
+msgstr "Redigerarfält"
+
+#: console/Commands/Modules/Counter/fields.php:9
+msgid "Enable or disable the counter animation."
+msgstr "Aktivera eller inaktivera räkneanimationen."
+
+#: inc/Modules/Button/fields.php:312
+msgid "Enter a unique ID without #"
+msgstr "Ange ett unikt ID utan #"
+
+#: console/Commands/Modules/Expand/Expand_Controller.php:25
+msgid "Expand"
+msgstr "Expandera"
+
+#: console/Commands/Modules/Expand/fields.php:50
+msgid "Fade rows"
+msgstr "Faderrader"
+
+#: console/Commands/Dummy/fields.php:23
+msgid "Field section"
+msgstr "Fältsektion"
+
+#: inc/Customization/Style_Options.php:43
+msgid "Filled"
+msgstr "Fylld"
+
+#: console/Commands/Dummy/fields.php:116 console/Commands/Dummy/fields.php:124
+msgid "First one"
+msgstr "Första"
+
+#: inc/Shortcodes.php:35
+msgid "Found"
+msgstr "Hittad"
+
+#: inc/Customization/Style_Options.php:114
+msgid "Full width"
+msgstr "Full bredd"
+
+#. Name of the theme
+msgid "Generation Theme Child"
+msgstr "Generation Theme Child"
+
+#. Description of the theme
+msgid "Generation Theme Child Theme"
+msgstr "Generation Theme Child Theme"
+
+#: inc/Customization/Style_Options.php:53
+msgid "Ghost"
+msgstr "Ghost"
+
+#: console/Commands/Modules/Expand/fields.php:11
+msgid "Heading"
+msgstr "Rubrik"
+
+#: console/Commands/Modules/Expand/fields.php:25
+msgid "Heading size"
+msgstr "Rubrikstorlek"
+
+#. URI of the theme
+#. Author URI of the theme
+msgid "https://thegeneration.se/"
+msgstr "https://thegeneration.se/"
+
+#: inc/Customization/Style_Options.php:109
+msgid "Icon after text"
+msgstr "Ikon efter text"
+
+#: inc/Customization/Style_Options.php:104
+msgid "Icon before text"
+msgstr "Ikon före text"
+
+#: inc/Modules/Button/fields.php:134
+msgid "Icon-only button"
+msgstr "Knapp med endast ikon"
+
+#: console/Commands/Dummy/fields.php:77
+msgid "Image with ID"
+msgstr "Bild med ID"
+
+#: console/Commands/Dummy/fields.php:83
+msgid "Image with URL"
+msgstr "Bild med URL"
+
+#: inc/Modules/Button/fields.php:375
+msgid "Inline"
+msgstr "Inline"
+
+#: console/Commands/Modules/Counter/fields.php:15
+#: console/Commands/Modules/Counter/fields.php:27
+msgid ""
+"Input an integer or a number including decimals, e.g. 10 or 11,2. Use \".\" "
+"or \",\" as punctuation marks between the integer and decimal"
+msgstr ""
+"Ange ett heltal eller ett decimaltal, t.ex. 10 eller 11,2. Använd \".\" "
+"eller \",\" som skiljetecken mellan heltal och decimal"
+
+#: inc/Modules/Button/fields.php:109
+msgid "Label"
+msgstr "Etikett"
+
+#: inc/Customization/Style_Options.php:94
+msgid "Large"
+msgstr "Stor"
+
+#: inc/Modules/Button/fields.php:371
+msgid "Layout"
+msgstr "Layout"
+
+#: inc/Modules/Button/fields.php:386
+msgid "Left"
+msgstr "Vänster"
+
+#: inc/Modules/Button/fields.php:117 console/Commands/Dummy/fields.php:37
+msgid "Link"
+msgstr "Länk"
+
+#: console/Commands/Dummy/fields.php:53
+msgid "Link field"
+msgstr "Länkruta"
+
+#: inc/Customization/Style_Options.php:146
+msgid "Lists"
+msgstr "Listor"
+
+#: inc/Customization/Style_Options.php:196
+msgid "Micro text"
+msgstr "Microtext"
+
+#: inc/Customization/Style_Options.php:170
+msgid "Muted"
+msgstr "Tyst"
+
+#: console/Commands/Dummy/fields.php:57
+msgid "Number field"
+msgstr "Nummerfält"
+
+#: console/Commands/Modules/Counter/fields.php:12
+msgid "Number from"
+msgstr "Nummer från"
+
+#: console/Commands/Modules/Counter/fields.php:24
+msgid "Number to"
+msgstr "Nummer till"
+
+#: inc/Modules/Button/fields.php:126
+#| msgid "Open in New Tab"
+msgid "Open in new tab"
+msgstr "Öppna i ny flik"
+
+#: inc/Modules/Button/fields.php:198
+msgid "Optional style modifiers for standard buttons."
+msgstr "Valfria stilmodifierare för standardknappar."
+
+#: inc/Modules/Button/fields.php:206
+msgid "Optional style modifiers for text-style buttons."
+msgstr "Valfria stilmodifierare för textstilsknappar."
+
+#: inc/Customization/Style_Options.php:48
+msgid "Outlined"
+msgstr "Konturerad"
+
+#: console/Commands/Dummy/fields.php:105
+msgid "Phone field"
+msgstr "Telefonfält"
+
+#: console/Commands/Modules/Counter/fields.php:45
+msgid "Prefix"
+msgstr "Prefix"
+
+#: inc/Customization/Style_Options.php:74
+#: inc/Customization/Style_Options.php:160
+msgid "Primary"
+msgstr "Primär"
+
+#: console/Commands/Dummy/Dummy.php:28 console/Commands/Dummy/Dummy.php:34
+msgid "Read less"
+msgstr "Läs mindre"
+
+#: console/Commands/Modules/Expand/fields.php:59
+msgid "Read less label "
+msgstr "Läs mindre etikett"
+
+#: console/Commands/Modules/Expand/fields.php:55
+msgid "Read more label"
+msgstr "Läs mer etikett"
+
+#: inc/Modules/Button/fields.php:224 inc/Modules/Button/fields.php:232
+msgid "Replace the default prefix icon with a custom one."
+msgstr "Ersätt standardikonen för prefix med en anpassad"
+
+#: inc/Modules/Button/fields.php:266 inc/Modules/Button/fields.php:274
+msgid "Replace the default suffix icon with a custom one."
+msgstr "Ersätt standardikonen för suffix med en anpassad"
+
+#: inc/Shortcodes.php:37
+msgid "result for"
+msgid_plural "results for"
+msgstr[0] "resultat för"
+msgstr[1] "resultat för"
+
+#: inc/Modules/Button/fields.php:388
+msgid "Right"
+msgstr "Höger"
+
+#: inc/Customization/Style_Options.php:119
+msgid "Round"
+msgstr "Rund"
+
+#: console/Commands/Modules/Expand/fields.php:46
+msgid "Rows to show"
+msgstr "Rader att visa"
+
+#: inc/Modules/Button/fields.php:123
+msgid "Search for content or enter a URL"
+msgstr "Sök efter innehåll eller ange en URL"
+
+#: console/Commands/Dummy/fields.php:117 console/Commands/Dummy/fields.php:125
+msgid "Second one"
+msgstr "Andra"
+
+#: inc/Customization/Style_Options.php:79
+#: inc/Customization/Style_Options.php:165
+msgid "Secondary"
+msgstr "Sekundär"
+
+#: console/Commands/Dummy/fields.php:113
+msgid "Select field"
+msgstr "Välj fält"
+
+#: console/Commands/Modules/Expand/fields.php:12
+msgid "Select the real HTML-tag of the title"
+msgstr "Välj den verkliga HTML-taggen för titeln"
+
+#: console/Commands/Modules/Expand/fields.php:26
+msgid "Select the visual HTML-tag of the title"
+msgstr "Välj den visuella HTML-taggen för titeln"
+
+#: inc/Modules/Button/fields.php:211
+msgid "Shape"
+msgstr "Form"
+
+#: inc/Modules/Button/fields.php:307
+msgid "Show advanced settings"
+msgstr "Visa avancerade inställningar"
+
+#: inc/Modules/Button/fields.php:167
+msgid "Size"
+msgstr "Storlek"
+
+#: inc/Customization/Style_Options.php:89
+msgid "Small"
+msgstr "Liten"
+
+#: inc/Customization/Style_Options.php:124
+msgid "Square"
+msgstr "Fyrkant"
+
+#: inc/Modules/Button/fields.php:376
+msgid "Stacked"
+msgstr "Staplad"
+
+#: inc/Modules/Button/fields.php:150
+msgid "Style"
+msgstr "Stil"
+
+#: console/Commands/Modules/Counter/fields.php:50
+msgid "Suffix"
+msgstr "Suffix"
+
+#: console/Commands/Dummy/fields.php:46
+msgid "Target blank"
+msgstr "Target blank"
+
+#: inc/Customization/Style_Options.php:63 console/Commands/Dummy/fields.php:41
+msgid "Text"
+msgstr "Text"
+
+#: inc/Customization/Style_Options.php:175
+msgid "Text 1"
+msgstr "Text 1"
+
+#: inc/Customization/Style_Options.php:180
+msgid "Text 2"
+msgstr "Text 2"
+
+#: inc/Customization/Style_Options.php:185
+msgid "Text 3"
+msgstr "Text 3"
+
+#: inc/Customization/Style_Options.php:157
+msgid "Text colors"
+msgstr "Textfärger"
+
+#: console/Commands/Dummy/fields.php:31
+msgid "Text field"
+msgstr "Textfält"
+
+#: inc/Modules/Button/fields.php:176
+msgid "Text size"
+msgstr "Textstorlek"
+
+#: console/Commands/Modules/Counter/fields.php:57
+msgid "The amount of milliseconds, 1000 = 1 second"
+msgstr "Antal millisekunder, 1000 = 1 sekund"
+
+#. Author of the theme
+msgid "The Generation"
+msgstr "The Generation"
+
+#: console/Commands/Modules/Expand/fields.php:7
+msgid "Title"
+msgstr "Titel"
+
+#: console/Commands/Dummy/fields.php:27 console/Commands/Dummy/fields.php:129
+msgid "Toggle field"
+msgstr "Växlare"
+
+#. %s: menu item title.
+#: inc/Customization/Child_Functions.php:178
+#, php-format
+msgid "Toggle submenu for %s"
+msgstr "Växla undermeny för %s"
+
+#: inc/Customization/Style_Options.php:58
+msgid "Tonal"
+msgstr "Tonal"
+
+#: console/Commands/Dummy/fields.php:101
+msgid "URL field"
+msgstr "URL-fält"
+
+#: inc/Modules/Button/fields.php:221 inc/Modules/Button/fields.php:229
+#| msgid "Custom Prefix Icon"
+msgid "Use custom prefix icon"
+msgstr "Använd anpassad prefixikon"
+
+#: inc/Modules/Button/fields.php:263 inc/Modules/Button/fields.php:271
+#| msgid "Custom Suffix Icon"
+msgid "Use custom suffix icon"
+msgstr "Använd anpassad suffixikon"
+
+#: console/Commands/Dummy/fields.php:89
+msgid "Video with ID"
+msgstr "Video med ID"
+
+#: console/Commands/Dummy/fields.php:95
+msgid "Video with URL"
+msgstr "Video med URL"
+
+#: inc/Modules/Button/fields.php:112
+msgid ""
+"Visible button text. For icon-only buttons, this is used as the accessible "
+"label."
+msgstr ""
+"Synlig knapptext. För knappar med endast ikon används detta som "
+"tillgänglighetsmärkning."
+
+#: console/Commands/Modules/Counter/fields.php:30
+msgid "Visual size"
+msgstr "Visuell storlek"
+
+#: console/Commands/Modules/Counter/fields.php:31
+msgid ""
+"You can select a visually different size of the title (won't affect SEO). "
+"Leave blank to show the real size."
+msgstr ""
+"Du kan välja en visuellt annorlunda storlek på titeln (påverkar inte SEO). "
+"Lämna tomt för att visa den verkliga storleken."

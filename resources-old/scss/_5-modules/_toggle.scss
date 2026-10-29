@@ -1,0 +1,83 @@
+@use '@lib' as *;
+
+// Module-level spacing tokens keep the trigger and panel body aligned.
+.module-toggle {
+  --toggle-px: 1rem;
+  --toggle-py: 1rem;
+}
+
+// Stack each disclosure card vertically with consistent gaps.
+.toggle-module-container {
+  display: grid;
+  gap: 1rem;
+}
+
+// Toggle items reuse the shared card shell so borders and radius stay consistent with other expandable UI.
+.toggle-item {
+  @include card;
+  @include card-outlined;
+
+  overflow: hidden;
+}
+
+// Headers behave like full-width ghost buttons with the title and icon split to the edges.
+.toggle-item-header {
+  --font-margin: 0;
+
+  @include btn;
+  @include btn-variant('ghost');
+  @include btn-color('primary');
+
+  justify-content: space-between;
+  padding: var(--toggle-py) var(--toggle-px);
+  border-radius: 0;
+}
+
+// Plus/minus icons are layered in the same grid cell and crossfade between states.
+.toggle-item-icon {
+  display: grid;
+  grid-template-areas: 'stack';
+  place-items: center;
+
+  &::before,
+  &::after {
+    grid-area: stack;
+
+    @media (--motion-ok) {
+      transition: opacity var(--duration-fast) var(--easing-out), rotate var(--duration-fast) var(--easing-out), scale var(--duration-fast) var(--easing-out);
+    }
+  }
+
+  &::before {
+    @include icon('plus');
+  }
+
+  &::after {
+    @include icon('minus');
+
+    opacity: 0;
+    scale: 0.72;
+  }
+}
+
+// Body padding mirrors the trigger padding so opened content feels like one card.
+.toggle-item-inner-content {
+  padding: var(--toggle-py) var(--toggle-px);
+}
+
+// Active items swap the visible icon without changing layout.
+.active {
+  .toggle-item-icon {
+    &::before {
+      opacity: 0;
+      rotate: 180deg;
+      scale: 0.72;
+    }
+
+    &::after {
+      opacity: 1;
+      rotate: 180deg;
+      scale: 1;
+    }
+  }
+}

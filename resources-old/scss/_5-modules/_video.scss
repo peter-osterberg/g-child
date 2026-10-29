@@ -1,0 +1,69 @@
+@use '@lib' as *;
+
+// Lock page scroll while the video popup is open.
+html:has(.video-popup-wrapper.open) {
+  overflow: hidden;
+}
+
+.module-video {
+  --backdrop: #{alpha(black, 80%)};
+  --backdrop-blur: 10px;
+  --video-aspect-ratio: 16 / 9;
+}
+
+.inner-video {
+  background: transparent;
+}
+
+.video-play-btn {
+  @include btn;
+  @include btn-variant('filled');
+  @include btn-color('primary');
+  @include btn-size('lg');
+  @include btn-icon-only;
+
+  &.pause {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  &::before {
+    width: 100%;
+    height: 100%;
+    background: #f00;
+  }
+}
+
+.video-text-icon-play {
+  display: block;
+}
+
+.video-text-icon-pause {
+  display: none;
+}
+
+.video-popup-inner-wrapper {
+  margin: auto;
+
+  video {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .inner-video {
+    margin-bottom: auto;
+  }
+}
+
+.popup-close {
+  @include btn;
+  @include btn-variant('filled');
+  @include btn-color('primary');
+  @include btn-size('sm');
+
+  margin-top: auto;
+  margin-bottom: var(--spacing-4);
+  margin-left: auto;
+  pointer-events: auto;
+}

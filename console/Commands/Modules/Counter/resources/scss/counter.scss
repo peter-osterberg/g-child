@@ -1,0 +1,15 @@
+@use '@lib' as *;
+
+@layer theme, base, components.root, components.color, components.variant, components.size, components.extend, components, modules, layouts, utilities;
+
+@layer modules {
+  .module-gchild-counter {
+    .counter-content {
+      color: var(--text-1);
+    }
+
+    .counter-heading {
+      display: flex;
+    }
+  }
+}

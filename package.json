@@ -1,0 +1,63 @@
+{
+	"name": "generation-theme-child",
+	"version": "3.2.2",
+	"main": "index.js",
+	"packageManager": "pnpm@12.10.1",
+	"engines": {
+		"node": "^24.15.0 || >=26.0.0"
+	},
+	"scripts": {
+		"get-vars": "node ./console/figma-converter/build-figma-scss.js",
+		"set-vars": "node ./console/figma-converter/merge-figma-vars.js",
+		"setup-vars": "node ./console/figma-converter/setup-figma-vars.js",
+		"get-intell": "node ./console/generate-intellisense-file.js",
+		"check:assets": "node ./console/check-assets.js",
+		"lint:js": "eslint \"resources/js/**/*.js\" \"console/**/*.js\" \"postcss-plugins/**/*.js\" \"stylelint-rules/**/*.js\" vite.config.mjs \"console/**/*.mjs\" postcss.config.js eslint.config.js stylelint.config.js --no-error-on-unmatched-pattern",
+		"lint:scss": "stylelint \"resources/scss/**/*.scss\"",
+		"lint:php": "./vendor/bin/phpcs",
+		"lint:php:fix": "./vendor/bin/phpcbf && ./vendor/bin/phpcs",
+		"lint:fix": "pnpm run lint:js -- --fix && pnpm run lint:scss -- --fix && pnpm run lint:php:fix",
+		"nvm": "source $HOME/.nvm/nvm.sh; nvm use || nvm install",
+		"watch": "pnpm run get-intell && NODE_ENV=development vite build --mode development --watch",
+		"dev": "pnpm run get-intell && NODE_ENV=development vite build --mode development",
+		"hot": "pnpm run get-intell && vite",
+		"build": "vite build",
+		"g-setup": "composer install && . \"$HOME/.nvm/nvm.sh\" && (nvm use || nvm install) && pnpm run fix-perms && pnpm install && pnpm run dev",
+		"fix-perms": "sudo chown $(whoami):sftp bin/install-po-merge-driver.sh && sudo chmod -R 0770 ./node_modules/ ./vendor/ && sudo chown -R $(whoami):sftp node_modules",
+		"check:postcss": "node console/check-postcss.mjs",
+		"check:vite": "php console/check-vite.php && node console/check-vite-server.mjs && node console/check-font-subsets.mjs && node console/check-postcss.mjs && node console/check-vite-build.mjs"
+	},
+	"author": "The Generation AB",
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@floating-ui/dom": "^1.8.0",
+		"@stylistic/stylelint-config": "^5.0.0",
+		"@stylistic/stylelint-plugin": "^5.3.1",
+		"animejs": "^4.5.0",
+		"eslint": "^10.12.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-jsdoc": "^65.2.0",
+		"globals": "^17.13.0",
+		"laravel-vite-plugin": "^3.2.0",
+		"postcss": "^8.5.29",
+		"postcss-combine-duplicated-selectors": "^11.0.0",
+		"postcss-custom-media": "^12.0.3",
+		"postcss-discard-unused": "^9.0.5",
+		"postcss-preset-env": "^11.6.1",
+		"postcss-selector-parser": "^7.1.6",
+		"postcss-value-parser": "^4.2.0",
+		"prettier": "^3.9.9",
+		"sass-embedded": "^1.105.1",
+		"stylelint": "^17.16.0",
+		"stylelint-config-recess-order": "^7.8.0",
+		"stylelint-config-standard-scss": "^17.0.0",
+		"stylelint-declaration-block-no-ignored-properties": "^3.0.0",
+		"stylelint-order": "^8.1.1",
+		"stylelint-scss": "^7.3.0",
+		"subset-font": "^2.9.0",
+		"vite": "^8.3.3"
+	},
+	"browserslist": [
+		">0.2%, baseline widely available with downstream"
+	]
+}

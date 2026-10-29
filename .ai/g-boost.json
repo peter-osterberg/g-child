@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "skillCategories": [
+    "animejs",
+    "frontend",
+    "mpdf",
+    "project-workflow",
+    "wordpress",
+    "wordpress-plugins",
+    "wordpress-themes"
+  ]
+}

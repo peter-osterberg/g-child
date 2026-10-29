@@ -1,0 +1,8 @@
+@use '@lib' as *;
+
+:root {
+  // Generate shadow variables
+  @each $name, $value in $shadow {
+    @include as-props('shadow', $name, $value, true);
+  }
+}

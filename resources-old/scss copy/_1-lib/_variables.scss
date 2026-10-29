@@ -1,0 +1,511 @@
+@use 'sass:string';
+@use 'sass:map';
+@use '@lib/functions' as *;
+@use '@lib/tokens' as *;
+
+// =========================================
+// FOUNDATION
+// -----------------------------------------
+// Core aliases, defaults, feature flags,
+// stacking, and shared icon configuration.
+// =========================================
+
+// Border
+$border-color-base: var(--border);
+$border-width-base: 1px;
+$border-radius-base: var(--br-md);
+
+// Typography
+$font-family-base: var(--ff-base);
+$font-size-base: var(--fs-base);
+$font-weight-base: var(--fw-base);
+$line-height-base: var(--lh-base);
+$letter-spacing-base: var(--ls-base);
+$paragraph-spacing: 0.8em;
+$heading-following-spacing: 1.6em;
+
+// Colors and backgrounds
+$background-base: var(--background-1);
+$text-base: var(--text-1);
+
+// Icon font families
+$icon-font-pro: 'Font Awesome 7 Pro';
+$icon-font-duotone: 'Font Awesome 7 Duotone';
+$icon-font-sharp: 'Font Awesome 7 Sharp';
+$icon-font-sharp-duotone: 'Font Awesome 7 Sharp Duotone';
+$icon-font-brands: 'Font Awesome 7 Brands';
+
+// Shared icon defaults
+$icon-font-base: $icon-font-pro;
+$icon-weight-base: 400;
+$icon-chevron: 'angle-down';
+$icon-button-start: 'angle-left';
+$icon-button-end: 'angle-right';
+$icon-loading: 'spinner-third';
+$icon-only-button-style: 'round'; // 'square' or 'round'
+$icon-duotone-primary-color: currentcolor;
+$icon-duotone-primary-opacity: 0.5;
+$icon-duotone-secondary-color: currentcolor;
+$icon-duotone-secondary-opacity: 1;
+$menu-icons-enabled: false;
+$icon-menu-item: ('display', 'user', 'user-gear', 'badge-check', 'laptop', 'list');
+$icon-menu-item-weight: $icon-weight-base;
+
+// Stacking contexts
+$z-index-preloader: 1100;
+$z-index-dropdown: 1200;
+$z-index-header: 1210;
+$z-index-mobile-nav: 1220;
+$z-index-modal: 1300;
+
+// Shared visual effects
+$backdrop-blur-base: 5px;
+$disabled-opacity: 0.64;
+
+// Focus ring
+$focus-ring-width: 2px;
+$focus-ring-offset: 2px;
+$focus-ring-color: var(--focus-ring);
+
+// =========================================
+// LINKS
+// -----------------------------------------
+// Base tokens for link visuals and states.
+// Consumed by link mixins.
+// =========================================
+
+// Typography
+$link-font-weight: var(--fw-link);
+$link-underline-offset: 0.1em;
+
+// Base state
+$link-text: var(--link);
+$link-decoration: underline;
+$link-decoration-color: currentcolor;
+
+// Hover state
+$link-text-hover: var(--link-hover);
+$link-decoration-color-hover: transparent;
+
+// Active state
+$link-text-active: var(--link-active);
+$link-decoration-color-active: transparent;
+
+// Disabled state
+$link-disabled-opacity: $disabled-opacity;
+
+// =========================================
+// HEADINGS
+// -----------------------------------------
+// Heading tokens shared by heading mixins.
+// =========================================
+
+// Shared heading tokens
+$heading-font-family: var(--ff-secondary);
+$heading-text: var(--text-1);
+$heading-font-weight: var(--fw-semi-bold);
+
+// =========================================
+// BUTTONS
+// -----------------------------------------
+// Button sizing, typography, spacing,
+// icons, and disabled state.
+// =========================================
+
+// Base button tokens
+$btn-padding-y: var(--spacing-4);
+$btn-padding-x: var(--spacing-8);
+$btn-font-size: var(--fs-md);
+$btn-font-weight: var(--fw-base);
+$btn-line-height: 1;
+$btn-letter-spacing: var(--ls-button);
+$btn-font-family: var(--ff-primary);
+$btn-border-width: 1px;
+$btn-border-radius: var(--br-md);
+$btn-icon-gap: var(--spacing-4);
+$btn-icon-size: 1em;
+$btn-bg-disabled: #{alpha(var(--text-1), 12%)};
+$btn-border-disabled: #{alpha(var(--text-1), 18%)};
+$btn-text-disabled: var(--text-2);
+$btn-disabled-opacity: 0.5;
+$btn-min-height: rem(40);
+$btn-duration: var(--duration-fast);
+$btn-easing: var(--easing-out);
+
+// Small
+$btn-sm-padding-y: var(--spacing-3);
+$btn-sm-padding-x: var(--spacing-4);
+$btn-sm-font-size: var(--fs-sm);
+$btn-sm-min-height: rem(36);
+
+// Large
+$btn-lg-padding-y: var(--spacing-5);
+$btn-lg-padding-x: var(--spacing-10);
+$btn-lg-font-size: var(--fs-lg);
+$btn-lg-min-height: rem(48);
+
+// =========================================
+// CONTENT CARDS
+// -----------------------------------------
+// Shared defaults for reusable content-card
+// patterns used by listing and blurb shells.
+// =========================================
+
+$content-card-bg: var(--bg-color, var(--white));
+$content-card-br: var(--br-md);
+$content-card-py: 0;
+$content-card-px: 0;
+$content-card-content-px: var(--spacing-8);
+$content-card-content-py: var(--spacing-8);
+$content-card-gx: 0;
+$content-card-gy: 0;
+$content-card-min-height: auto;
+$content-card-media-width: 100%;
+$content-card-media-aspect: string.unquote('16 / 9');
+$content-card-media-br: 0;
+$content-card-media-zoom: 1;
+$content-card-duration: var(--duration-normal);
+$content-card-easing: var(--easing-out);
+$content-card-underline-color: transparent;
+$content-card-media-zoom-hover: 1.03;
+$content-card-underline-color-hover: currentcolor;
+
+// =========================================
+// FORMS
+// -----------------------------------------
+// Form field sizing, labels, states,
+// icons, and helper message tokens.
+// =========================================
+
+// Field group spacing
+$field-spacing-y: var(--spacing-10);
+$field-spacing-x: var(--spacing-gutter-x);
+
+// Input field tokens
+$input-min-height: rem(46);
+$input-font-family: inherit;
+$input-padding-y: var(--spacing-4);
+$input-padding-x: var(--spacing-6);
+$input-font-size: var(--fs-md);
+$input-font-weight: var(--fw-base);
+$input-line-height: var(--lh-md);
+$input-border-width: 1px;
+$input-border-width-focus: 2px;
+$input-border-radius: var(--br-sm);
+$textarea-min-height: 4lh;
+
+// Input colors, borders, and backgrounds
+$input-text: var(--form-text);
+$input-border: var(--form-border);
+$input-border-hover: var(--form-border-hover);
+$input-border-focus: var(--form-border-active);
+$input-border-error: var(--form-border-error);
+$input-border-success: var(--form-border-success);
+$input-bg: var(--form-bg);
+$input-bg-hover: var(--form-bg-hover);
+$input-bg-focus: var(--form-bg-active);
+$input-bg-autocomplete: var(--form-bg);
+$input-placeholder: var(--form-placeholder);
+$input-icon-color: var(--form-icon);
+
+// Input disabled and readonly state
+$input-text-disabled: var(--form-text);
+$input-border-disabled: var(--form-border);
+$input-bg-disabled: var(--form-bg);
+$input-disabled-opacity: $disabled-opacity;
+
+// Label tokens
+$label-margin-top: 0;
+$label-margin-bottom: 0;
+$label-font-size: var(--fs-md);
+$label-font-weight: var(--fw-medium);
+$label-line-height: var(--lh-md);
+$label-font-family: var(--ff-base);
+$label-text: var(--form-label);
+
+// Input icon feature flags and config
+$input-icons-enabled: true;
+$input-search-icons-enabled: true;
+$input-icon-font: $icon-font-base;
+$input-icon-weight: $icon-weight-base;
+$input-icon-font-size: $input-font-size;
+$input-icon-width: rem(24);
+
+// Select dropdown icon for the light theme.
+$select-icon-size: rem(14);
+$select-icon-color: map.get($colors, 'black');
+$select-icon: svg-select-icon($icon-font-base, $icon-weight-base, $select-icon-color);
+
+// Select dropdown icon for the dark theme.
+$select-icon-color-dark: null !default;
+$select-icon-dark: null !default;
+
+@if $has-dark-theme {
+  $select-icon-color-dark: map.get($colors, 'white');
+  $select-icon-dark: svg-select-icon($icon-font-base, $icon-weight-base, $select-icon-color-dark);
+}
+
+// Checkbox and radio icons for the light theme.
+$check-icon-color: map.get($colors, 'white');
+$check-icon: svg-check-icon($icon-font-base, 900, $check-icon-color);
+$radio-icon: svg-radio-icon($check-icon-color);
+
+// Checkbox and radio icons for the dark theme.
+$check-icon-color-dark: null !default;
+$check-icon-dark: null !default;
+$radio-icon-dark: null !default;
+
+@if $has-dark-theme {
+  $check-icon-color-dark: map.get($colors, 'white');
+  $check-icon-dark: svg-check-icon($icon-font-base, 900, $check-icon-color-dark);
+  $radio-icon-dark: svg-radio-icon($check-icon-color-dark);
+}
+
+// Checkbox and radio sizing
+$check-size: rem(18);
+$check-border-width: 2px;
+$check-border-width-focus: 2px;
+$check-border-radius: rem(2);
+
+// Checkbox and radio label tokens
+$check-label-font-size: var(--fs-md);
+$check-label-line-height: var(--lh-md);
+$check-label-font-weight: var(--fw-base);
+$check-spacing-y: var(--spacing-2);
+$check-label-margin-left: var(--spacing-5);
+$check-label-text: var(--form-label);
+
+// Checkbox and radio fill and outline colors
+$check-bg: $input-bg;
+$check-bg-hover: $input-bg-hover;
+$check-bg-focus: $input-bg-focus;
+$check-border: var(--form-border);
+$check-border-hover: var(--form-border-hover);
+$check-border-focus: var(--form-border-active);
+$check-bg-checked: $input-border-focus;
+$check-border-checked: $check-bg-checked;
+
+// Inline field descriptions and help text
+$message-font-size: var(--fs-tn);
+$message-padding-y: var(--spacing-2);
+$message-padding-x: var(--spacing-4);
+$message-border-radius: var(--br-sm);
+$message-margin-y: var(--spacing-4);
+
+// Description background and color variants
+$message-bg: var(--form-message-bg);
+$message-text: var(--form-message-text);
+$message-bg-error: var(--form-message-error-bg);
+$message-text-error: var(--form-message-error-text);
+
+// =========================================
+// NAVIGATION
+// -----------------------------------------
+// Shared nav feature flags, header shell,
+// desktop menus, and mobile nav tokens.
+// =========================================
+
+// -----------------------------------------
+// Header shell
+// -----------------------------------------
+
+// Spacing and layout
+$header-min-height: rem(72);
+$header-min-height-sticky: rem(64);
+$header-min-height-mobile: rem(64);
+$header-padding-y: var(--spacing-8);
+
+// Surfaces
+$header-bg: var(--background-1);
+
+// Logo sizing
+$header-logo-height: rem(32);
+$header-logo-height-mobile: rem(28);
+
+// Layering
+$header-z-index: $z-index-header;
+
+// Motion
+$header-transition-duration-show: var(--duration-slow);
+$header-transition-easing-show: var(--easing-out);
+$header-transition-duration-hide: var(--duration-normal);
+$header-transition-easing-hide: var(--easing-in);
+
+// -----------------------------------------
+// Header menu
+// Scoped by header-main.scss.
+// -----------------------------------------
+
+// Layout
+$header-menu-gap-x: var(--spacing-4);
+$header-menu-gap-y: 0;
+$header-menu-margin-y: 0;
+
+// Menu item spacing and shape
+$header-menu-item-padding-x: var(--spacing-4);
+$header-menu-item-padding-y: var(--spacing-4);
+$header-menu-item-border-radius: 0;
+
+// Typography
+$header-menu-item-font-size: var(--fs-sm);
+$header-menu-item-font-weight: $link-font-weight;
+$header-menu-item-line-height: inherit;
+$header-menu-item-font-family: inherit;
+
+// Link states
+$header-menu-item-text: $text-base;
+$header-menu-item-bg: transparent;
+$header-menu-item-text-hover: alpha(currentcolor, 80%);
+$header-menu-item-bg-hover: transparent;
+$header-menu-item-text-active: alpha(currentcolor, 90%);
+$header-menu-item-text-current: $header-menu-item-text-active;
+$header-menu-item-bg-current: $header-menu-item-bg-hover;
+
+// Motion
+$header-menu-item-duration: var(--duration-fast);
+$header-menu-item-easing: var(--easing-out);
+
+// Arrow and submenu toggle
+$header-menu-arrow-size: 1em;
+$header-menu-arrow-color: currentcolor;
+$header-menu-arrow-icon: $icon-chevron;
+$header-menu-arrow-duration: var(--duration-fast);
+$header-menu-arrow-easing: var(--easing-out);
+$header-menu-toggle-font-weight: $header-menu-item-font-weight;
+
+// Labels for non-clickable menu items (.menu-label).
+$header-menu-label-font-size: var(--fs-sm);
+$header-menu-label-font-weight: var(--fw-base);
+$header-menu-label-color: var(--text-muted);
+
+// -----------------------------------------
+// Header submenus
+// Scoped by header-main.scss.
+// -----------------------------------------
+
+// Layout
+$header-submenu-min-width: 100%;
+
+// Menu items
+$header-submenu-item-padding-x: var(--spacing-8);
+$header-submenu-item-padding-y: var(--spacing-4);
+$header-submenu-item-border-radius: 0;
+$header-submenu-item-text: $header-menu-item-text;
+$header-submenu-item-bg: $header-menu-item-bg;
+$header-submenu-item-text-hover: $header-menu-item-text-hover;
+$header-submenu-item-bg-hover: $header-submenu-item-bg;
+$header-submenu-item-text-active: $header-menu-item-text-active;
+$header-submenu-item-text-current: $header-submenu-item-text-active;
+$header-submenu-item-bg-current: $header-submenu-item-bg-hover;
+
+// Open state
+$header-submenu-arrow-rotate-open: rotate(-90deg);
+
+// -----------------------------------------
+// Mobile nav shell
+// Consumed by mobile nav components.
+// -----------------------------------------
+
+// Panel sizing and layout
+$mobile-width: 400px;
+$mobile-max-width: 100%;
+$mobile-min-height: 100dvh;
+$mobile-row-width: 100%;
+$mobile-row-padding-y: 0;
+$mobile-section-padding-y: 0;
+$mobile-margin-start: 0;
+
+// Panel surfaces
+$mobile-bg: $header-bg;
+$mobile-panel-bg: $header-bg;
+
+// Layering
+$mobile-z-index: $z-index-mobile-nav;
+
+// Backdrop
+$mobile-backdrop-bg: var(--backdrop);
+$mobile-backdrop-blur: $backdrop-blur-base;
+$mobile-backdrop-opacity-closed: 0;
+$mobile-backdrop-opacity-open: 1;
+
+// Motion
+$mobile-backdrop-duration: var(--duration-normal);
+$mobile-backdrop-easing: var(--easing-out);
+
+// Header row
+$mobile-header-padding-x: var(--spacing-8);
+$mobile-header-min-height: $header-min-height;
+$mobile-header-min-height-mobile: $header-min-height-mobile;
+$mobile-header-logo-height: $header-logo-height;
+$mobile-header-logo-height-mobile: $header-logo-height-mobile;
+$mobile-header-logo-offset-x: var(--spacing-8);
+
+// -----------------------------------------
+// Mobile menu
+// Scoped by header-mobile.scss.
+// -----------------------------------------
+
+// Layout
+$mobile-gap-x: 0;
+$mobile-gap-y: 0;
+$mobile-margin-y: 0;
+
+// Menu item spacing and shape
+$mobile-item-padding-x: 0;
+$mobile-item-padding-y: var(--spacing-6);
+$mobile-item-border-radius: 0;
+
+// Typography
+$mobile-item-font-size: var(--fs-md);
+$mobile-item-font-weight: $link-font-weight;
+$mobile-item-line-height: inherit;
+$mobile-item-font-family: inherit;
+
+// Link states
+$mobile-item-text: $header-menu-item-text;
+$mobile-item-bg: transparent;
+$mobile-item-text-hover: $header-menu-item-text-hover;
+$mobile-item-bg-hover: transparent;
+$mobile-item-text-active: $header-menu-item-text-active;
+$mobile-item-text-current: $mobile-item-text-active;
+$mobile-item-bg-current: $mobile-item-bg-hover;
+
+// Motion
+$mobile-item-duration: var(--duration-fast);
+$mobile-item-easing: var(--easing-out);
+
+// Arrow and submenu toggle
+$mobile-arrow-size: var(--fs-tn);
+$mobile-arrow-color: var(--primary);
+$mobile-arrow-icon: $icon-button-end;
+$mobile-arrow-duration: var(--duration-fast);
+$mobile-arrow-easing: var(--easing-out);
+$mobile-toggle-font-weight: $mobile-item-font-weight;
+
+// Labels for non-clickable menu items (.menu-label).
+$mobile-label-font-size: var(--fs-sm);
+$mobile-label-font-weight: var(--fw-base);
+$mobile-label-color: var(--text-muted);
+
+// -----------------------------------------
+// Mobile submenus
+// Scoped by header-mobile.scss.
+// -----------------------------------------
+
+// Layout
+$mobile-submenu-padding: var(--spacing-8);
+
+// Menu items
+$mobile-submenu-item-padding-x: $mobile-item-padding-x;
+$mobile-submenu-item-padding-y: $mobile-item-padding-y;
+$mobile-submenu-item-border-radius: $mobile-item-border-radius;
+$mobile-submenu-item-text: $mobile-item-text;
+$mobile-submenu-item-bg: $mobile-item-bg;
+$mobile-submenu-item-text-hover: $mobile-item-text-hover;
+$mobile-submenu-item-bg-hover: $mobile-item-bg-hover;
+$mobile-submenu-item-text-active: $mobile-item-text-active;
+$mobile-submenu-item-text-current: $mobile-item-text-active;
+$mobile-submenu-item-bg-current: $mobile-item-bg-hover;
+
+// Open state
+$mobile-submenu-arrow-rotate-open: none;

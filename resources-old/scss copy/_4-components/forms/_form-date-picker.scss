@@ -1,0 +1,31 @@
+@use '@lib' as *;
+
+// jQuery UI datepicker should read the same card tokens as dropdowns and popovers.
+.ui-datepicker {
+  --card-bg: var(--bg-color, #{$background-base});
+
+  @include card;
+  @include card-size('md');
+  @include card-outlined;
+  @include card-elevation(200);
+
+  color: var(--text-color, #{$text-base});
+}
+
+// Header controls wrap cleanly when the month and nav buttons tighten on small viewports.
+.ui-datepicker-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+// Keep the current month/year centered even when the previous/next buttons occupy the same row.
+.ui-datepicker-title {
+  display: flex;
+  flex: 1;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+}

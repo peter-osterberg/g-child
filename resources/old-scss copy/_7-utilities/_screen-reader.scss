@@ -1,0 +1,10 @@
+@use '@lib' as *;
+
+.sr-only,
+.screen-reader-text {
+  @include sr-only;
+}
+
+.animate {
+  will-change: transform, opacity;
+}

@@ -1,0 +1,3 @@
+ignoredOptionalDependencies:
+  # Vite handles file watching; Sass is only used for compilation.
+  - '@parcel/watcher'
