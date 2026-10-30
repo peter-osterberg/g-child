@@ -1,0 +1,73 @@
+@use '../../_1-lib/functions/function-size' as *;
+
+// Imported from Figma with console/import-component-scss.mjs.
+/* stylelint-disable number-max-precision -- Preserve exported image aspect ratios. */
+
+$listing-post-parts: (
+  'card': (
+    'size': 'md',
+  ),
+  'image': (
+    'background': var(--bg-surface-3),
+    'border-width': 0px,
+    'border-radius': size(0px),
+    'box-shadow': none,
+    'aspect-ratio': 1.768645,
+  ),
+  'terms': (
+    'background': transparent,
+    'border-width': 0px,
+    'border-radius': size(0px),
+    'box-shadow': none,
+    'padding-block': size(0px),
+    'padding-inline': size(0px),
+    'gap': var(--spacing-2),
+  ),
+  'date': (
+    'color': var(--text-2),
+    'size': 'sm',
+    'settings': (
+      'spacing-above': false,
+      'spacing-below': true,
+    ),
+  ),
+  'title': (
+    'size': 'md',
+    'settings': (
+      'spacing-above': false,
+      'spacing-below': true,
+    ),
+  ),
+  'excerpt': (
+    'size': 'md',
+    'settings': (
+      'spacing-above': false,
+      'spacing-below': true,
+    ),
+  ),
+  'author': (
+    'color': var(--text-2),
+    'size': 'sm',
+    'settings': (
+      'spacing-above': false,
+      'spacing-below': false,
+    ),
+  ),
+  'read-more': (
+    'size': 'md',
+    'style': 'filled',
+    'settings': (
+      'color': 'primary',
+      'icon-only': false,
+      'round': false,
+      'icon-end': true,
+      'icon-start': false,
+      'icon-start-name': 'plus',
+      'icon-start-animation': 'none',
+      'icon-start-side': 'start',
+      'icon-end-name': 'arrow-right',
+      'icon-end-animation': 'slide',
+      'icon-end-side': 'end',
+    ),
+  ),
+);

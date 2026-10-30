@@ -1,17 +1,18 @@
 @use 'sass:map';
 @use 'sass:meta';
 @use 'sass:string';
+@use 'tokens';
 @use '../../_1-lib/functions/function-escape-svg' as svg;
-@use '../../_1-lib/functions/function-svg-icon' as icons;
-@use '../../_1-lib/variables' as config;
+@use 'svg-icons' as icons;
+@use '../../_2-themes/tokens' as theme;
 
 // Reuse the Font Awesome paths and weight selection used by the shared SVG helpers.
-@function image($name, $color: #000, $family: config.$icon-font-base, $weight: null) {
+@function image($name, $color: #000, $family: theme.$icon-font-base, $weight: null) {
   $image: null;
 
   @if $name == check {
     @if not $weight {
-      $weight: config.$check-icon-weight;
+      $weight: tokens.$check-icon-weight;
     }
 
     $image: icons.svg-check-icon($family, $weight, $color);
@@ -20,7 +21,7 @@
     $image: icons.svg-radio-icon($color);
   } @else if $name == chevron-down or $name == chevron-up {
     @if not $weight {
-      $weight: config.$input-icon-weight;
+      $weight: theme.$icon-weight-base;
     }
 
     $image: icons.svg-select-icon($family, $weight, $color);

@@ -1,5 +1,195 @@
-@forward './colors';
-@forward './design-tokens';
-@forward './motion-tokens';
-@forward './shadows';
-@forward './icon-font-tokens';
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:meta';
+@use 'tokens';
+@use '../_1-lib/mixins/mixin-api' as api;
+@use '../_1-lib/mixins/mixin-custom-media' as media;
+@use '../_4-components/forms/mixins' as forms;
+
+// Keep the existing page-builder background names while themes own their canvas.
+@function canvas-name($theme-name) {
+  @if $theme-name == light {
+    @return 'bg-canvas';
+  }
+
+  @return 'bg-canvas-#{$theme-name}';
+}
+
+// Each theme declares its canvas, color scheme and authored color differences.
+@mixin apply-theme($theme-name) {
+  $theme: map.get(tokens.$themes, $theme-name);
+
+  @if not $theme {
+    @error 'Unknown theme `#{$theme-name}`.';
+  }
+
+  @if not map.has-key($theme, 'bg-canvas') {
+    @error 'Theme `#{$theme-name}` needs bg-canvas.';
+  }
+
+  @if map.get($theme, 'color-scheme') != light and map.get($theme, 'color-scheme') != dark {
+    @error 'Theme `#{$theme-name}` needs a light or dark color-scheme.';
+  }
+
+  @each $name, $value in map.remove($theme, 'color-scheme') {
+    @if $name != 'bg-canvas' and not map.has-key(tokens.$theme-colors, $name) {
+      @error 'Unknown theme color `#{$name}`.';
+    }
+
+    --#{$name}: #{$value};
+  }
+
+  color-scheme: map.get($theme, 'color-scheme');
+}
+
+@include media.custom-media(tokens.$breakpoints);
+
+:root {
+  // Generate spacing variables
+  @each $name, $value in tokens.$spacing {
+    @include api.as-props('spacing', $name, $value, true);
+  }
+
+  // Generate font-family variables
+  @each $role, $value in tokens.$font-family {
+    @include api.as-props($role, 'font-family', $value);
+  }
+
+  // Generate font-weight variables
+  @each $name, $value in tokens.$font-weight {
+    @include api.as-props('font-weight', $name, $value);
+  }
+
+  // Generate role-specific font-weight variables
+  @each $role, $value in tokens.$role-font-weight {
+    @include api.as-props($role, 'font-weight', $value);
+  }
+
+  // Generate font-size variables
+  @each $name, $value in tokens.$font-size {
+    @include api.as-props('font-size', $name, $value, true);
+  }
+
+  // Generate typography spacing variables.
+  @each $size, $value in map.get(tokens.$font-space, 'body') {
+    @include api.as-props('body-space', $size, $value, true);
+  }
+
+  @each $size, $value in map.get(tokens.$font-space, 'heading') {
+    @include api.as-props('heading-space', $size, $value, true);
+  }
+
+  @each $size, $value in map.get(tokens.$font-space, 'heading-gap') {
+    @include api.as-props('heading-gap', $size, $value, true);
+  }
+
+  // Generate line-height variables
+  @each $role, $value in tokens.$line-height {
+    @include api.as-props($role, 'line-height', $value);
+  }
+
+  // Generate letter-spacing variables
+  @each $role, $value in tokens.$letter-spacing {
+    @include api.as-props($role, 'letter-spacing', $value);
+  }
+
+  // Generate radius variables
+  @each $name, $value in tokens.$radius {
+    @include api.as-props('radius', $name, $value, true);
+  }
+}
+
+:root {
+  @include api.theme-colors(tokens.$colors);
+
+  // The editor's background swatches keep their existing variable names.
+  @each $name, $values in map.remove(tokens.$themes, 'light') {
+    --#{canvas-name($name)}: #{map.get($values, 'bg-canvas')};
+  }
+}
+
+$theme-selectors: (':root');
+
+@each $name in map.keys(tokens.$themes) {
+  $theme-selectors: list.append($theme-selectors, "[data-theme='#{$name}']", comma);
+  $theme-selectors: list.append($theme-selectors, '.#{canvas-name($name)}', comma);
+}
+
+// Define shared colors once; bind aliases locally and reset nested theme overrides.
+#{$theme-selectors} {
+  @include api.theme-colors(tokens.$theme-colors);
+
+  color: var(--text-1);
+}
+
+// SVG images need resolved Light/Dark fills, independent of native color-scheme.
+@each $base-name in light, dark {
+  $selectors: ();
+
+  @if $base-name == light {
+    $selectors: (':root');
+  }
+
+  @each $name, $values in tokens.$themes {
+    @if map.get($values, 'color-scheme') == $base-name {
+      $selectors: list.append($selectors, "[data-theme='#{$name}']", comma);
+      $selectors: list.append($selectors, '.#{canvas-name($name)}', comma);
+    }
+  }
+
+  @if list.length($selectors) > 0 {
+    #{$selectors} {
+      @include forms.control-images(tokens.$colors, tokens.$theme-colors, map.get(tokens.$themes, $base-name));
+    }
+  }
+}
+
+@each $name, $values in tokens.$themes {
+  $selectors: ("[data-theme='#{$name}']", '.#{canvas-name($name)}');
+
+  @if $name == light {
+    $selectors: list.join((':root'), $selectors, comma);
+  }
+
+  #{$selectors} {
+    @include apply-theme($name);
+    @include forms.control-images(tokens.$colors, tokens.$theme-colors, $values, map.get(tokens.$themes, map.get($values, 'color-scheme')));
+  }
+
+  .#{canvas-name($name)} {
+    --bg-color: var(--bg-canvas);
+
+    background-color: var(--bg-color);
+  }
+}
+
+:root {
+  --focus-ring-offset: 2px;
+
+  @each $name, $value in tokens.$shared-values {
+    --#{$name}: #{meta.inspect($value)};
+  }
+
+  @each $size, $value in tokens.$shadows {
+    --shadow-#{$size}: #{meta.inspect($value)};
+  }
+}
+
+// Surface the Font Awesome family/weight config as runtime tokens so pseudo-elements and inline SVGs stay aligned.
+:root {
+  --icon-duotone-primary-color: #{tokens.$icon-duotone-primary-color};
+  --icon-duotone-primary-opacity: #{tokens.$icon-duotone-primary-opacity};
+  --icon-duotone-secondary-color: #{tokens.$icon-duotone-secondary-color};
+  --icon-duotone-secondary-opacity: #{tokens.$icon-duotone-secondary-opacity};
+  --icon-fa-brands: '#{tokens.$icon-font-brands}';
+  --icon-fa-duotone: '#{tokens.$icon-font-duotone}';
+  --icon-fa-pro: '#{tokens.$icon-font-pro}';
+  --icon-fa-sharp: '#{tokens.$icon-font-sharp}';
+  --icon-fa-sharp-duotone: '#{tokens.$icon-font-sharp-duotone}';
+  --icon-ff-base: '#{tokens.$icon-font-base}';
+  --icon-fw-base: #{tokens.$icon-weight-base};
+  --icon-light: 300;
+  --icon-regular: 400;
+  --icon-solid: 900;
+  --icon-thin: 100;
+}

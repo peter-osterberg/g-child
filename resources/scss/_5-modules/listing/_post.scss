@@ -1,5 +1,11 @@
+@use 'sass:map';
 @use '../../_4-components/card' as card;
+@use '../../_4-components/card/tokens' as cardTokens;
+@use '../../_4-components/button' as button;
+@use '../../_4-components/chip' as chip;
 @use '../../_4-components/typography' as typography;
+@use '../../_1-lib/mixins/mixin-links' as links;
+@use 'tokens';
 
 @layer modules {
   .module-listing {
@@ -8,22 +14,28 @@
     }
 
     .listing-post-inner {
-      --card-bg: var(--bg-surface-1);
-      --card-border: var(--border);
+      $size: map.get(tokens.$listing-post-parts, 'card', 'size');
+      $link-targets: ('.listing-item-read-more > a', '.listing-item-title a');
 
-      @include card.card;
+      @include card.card($size);
+      @include card.interactive;
+      @include links.overlay-link-before($link-targets);
+      @include links.overlay-focus-ring($link-targets);
 
       position: relative;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: var(--spacing-4);
+      gap: map.get(cardTokens.$card-sizes, $size, 'gap');
       block-size: 100%;
     }
 
-    .listing-item-overlay-link {
-      --focus-ring-offset: 2px;
+    // The visible link owns the click area and keyboard focus when present.
+    .listing-post-inner:has(.listing-item-read-more > a, .listing-item-title a) > .listing-item-overlay-link {
+      display: none;
+    }
 
+    .listing-item-overlay-link {
       position: absolute;
       inset: 0;
       z-index: 1;
@@ -31,15 +43,25 @@
     }
 
     .listing-item-image-wrapper {
+      $image: map.get(tokens.$listing-post-parts, 'image');
+
       min-inline-size: 0;
+      aspect-ratio: map.get($image, 'aspect-ratio');
       overflow: clip;
-      border-radius: var(--radius-sm);
+      background: map.get($image, 'background');
+      border-width: map.get($image, 'border-width');
+      border-radius: map.get($image, 'border-radius');
+      box-shadow: map.get($image, 'box-shadow');
+    }
+
+    .listing-item-image-wrapper :where(picture, img) {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
     }
 
     .listing-item-image-wrapper img {
-      display: block;
-      inline-size: 100%;
-      block-size: auto;
+      object-fit: cover;
     }
 
     .listing-item-text-wrapper {
@@ -48,45 +70,108 @@
       display: flex;
       flex: 1;
       flex-direction: column;
-      gap: var(--spacing-3);
       min-inline-size: 0;
-      color: var(--text-2);
+      color: var(--text-1);
       overflow-wrap: anywhere;
     }
 
-    .listing-item-meta-wrapper {
+    .listing-item-meta-wrapper,
+    .listing-item-terms {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--spacing-2);
+      gap: map.get(tokens.$listing-post-parts, 'terms', 'gap');
       align-items: center;
     }
 
+    .listing-item-terms {
+      @include typography.size(sm);
+    }
+
+    .listing-item-term:not(:has(a)),
+    .listing-item-term > a {
+      @include chip.chip;
+    }
+
     .listing-item-title {
+      $title: map.get(tokens.$listing-post-parts, 'title');
+
       @include typography.heading;
+      @include typography.size(map.get($title, 'size'));
 
       margin: 0;
       color: var(--text-1);
+
+      @if map.get($title, 'settings', 'spacing-below') {
+        margin-block-end: var(--_typography-heading-space);
+      }
     }
 
-    .listing-item-date,
-    .listing-item-author {
-      font-size: var(--font-size-sm);
+    @each $part in date, excerpt, author {
+      .listing-item-#{$part} {
+        $values: map.get(tokens.$listing-post-parts, $part);
+
+        @include typography.body;
+        @include typography.size(map.get($values, 'size'));
+
+        margin: 0;
+
+        @if map.has-key($values, 'color') {
+          color: map.get($values, 'color');
+        }
+
+        @if map.get($values, 'settings', 'spacing-below') {
+          margin-block-end: var(--_typography-body-space);
+        }
+      }
     }
 
     .listing-item-excerpt > p {
       margin: 0;
     }
 
-    .listing-item-read-more {
-      margin-block-start: auto;
+    .listing-item-title a {
+      position: static;
+      color: inherit;
     }
 
-    .listing-item-title a,
-    .listing-item-read-more a,
     .listing-item-terms a {
       position: relative;
       z-index: 2;
       color: inherit;
+    }
+
+    .listing-item-read-more > a {
+      $values: map.get(tokens.$listing-post-parts, 'read-more');
+      $settings: map.get($values, 'settings');
+
+      @include button.button($color: map.get($settings, 'color'), $variant: map.get($values, 'style'), $size: map.get($values, 'size'));
+
+      @if map.get($settings, 'icon-start') {
+        @include button.icon-start($name: map.get($settings, 'icon-start-name'), $animation: map.get($settings, 'icon-start-animation'));
+      }
+
+      @if map.get($settings, 'icon-end') {
+        @include button.icon-end($name: map.get($settings, 'icon-end-name'), $animation: map.get($settings, 'icon-end-animation'));
+      }
+
+      position: static;
+    }
+
+    .listing-item-read-more > a::before,
+    .listing-item-title a::before {
+      border-radius: var(--card-border-radius, var(--_card-border-radius));
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .listing-item-image-wrapper img {
+        transition: scale var(--motion-duration) var(--motion-easing);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .listing-post-inner:has(.listing-item-read-more > a:hover, .listing-item-title a:hover) .listing-item-image-wrapper img {
+          scale: 1.03;
+        }
+      }
     }
   }
 }

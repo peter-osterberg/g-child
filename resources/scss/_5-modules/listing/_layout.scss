@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '@lib/tokens' as tokens;
+@use '@themes/tokens' as tokens;
 
 @layer modules {
   .module-listing .listing-wrapper {

@@ -1,4 +1,7 @@
+@use '@themes/tokens' as tokens;
 @use '@lib' as *;
+
+@include custom-media(tokens.$breakpoints);
 
 @layer theme, base, components.root, components.color, components.variant, components.size, components.extend, components, modules, layouts, utilities;
 

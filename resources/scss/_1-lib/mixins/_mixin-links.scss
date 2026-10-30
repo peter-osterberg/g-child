@@ -2,7 +2,7 @@
 
 // Overlay link helpers
 
-$overlay-targets:        ('.blurb-read-more', '.listing-item-title a', '.listing-item-read-more a') !default;
+$overlay-targets:        ('> a',) !default;
 $overlay-enabled-filter: ':not(:disabled, [aria-disabled="true"])' !default;
 
 @mixin overlay-host {

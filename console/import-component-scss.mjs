@@ -13,7 +13,8 @@ if (!sourcePath) {
 
 const source = readFileSync(sourcePath, 'utf8');
 const groups = {
-  button: ['button', 'button-sizes'],
+  button: ['button-sizes'],
+  search: ['search'],
   card: ['card', 'card-sizes', 'card-states'],
   forms: ['input', 'input-states', 'input-icon', 'label', 'field-message', 'field-message-states', 'choice', 'choice-states', 'checkbox', 'radio'],
 };
@@ -35,6 +36,18 @@ function exportedMap(name) {
   return source.slice(start, end + 3);
 }
 
+/**
+ * Keep styling values; WordPress owns content and the module owns component roles.
+ *
+ * @param {string} name Exported map name.
+ * @returns {string} Sass map without example content or component metadata.
+ */
+function stylingMap(name) {
+  return exportedMap(name)
+    .replace(/^([ \t]+)["']content["']:\s*\(\n[\s\S]*?^\1\),?\n/gm, '')
+    .replace(/^[ \t]+["']component["']:[^\n]*\n/gm, '');
+}
+
 const values = [...exportedMap('variable-values').matchAll(/^ {2}["']([\w-]+)["']:\s*(.+),$/gm)]
   .map(([, name, value]) => [name, value]);
 
@@ -53,6 +66,62 @@ function valueMap(name, pattern) {
 }
 
 const componentValues = new Map(values);
+
+/**
+ * Resolve shadow geometry into complete values while keeping the theme color live.
+ *
+ * @returns {string} Sass shadow scale with one value per size.
+ */
+function shadowMap() {
+  const entries = values.filter(([name]) => name.startsWith('shadow-') && componentValues.has(`${name}-x`));
+  entries.sort(([a], [b]) => a.localeCompare(b));
+
+  return `$shadows: (\n${entries.map(([name, value]) => {
+    const shadow = value.replace(/var\(--(shadow-[\w-]+-(?:x|y|blur|spread))\)/g, (reference, part) => {
+      if (!componentValues.has(part)) {
+        throw new Error(`Missing exported shadow value: ${part}`);
+      }
+
+      return componentValues.get(part);
+    });
+
+    return `  '${name.slice(7)}': ${shadow},`;
+  }).join('\n')}\n);`;
+}
+
+/**
+ * Components reference a shared shadow instead of repeating its individual parts.
+ *
+ * @param {string} content Exported Sass map.
+ * @returns {string} Sass map with complete shadow references.
+ */
+function compactShadowReferences(content) {
+  return content.replace(/var\(--(shadow-[\w-]+)-x\)\s+var\(--\1-y\)\s+var\(--\1-blur\)\s+var\(--\1-spread\)\s+var\(--shadow-color\)/g, 'var(--$1)');
+}
+
+/**
+ * Update an imported scale without replacing the other global design values.
+ *
+ * @param {string} content Global tokens file.
+ * @param {string} name Sass map name.
+ * @param {string} replacement Imported Sass map.
+ * @returns {string} Updated global tokens file.
+ */
+function replaceTokenMap(content, name, replacement) {
+  const start = content.indexOf(`$${name}: (`);
+
+  if (start < 0) {
+    return `${content.trimEnd()}\n\n${replacement}\n`;
+  }
+
+  const end = content.indexOf('\n);', start);
+
+  if (end < 0) {
+    throw new Error(`Unterminated global map: $${name}`);
+  }
+
+  return content.slice(0, start) + replacement + content.slice(end + 3);
+}
 
 /**
  * Resolve component aliases while importing, leaving final values in each map.
@@ -76,13 +145,22 @@ function inlineComponentValues(content, family) {
 // Validate everything before writing. The plugin's top-level map terminator is unindented.
 const outputs = Object.entries(groups).map(([family, names]) => {
   const maps = names.map((name) => {
-    const content = exportedMap(name);
+    let content = compactShadowReferences(exportedMap(name));
+
+    if (family === 'forms') {
+      // Body typography is owned by the global role; sizes and control visuals stay local.
+      content = content.replace(/^[ \t]+["'](?:font-family|font-weight|line-height|letter-spacing)["']:[^\n]*\n/gm, '');
+    }
 
     return family === 'forms' ? content : inlineComponentValues(content, family);
   });
 
   if (family === 'button') {
-    maps.unshift('$colors: (primary, secondary);\n$variants: (filled, outline, ghost, text);');
+    maps.unshift("$colors: (primary, secondary);\n$variants: (filled, outline, ghost, text);\n$icon-button-start: 'angle-left';\n$icon-button-end: 'angle-right';");
+  }
+
+  if (family === 'forms') {
+    maps.unshift('$check-icon-weight: 900;');
   }
 
 
@@ -90,19 +168,25 @@ const outputs = Object.entries(groups).map(([family, names]) => {
 });
 
 outputs.push([
-  'resources/scss/_1-lib/_shared-values.scss',
-  `// Imported shared scales from Figma.\n${valueMap('shared-values', /^(?:control-|shadow-|border-width-|opacity-|motion-|focus-ring-width$|icon-font-family$|icon-font-weight$)/)}\n`,
+  'resources/scss/_5-modules/listing/_tokens.scss',
+  `// Imported from Figma with console/import-component-scss.mjs.\n/* stylelint-disable number-max-precision -- Preserve exported image aspect ratios. */\n\n${stylingMap('listing-post-parts')}\n`,
 ]);
 
+const globalTokensPath = 'resources/scss/_2-themes/_tokens.scss';
+let globalTokens = readFileSync(path.join(root, globalTokensPath), 'utf8');
+globalTokens = replaceTokenMap(globalTokens, 'shared-values', valueMap('shared-values', /^(?:control-|border-width-|opacity-|motion-|focus-ring-width$|icon-font-family$|icon-font-weight$)/));
+globalTokens = replaceTokenMap(globalTokens, 'shadows', shadowMap());
+outputs.push([globalTokensPath, globalTokens]);
+
 for (const [file, content] of outputs) {
-  const functionPath = file.includes('/_4-components/') ? '../../_1-lib/functions' : './functions';
+  const functionPath = file.includes('/_2-themes/') ? '../_1-lib/functions' : '../../_1-lib/functions';
   const imports = [];
 
-  if (/\b(?:size|rem)\(/.test(content)) {
+  if (file !== globalTokensPath && /\b(?:size|rem)\(/.test(content)) {
     imports.push(`@use '${functionPath}/function-size' as *;`);
   }
 
-  if (/\balpha\(/.test(content)) {
+  if (file !== globalTokensPath && /\balpha\(/.test(content)) {
     imports.push(`@use '${functionPath}/function-color-mix' as *;`);
   }
 

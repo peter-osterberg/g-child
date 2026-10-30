@@ -184,14 +184,6 @@
     "dark": "(\n    'bg-canvas': var(--neutral-950),\n    'color-scheme': dark,\n  )",
     "pink": "(\n    'bg-canvas': var(--red-100),\n    'color-scheme': light,\n  )"
   },
-  "shadow": {
-    "base": "0 size(1px) size(3px) rgb(0 0 0 / 10%)",
-    "elevation-100": "(\n    0px 1px 3px 0px alpha(var(--gray-950), 15%),\n    0px 0px 0.5px 0px alpha(var(--gray-950), 30%),\n  )",
-    "elevation-200": "(\n    0px 1px 3px 0px alpha(var(--gray-950), 10%),\n    0px 3px 8px 0px alpha(var(--gray-950), 10%),\n    0px 0px 0.5px 0px alpha(var(--gray-950), 18%),\n  )",
-    "elevation-300": "(\n    0px 1px 3px 0px alpha(var(--gray-950), 10%),\n    0px 3px 12px 0px alpha(var(--gray-950), 12%),\n    0px 0px 0.5px 0px alpha(var(--gray-950), 15%),\n  )",
-    "elevation-400": "(\n    0px 2px 5px 0px alpha(var(--gray-950), 15%),\n    0px 10px 16px 0px alpha(var(--gray-950), 12%),\n    0px 0px 0.5px 0px alpha(var(--gray-950), 12%),\n  )",
-    "elevation-500": "(\n    0px 2px 5px 0px alpha(var(--gray-950), 15%),\n    0px 10px 24px 0px alpha(var(--gray-950), 18%),\n    0px 0px 0.5px 0px alpha(var(--gray-950), 8%),\n  )"
-  },
   "font-family": {
     "body": "'Inter'",
     "heading": "'Inter'",
@@ -248,33 +240,5 @@
     "none": "size(0px)",
     "pill": "size(9999px)",
     "round": "size(50px)"
-  },
-  "duration": {
-    "fast": "0.18s",
-    "normal": "0.28s",
-    "slow": "0.48s",
-    "popup": "var(--duration-normal)",
-    "base": "var(--duration-normal)"
-  },
-  "easing": {
-    "in": "cubic-bezier(0.32, 0, 0.67, 0)",
-    "out": "cubic-bezier(0.16, 1, 0.3, 1)",
-    "in-out": "cubic-bezier(0.65, 0, 0.35, 1)",
-    "popup": "var(--easing-out)",
-    "base": "var(--easing-out)"
-  },
-  "cards": {
-    "sm": "(\n    'py': var(--spacing-4),\n    'px': var(--spacing-4),\n    'br': var(--radius-sm),\n  )",
-    "md": "(\n    'py': var(--spacing-8),\n    'px': var(--spacing-8),\n    'br': var(--radius-sm),\n  )",
-    "lg": "(\n    'py': var(--spacing-12),\n    'px': var(--spacing-12),\n    'br': var(--radius-lg),\n  )"
-  },
-  "layout": {
-    "design-width": "420px",
-    "max-width-logo": "90px",
-    "mobile-element": "'true'",
-    "desktop-element": "'false'",
-    "filter-max-width": "500px",
-    "filter-min-width": "250px",
-    "button-styleguide-gap": "300px"
   }
 }

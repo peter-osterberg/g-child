@@ -161,7 +161,10 @@ $theme-colors: (
   'secondary-border-pressed': light-dark(var(--amber-800), var(--amber-200)),
   'secondary-on-color': light-dark(var(--neutral-50), var(--neutral-950)),
   'secondary-on-color-hover': light-dark(var(--neutral-50), var(--neutral-950)),
-  'secondary-on-color-pressed': light-dark(var(--neutral-50), var(--neutral-950)),
+  'secondary-on-color-pressed': light-dark(
+    var(--neutral-50),
+    var(--neutral-950)
+  ),
   'secondary-text': light-dark(var(--amber-700), var(--amber-300)),
   'warning-bg': light-dark(var(--amber-50), var(--amber-950)),
   'warning-on-color': light-dark(var(--amber-700), var(--amber-300)),
@@ -189,7 +192,10 @@ $theme-colors: (
   'primary-bg-subtle-pressed': alpha(var(--primary-bg), var(--opacity-pressed)),
   'secondary-bg-subtle': alpha(var(--secondary-bg), var(--opacity-subtle)),
   'secondary-bg-subtle-hover': alpha(var(--secondary-bg), var(--opacity-hover)),
-  'secondary-bg-subtle-pressed': alpha(var(--secondary-bg), var(--opacity-pressed)),
+  'secondary-bg-subtle-pressed': alpha(
+    var(--secondary-bg),
+    var(--opacity-pressed)
+  ),
 );
 $themes: (
   'light': (
@@ -203,38 +209,6 @@ $themes: (
   'pink': (
     'bg-canvas': var(--red-100),
     'color-scheme': light,
-  ),
-);
-
-// Track whether the dark theme map is available.
-$has-dark-theme: map.has-key($themes, 'dark');
-
-// Shadow tokens
-$shadow: (
-  'base': 0 size(1px) size(3px) rgb(0 0 0 / 10%),
-  'elevation-100': (
-    size(0) size(1) size(3) size(0) alpha(var(--gray-950), 15%),
-    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 30%),
-  ),
-  'elevation-200': (
-    size(0) size(1) size(3) size(0) alpha(var(--gray-950), 10%),
-    size(0) size(3) size(8) size(0) alpha(var(--gray-950), 10%),
-    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 18%),
-  ),
-  'elevation-300': (
-    size(0) size(1) size(3) size(0) alpha(var(--gray-950), 10%),
-    size(0) size(3) size(12) size(0) alpha(var(--gray-950), 12%),
-    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 15%),
-  ),
-  'elevation-400': (
-    size(0) size(2) size(5) size(0) alpha(var(--gray-950), 15%),
-    size(0) size(10) size(16) size(0) alpha(var(--gray-950), 12%),
-    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 12%),
-  ),
-  'elevation-500': (
-    size(0) size(2) size(5) size(0) alpha(var(--gray-950), 15%),
-    size(0) size(10) size(24) size(0) alpha(var(--gray-950), 18%),
-    size(0) size(0) size(0.5) size(0) alpha(var(--gray-950), 8%),
   ),
 );
 
@@ -344,48 +318,42 @@ $radius: (
   'round': size(50px),
 );
 
-// Motion tokens
+// Imported shared scales.
+// Imported shared scales from Figma.
+$shared-values: (
+  'border-width-lg': 4px,
+  'border-width-md': 2px,
+  'border-width-none': 0px,
+  'border-width-sm': 1px,
+  'control-lg-min-height': rem(52px),
+  'control-md-min-height': rem(44px),
+  'control-sm-min-height': rem(36px),
+  'focus-ring-width': 2px,
+  'icon-font-family': 'Font Awesome 7 Pro',
+  'icon-font-weight': 400,
+  'motion-duration': 100ms,
+  'motion-easing': ease-out,
+  'opacity-disabled': 0.4,
+  'opacity-hover': 0.24,
+  'opacity-overlay': 0.6,
+  'opacity-pressed': 0.48,
+  'opacity-subtle': 0.08,
+);
+$shadows: (
+  'lg': size(0px) size(12px) size(32px) size(-4px) var(--shadow-color),
+  'md': size(0px) size(4px) size(12px) size(-2px) var(--shadow-color),
+  'sm': size(0px) size(2px) size(4px) size(0px) var(--shadow-color),
+);
 
-$duration: (
-  'fast': 0.18s,
-  'normal': 0.28s,
-  'slow': 0.48s,
-  'popup': var(--duration-normal),
-  'base': var(--duration-normal),
-);
-$easing: (
-  'in': cubic-bezier(0.32, 0, 0.67, 0),
-  'out': cubic-bezier(0.16, 1, 0.3, 1),
-  'in-out': cubic-bezier(0.65, 0, 0.35, 1),
-  'popup': var(--easing-out),
-  'base': var(--easing-out),
-);
-
-// Card size variants
-
-$cards: (
-  'sm': (
-    'py': var(--spacing-4),
-    'px': var(--spacing-4),
-    'br': var(--radius-sm),
-  ),
-  'md': (
-    'py': var(--spacing-8),
-    'px': var(--spacing-8),
-    'br': var(--radius-sm),
-  ),
-  'lg': (
-    'py': var(--spacing-12),
-    'px': var(--spacing-12),
-    'br': var(--radius-lg),
-  ),
-);
-$layout: (
-  'design-width': size(420),
-  'max-width-logo': size(90),
-  'mobile-element': 'true',
-  'desktop-element': 'false',
-  'filter-max-width': size(500),
-  'filter-min-width': size(250),
-  'button-styleguide-gap': size(300),
-);
+// Shared icon families and defaults. Component-specific icon choices stay local.
+$icon-font-pro: 'Font Awesome 7 Pro';
+$icon-font-duotone: 'Font Awesome 7 Duotone';
+$icon-font-sharp: 'Font Awesome 7 Sharp';
+$icon-font-sharp-duotone: 'Font Awesome 7 Sharp Duotone';
+$icon-font-brands: 'Font Awesome 7 Brands';
+$icon-font-base: map.get($shared-values, 'icon-font-family');
+$icon-weight-base: map.get($shared-values, 'icon-font-weight');
+$icon-duotone-primary-color: currentcolor;
+$icon-duotone-primary-opacity: 0.5;
+$icon-duotone-secondary-color: currentcolor;
+$icon-duotone-secondary-opacity: 1;

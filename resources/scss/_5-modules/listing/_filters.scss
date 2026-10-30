@@ -1,7 +1,10 @@
+@use 'sass:map';
 @use '../../_4-components/button' as button;
 @use '../../_4-components/chip' as chip;
 @use '../../_4-components/dropdown' as dropdown;
 @use '../../_4-components/forms' as forms;
+@use '../../_4-components/forms/tokens' as formTokens;
+@use '../../_4-components/search/tokens' as search;
 
 @layer modules {
   .module-listing {
@@ -39,12 +42,43 @@
     }
 
     .search-input-wrapper {
-      min-inline-size: 0;
+      @include forms.input-leading-icon('magnifying-glass');
+
+      grid-row: 2;
     }
 
     .listing-search-btn,
     .listing-clear-filter {
       @include button.button;
+    }
+
+    .listing-search-form:has(.listing-search-btn.btn-icon-only) {
+      column-gap: 0;
+
+      .search-input-wrapper {
+        grid-column: 1 / -1;
+      }
+
+      input {
+        padding-inline-end: calc(#{map.get(search.$search, 'inset-height')} + var(--spacing-4));
+      }
+    }
+
+    .listing-search-btn.btn-icon-only {
+      --_button-icon-only-font-size: #{map.get(formTokens.$input-icon, 'icon-size')};
+      --button-radius: #{map.get(formTokens.$input, 'border-radius')};
+
+      @include button.reset-appearance;
+      @include button.variant(ghost);
+      @include button.icon-only($name: 'arrow-turn-down-left');
+
+      z-index: 1;
+      grid-row: 2;
+      grid-column: 2;
+      align-self: center;
+      inline-size: map.get(search.$search, 'inset-height');
+      block-size: map.get(search.$search, 'inset-height');
+      margin-inline-end: var(--spacing-2);
     }
 
     .listing-clear-filter.disabled {

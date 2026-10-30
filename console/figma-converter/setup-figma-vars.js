@@ -34,7 +34,7 @@ async function runFigmaPipeline() {
 		await runStep('merge-scss-maps-and-lists', () =>
 			mergeScssMapsAndLists({
 				sourceFile: './resources/lib/figma/figma-output.scss',
-				targetFile: './resources/scss/_1-lib/_tokens.scss',
+				targetFile: './resources/scss/_2-themes/_tokens.scss',
 			}),
 		);
 	} catch (error) {

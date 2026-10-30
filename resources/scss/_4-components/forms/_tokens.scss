@@ -2,6 +2,7 @@
 
 // Imported from Figma with console/import-component-scss.mjs.
 
+$check-icon-weight: 900;
 $input: (
   'background': var(--bg-surface-1),
   'border-color': var(--border),
@@ -13,11 +14,7 @@ $input: (
   'padding-inline': var(--spacing-3),
   'gap': var(--spacing-3),
   'field-gap': var(--spacing-2),
-  'font-family': var(--body-font-family),
   'font-size': var(--font-size-sm),
-  'font-weight': var(--body-font-weight),
-  'line-height': 1.5,
-  'letter-spacing': 0em,
   'text-transform': none,
   'text-decoration': none,
   'color': var(--text-1),
@@ -47,20 +44,12 @@ $input-icon: (
 );
 $label: (
   'color': var(--text-2),
-  'font-family': var(--body-font-family),
   'font-size': var(--font-size-sm),
-  'font-weight': var(--body-font-weight),
-  'line-height': 1.5,
-  'letter-spacing': 0em,
   'text-transform': none,
   'text-decoration': none,
 );
 $field-message: (
   'color': var(--text-2),
-  'font-family': var(--body-font-family),
-  'font-weight': var(--body-font-weight),
-  'line-height': 1.5,
-  'letter-spacing': 0em,
   'text-transform': none,
   'text-decoration': none,
   'font-size': var(--font-size-md),

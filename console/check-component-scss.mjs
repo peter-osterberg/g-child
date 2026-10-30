@@ -70,7 +70,9 @@ const source = `
 const css = postcss.parse(compileString(source, {
   loadPaths: ['resources/scss/_4-components'],
   importers: [{
-    findFileUrl: (url) => url.startsWith('@lib/')
+    findFileUrl: (url) => url.startsWith('@themes/')
+      ? new URL(`../resources/scss/_2-themes/${url.slice(8)}`, import.meta.url)
+      : url.startsWith('@lib/')
       ? new URL(`../resources/scss/_1-lib/${url.slice(5)}`, import.meta.url)
       : null,
   }],
@@ -179,7 +181,7 @@ css.walkRules((rule) => {
 assert.equal(slideRules, 9, 'Each animated icon needs a transition and focus, pressed and hover movement.');
 assert.throws(() => compileString("@use 'button'; .invalid { @include button.icon-end($animation: spin); }", {
   loadPaths: ['resources/scss/_4-components'],
-  importers: [{ findFileUrl: (url) => url.startsWith('@lib/') ? new URL(`../resources/scss/_1-lib/${url.slice(5)}`, import.meta.url) : null }],
+  importers: [{ findFileUrl: (url) => url.startsWith('@themes/') ? new URL(`../resources/scss/_2-themes/${url.slice(8)}`, import.meta.url) : url.startsWith('@lib/') ? new URL(`../resources/scss/_1-lib/${url.slice(5)}`, import.meta.url) : null }],
 }), /Unknown button icon animation/);
 
 const currentPage = declarations(['.module-listing .listing-pagination .page-numbers.current']);
@@ -397,7 +399,8 @@ css.walkRules((rule) => {
     assert.equal(rule.nodes.filter((node) => node.prop === '--_card-padding-block').length, 1);
   }
 });
-assert(![...rootValues.keys()].some((name) => /^--(?:button|card)-/.test(name)), 'Component defaults must not leak onto :root.');
+assert(![...rootValues.keys()].some((name) => /^--card-/.test(name)), 'Card defaults must not leak onto :root.');
+assert.deepEqual([...rootValues.keys()].filter((name) => name.startsWith('--button-')).sort(), ['--button-font-family', '--button-font-weight', '--button-letter-spacing', '--button-line-height']);
 assert.equal(rootValues.get('--focus-ring-width'), '2px');
 assert.equal(rootValues.get('--focus-ring-offset'), '2px');
 assert(!/\b(?:size|rem|alpha)\(/.test(built.toString()), 'Sass and PostCSS must consume all theme function calls.');

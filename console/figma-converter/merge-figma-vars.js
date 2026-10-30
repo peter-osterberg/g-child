@@ -475,7 +475,7 @@ function mergeScssMapsAndLists(sourceFilePath, targetFilePath) {
  */
 function main(options = {}) {
 	const sourceFilePath = options.sourceFile || './resources/lib/figma/figma-output.scss';
-	const targetFilePath = options.targetFile || './resources/scss/_1-lib/_tokens.scss';
+	const targetFilePath = options.targetFile || './resources/scss/_2-themes/_tokens.scss';
 
 	mergeScssMapsAndLists(sourceFilePath, targetFilePath);
 }

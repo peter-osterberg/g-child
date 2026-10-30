@@ -3,8 +3,7 @@
 $card: (
   'background': var(--bg-surface-1),
   'border-color': var(--border),
-  'box-shadow': var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur)
-  var(--shadow-sm-spread) var(--shadow-color),
+  'box-shadow': var(--shadow-sm),
 );
 $card-sizes: (
   'sm': (
@@ -40,22 +39,19 @@ $card-states: (
   'default': (
     'background': var(--bg-surface-1),
     'border-color': var(--border),
-    'box-shadow': var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur)
-    var(--shadow-sm-spread) var(--shadow-color),
+    'box-shadow': var(--shadow-sm),
     'opacity': 1,
   ),
   'hover': (
     'background': var(--bg-surface-2),
     'border-color': var(--border-strong),
-    'box-shadow': var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur)
-    var(--shadow-md-spread) var(--shadow-color),
+    'box-shadow': var(--shadow-md),
     'opacity': 1,
   ),
   'focus': (
     'background': var(--bg-surface-1),
     'border-color': var(--primary-border),
-    'box-shadow': var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur)
-    var(--shadow-sm-spread) var(--shadow-color),
+    'box-shadow': var(--shadow-sm),
     'opacity': 1,
   ),
 );

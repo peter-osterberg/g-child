@@ -1,0 +1,14 @@
+// Duotone SVGs read the same CSS variables as the font-based icon API.
+:where([id*='font-awesome-duotone']) {
+  path:first-child {
+    --svg-icon-color: var(--icon-duotone-primary-color, currentcolor);
+
+    opacity: var(--icon-duotone-primary-opacity, 0.6);
+  }
+
+  path:not(:first-child) {
+    --svg-icon-color: var(--icon-duotone-secondary-color, currentcolor);
+
+    opacity: var(--icon-duotone-secondary-opacity, 1);
+  }
+}

@@ -1,8 +1,7 @@
-@use '_2-themes/design-tokens';
-@use '_2-themes/colors';
-@use '_2-themes/shared-values';
-@use '_2-themes/icon-font-tokens';
+@use '_2-themes' as theme;
+@use '_3-base/icons';
 @use '_3-base/focus';
+@use '_3-base/typography' as baseTypography;
 @use '_4-components/typography/classes' as typography;
 @use '_4-components/button/classes' as button;
 @use '_4-components/card/classes' as card;

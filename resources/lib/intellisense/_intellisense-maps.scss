@@ -200,34 +200,6 @@ $themes: (
   ),
 );
 
-$shadow: (
-  'base': 0 size(1px) size(3px) rgb(0 0 0 / 10%),
-  'elevation-100': (
-    0px 1px 3px 0px alpha(var(--gray-950), 15%),
-    0px 0px 0.5px 0px alpha(var(--gray-950), 30%),
-  ),
-  'elevation-200': (
-    0px 1px 3px 0px alpha(var(--gray-950), 10%),
-    0px 3px 8px 0px alpha(var(--gray-950), 10%),
-    0px 0px 0.5px 0px alpha(var(--gray-950), 18%),
-  ),
-  'elevation-300': (
-    0px 1px 3px 0px alpha(var(--gray-950), 10%),
-    0px 3px 12px 0px alpha(var(--gray-950), 12%),
-    0px 0px 0.5px 0px alpha(var(--gray-950), 15%),
-  ),
-  'elevation-400': (
-    0px 2px 5px 0px alpha(var(--gray-950), 15%),
-    0px 10px 16px 0px alpha(var(--gray-950), 12%),
-    0px 0px 0.5px 0px alpha(var(--gray-950), 12%),
-  ),
-  'elevation-500': (
-    0px 2px 5px 0px alpha(var(--gray-950), 15%),
-    0px 10px 24px 0px alpha(var(--gray-950), 18%),
-    0px 0px 0.5px 0px alpha(var(--gray-950), 8%),
-  ),
-);
-
 $font-family: (
   'body': 'Inter',
   'heading': 'Inter',
@@ -321,49 +293,5 @@ $radius: (
   'none': size(0px),
   'pill': size(9999px),
   'round': size(50px),
-);
-
-$duration: (
-  'fast': 0.18s,
-  'normal': 0.28s,
-  'slow': 0.48s,
-  'popup': var(--duration-normal),
-  'base': var(--duration-normal),
-);
-
-$easing: (
-  'in': cubic-bezier(0.32, 0, 0.67, 0),
-  'out': cubic-bezier(0.16, 1, 0.3, 1),
-  'in-out': cubic-bezier(0.65, 0, 0.35, 1),
-  'popup': var(--easing-out),
-  'base': var(--easing-out),
-);
-
-$cards: (
-  'sm': (
-    'py': var(--spacing-4),
-    'px': var(--spacing-4),
-    'br': var(--radius-sm),
-  ),
-  'md': (
-    'py': var(--spacing-8),
-    'px': var(--spacing-8),
-    'br': var(--radius-sm),
-  ),
-  'lg': (
-    'py': var(--spacing-12),
-    'px': var(--spacing-12),
-    'br': var(--radius-lg),
-  ),
-);
-
-$layout: (
-  'design-width': 420px,
-  'max-width-logo': 90px,
-  'mobile-element': 'true',
-  'desktop-element': 'false',
-  'filter-max-width': 500px,
-  'filter-min-width': 250px,
-  'button-styleguide-gap': 300px,
 );
 

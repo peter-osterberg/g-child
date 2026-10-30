@@ -404,7 +404,7 @@ function copyScssMaps(sourceFile, scssTargetFile, jsonTargetFile) {
  * @returns {void}
  */
 function main(options = {}) {
-	const sourceFile = path.resolve(options.sourceFile || './resources/scss/_1-lib/_tokens.scss');
+	const sourceFile = path.resolve(options.sourceFile || './resources/scss/_2-themes/_tokens.scss');
 	const scssTargetFile = path.resolve(options.scssTargetFile || './resources/lib/intellisense/_intellisense-maps.scss');
 	const jsonTargetFile = path.resolve(options.jsonTargetFile || './resources/lib/intellisense/_intellisense-maps.json');
 

@@ -20,7 +20,7 @@ $themes: (
 );
 ```
 
-Exemplet visar strukturen. Projektets faktiska färgval finns i `_1-lib/_tokens.scss`.
+Exemplet visar strukturen. Projektets faktiska färgval finns i `_2-themes/_tokens.scss`.
 
 - `$colors` innehåller paletten.
 - `$theme-colors` innehåller gemensamma semantiska färger. Light/Dark-par använder `light-dark()`.
@@ -34,7 +34,7 @@ Gemensamma färgdefinitioner skrivs i en enda regel för root och temagränser. 
 
 Light och Dark är basmodes. För varje extra mode jämför exporten dess färgvärden med båda baserna och väljer den med flest matchningar; Light väljs vid lika resultat. Temat får alltid sin `bg-canvas` och basens `color-scheme`. Övriga värden exporteras bara när de skiljer sig från basen. Ett mode utan `bg/canvas` ger exportfel.
 
-Komponentimportören importerar endast komponentmaps. Globala färgmaps förs över till `_1-lib/_tokens.scss` separat.
+Komponentimportören importerar komponentmaps och gemensamma skalor till `_shared-tokens.scss`. Globala färgmaps förs över till `_2-themes/_tokens.scss` separat.
 
 ## Lägga till ett tema
 

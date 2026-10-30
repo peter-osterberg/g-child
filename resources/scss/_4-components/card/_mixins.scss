@@ -49,6 +49,10 @@
       @include state(hover, $from: default);
     }
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: box-shadow var(--motion-duration) var(--motion-easing);
+  }
 }
 
 @mixin state($state, $from: null) {

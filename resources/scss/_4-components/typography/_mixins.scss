@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '@lib/tokens' as tokens;
+@use '@themes/tokens' as tokens;
 
 // Apply the body font family, weight, line height and letter spacing.
 // Keep size separate so this role can be combined with any text size.

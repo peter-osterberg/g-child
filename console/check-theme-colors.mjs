@@ -41,7 +41,7 @@ function compile(tokens) {
   return postcss.parse(compileString('@use "_2-themes/colors";', {
     loadPaths: [`${root}resources/scss`],
     importers: [{
-      canonicalize: (url) => url === '@lib/tokens' ? new URL('fixture:tokens') : null,
+      canonicalize: (url) => url === '@themes/tokens' ? new URL('fixture:tokens') : null,
       load: () => ({ contents: tokens, syntax: 'scss' }),
     }, {
       findFileUrl: (url) => url.startsWith('@lib/')

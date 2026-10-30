@@ -3,6 +3,8 @@
 @use 'tokens';
 @use 'indicators';
 @use 'sizes';
+@use '../../_2-themes/tokens' as theme;
+@use '../../_1-lib/mixins/mixin-icon-font' as icon-font;
 
 @mixin field {
   display: grid;
@@ -11,22 +13,22 @@
 }
 
 @mixin label {
-  font-family: map.get(tokens.$label, 'font-family'), sans-serif;
+  font-family: var(--body-font-family), sans-serif;
   font-size: map.get(tokens.$label, 'font-size');
-  font-weight: map.get(tokens.$label, 'font-weight');
-  line-height: map.get(tokens.$label, 'line-height');
+  font-weight: var(--body-font-weight);
+  line-height: var(--body-line-height);
   color: var(--field-label-color, #{map.get(tokens.$label, 'color')});
 }
 
 @mixin message {
   margin: 0;
-  font-family: map.get(tokens.$field-message, 'font-family'), sans-serif;
+  font-family: var(--body-font-family), sans-serif;
   font-size: map.get(tokens.$field-message, 'font-size');
-  font-weight: map.get(tokens.$field-message, 'font-weight');
-  line-height: map.get(tokens.$field-message, 'line-height');
+  font-weight: var(--body-font-weight);
+  line-height: var(--body-line-height);
   color: var(--field-message-color, #{map.get(tokens.$field-message, 'color')});
   text-transform: map.get(tokens.$field-message, 'text-transform');
-  letter-spacing: map.get(tokens.$field-message, 'letter-spacing');
+  letter-spacing: var(--body-letter-spacing);
   text-decoration: map.get(tokens.$field-message, 'text-decoration');
 }
 
@@ -34,6 +36,36 @@
 @mixin input-icon {
   font-size: map.get(tokens.$input-icon, 'icon-size');
   color: var(--input-icon-color, #{map.get(tokens.$input-icon, 'color')});
+}
+
+@mixin input-leading-icon-shell($size: md) {
+  @include size($size);
+
+  position: relative;
+  min-inline-size: 0;
+
+  > :where(input, select, textarea, .input, .dropdown-label) {
+    padding-inline-start: calc(var(--input-padding-inline, var(--_input-padding-inline)) + #{map.get(tokens.$input-icon, 'icon-size')} + #{map.get(tokens.$input, 'gap')});
+  }
+
+  &::before {
+    @include input-icon;
+
+    position: absolute;
+    inset-block-start: calc(var(--input-min-height, var(--_input-min-height)) / 2);
+    inset-inline-start: var(--input-padding-inline, var(--_input-padding-inline));
+    line-height: 1;
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin input-leading-icon($name, $family: theme.$icon-font-base, $weight: theme.$icon-weight-base, $size: md) {
+  @include input-leading-icon-shell($size);
+
+  &::before {
+    @include icon-font.icon($name, $family, $weight);
+  }
 }
 
 @mixin message-state($status: error) {
@@ -113,13 +145,13 @@
   min-block-size: var(--input-min-height, var(--_input-min-height));
   padding-block: var(--input-padding-block, var(--_input-padding-block));
   padding-inline: var(--input-padding-inline, var(--_input-padding-inline));
-  font-family: map.get(tokens.$input, 'font-family'), sans-serif;
+  font-family: var(--body-font-family), sans-serif;
   font-size: var(--input-font-size, var(--_input-font-size));
-  font-weight: map.get(tokens.$input, 'font-weight');
-  line-height: map.get(tokens.$input, 'line-height');
+  font-weight: var(--body-font-weight);
+  line-height: var(--body-line-height);
   color: var(--input-color, #{map.get(tokens.$input, 'color')});
   text-transform: map.get(tokens.$input, 'text-transform');
-  letter-spacing: map.get(tokens.$input, 'letter-spacing');
+  letter-spacing: var(--body-letter-spacing);
   text-decoration: map.get(tokens.$input, 'text-decoration');
   background: var(--input-bg, #{map.get(tokens.$input, 'background')});
   border: map.get(tokens.$input, 'border-width') solid var(--input-border, #{map.get(tokens.$input, 'border-color')});
@@ -282,7 +314,9 @@
   place-content: center;
   inline-size: var(--_choice-inline-size);
   block-size: var(--_choice-block-size);
-  padding: max(0px, var(--_choice-border-width));
+  padding: 0;
+
+  // padding: max(0px, var(--_choice-border-width));
   margin: 0;
   vertical-align: middle;
   background: var(--_choice-background);
