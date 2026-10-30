@@ -1,55 +1,55 @@
-// $sizes: (
-//   'sm': (
-//     'padding-y': var(--spacing-2),
-//     'padding-x': var(--spacing-3),
-//     'font-size': var(--font-size-sm),
-//   ),
-//   'md': (
-//     'padding-y': var(--spacing-3),
-//     'padding-x': var(--spacing-4),
-//     'font-size': var(--font-size-md),
-//   ),
-//   'lg': (
-//     'padding-y': var(--spacing-4),
-//     'padding-x': var(--spacing-5),
-//     'font-size': var(--font-size-lg),
-//   ),
-// );
-$sizes: (
+@use '../../_1-lib/functions/function-size' as *;
+
+// Imported from Figma with console/import-component-scss.mjs.
+
+$colors: (primary, secondary);
+$variants: (filled, outline, ghost, text);
+$button: (
+  'font-family': 'Inter',
+  'font-weight': 400,
+  'line-height': 1,
+  'letter-spacing': 0em,
+  'text-transform': none,
+  'text-decoration': none,
+);
+$button-sizes: (
   'sm': (
-    'padding-y': var(--spacing-2),
-    'padding-x': var(--spacing-3),
-    'border-radius': var(--radius-md),
-    'font-size': var(--text-sm),
-    'icon-gap': var(--spacing-2),
-    'icon-only-font-size': var(--button-font-size-sm),
-    'icon-only-width': 32px,
-    'icon-only-height': 32px,
+    'padding-block': var(--spacing-2),
+    'padding-inline': var(--spacing-3),
+    'border-radius': size(8px),
+    'font-size': size(16px),
+    'gap': var(--spacing-2),
+    'icon-only-font-size': var(--font-size-sm),
+    'icon-only-width': rem(28px),
+    'icon-only-height': rem(28px),
     'border-width': 1px,
+    'icon-size': var(--font-size-xs),
+    'min-height': var(--control-sm-min-height),
   ),
   'md': (
-    'padding-y': var(--spacing-3),
-    'padding-x': var(--spacing-4),
-    'border-radius': var(--radius-md),
-    'font-size': var(--text-md),
-    'icon-gap': var(--spacing-3),
-    'icon-only-font-size': var(--button-font-size-md),
-    'icon-only-width': 44px,
-    'icon-only-height': 44px,
+    'padding-block': var(--spacing-3),
+    'padding-inline': var(--spacing-4),
+    'border-radius': size(8px),
+    'font-size': size(18px),
+    'gap': var(--spacing-3),
+    'icon-only-font-size': var(--font-size-md),
+    'icon-only-width': var(--control-md-min-height),
+    'icon-only-height': var(--control-md-min-height),
     'border-width': 1px,
+    'icon-size': size(16px),
+    'min-height': var(--control-md-min-height),
   ),
   'lg': (
-    'padding-y': var(--spacing-4),
-    'padding-x': var(--spacing-5),
-    'border-radius': var(--radius-md),
-    'font-size': var(--text-lg),
-    'icon-gap': var(--spacing-4),
-    'icon-only-font-size': var(--button-font-size-lg),
-    'icon-only-width': 54px,
-    'icon-only-height': 54px,
+    'padding-block': var(--spacing-4),
+    'padding-inline': var(--spacing-5),
+    'border-radius': size(8px),
+    'font-size': size(22px),
+    'gap': var(--spacing-4),
+    'icon-only-font-size': var(--font-size-lg),
+    'icon-only-width': rem(54px),
+    'icon-only-height': rem(54px),
     'border-width': 1px,
+    'icon-size': var(--font-size-lg),
+    'min-height': var(--control-lg-min-height),
   ),
 );
-
-// Named button color variants.
-$colors: (primary, secondary);

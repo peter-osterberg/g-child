@@ -9,7 +9,7 @@
   }
 
   // Generate font-family variables
-  @each $role, $value in tokens.$font-family {
+  @each $role, $value in map.remove(tokens.$font-family, 'button') {
     @include api.as-props($role, 'font-family', $value);
   }
 
@@ -19,7 +19,7 @@
   }
 
   // Generate role-specific font-weight variables
-  @each $role, $value in tokens.$role-font-weight {
+  @each $role, $value in map.remove(tokens.$role-font-weight, 'button') {
     @include api.as-props($role, 'font-weight', $value);
   }
 
@@ -42,12 +42,12 @@
   }
 
   // Generate line-height variables
-  @each $role, $value in tokens.$line-height {
+  @each $role, $value in map.remove(tokens.$line-height, 'button') {
     @include api.as-props($role, 'line-height', $value);
   }
 
   // Generate letter-spacing variables
-  @each $role, $value in tokens.$letter-spacing {
+  @each $role, $value in map.remove(tokens.$letter-spacing, 'button') {
     @include api.as-props($role, 'letter-spacing', $value);
   }
 

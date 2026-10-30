@@ -1,8 +1,15 @@
 @use 'sass:color';
+@use 'sass:math';
 @use 'sass:meta';
 @use 'sass:string';
 
 @function alpha($color, $alpha) {
+  @if meta.type-of($alpha) == number and math.is-unitless($alpha) {
+    $alpha: $alpha * 100%;
+  } @else if meta.type-of($alpha) == string and string.index($alpha, 'var(') == 1 {
+    $alpha: calc(#{$alpha} * 100%);
+  }
+
   @return color-mix(in oklch, $color $alpha, transparent);
 }
 

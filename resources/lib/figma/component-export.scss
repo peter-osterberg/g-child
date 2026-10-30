@@ -1,0 +1,2719 @@
+@use "@lib/functions/function-size" as *;
+@use "@lib/functions/function-color-mix" as *;
+
+/* Figma → CSS name reference
+ * 04 Global / font-size/xs → --font-size-xs
+ * 04 Global / font-size/sm → --font-size-sm
+ * 04 Global / font-size/md → --font-size-md
+ * 04 Global / font-size/lg → --font-size-lg
+ * 04 Global / font-size/xl → --font-size-xl
+ * 04 Global / font-size/2xl → --font-size-2xl
+ * 04 Global / font-size/3xl → --font-size-3xl
+ * 04 Global / font-size/4xl → --font-size-4xl
+ * 04 Global / font-size/5xl → --font-size-5xl
+ * 04 Global / border-radius/xs → --radius-xs
+ * 04 Global / border-radius/sm → --radius-sm
+ * 04 Global / border-radius/md → --radius-md
+ * 04 Global / border-radius/lg → --radius-lg
+ * 04 Global / border-radius/xl → --radius-xl
+ * 04 Global / border-radius/2xl → --radius-2xl
+ * 04 Global / border-radius/none → --radius-none
+ * 04 Global / border-radius/pill → --radius-pill
+ * 04 Global / border-radius/round → --radius-round
+ * 04 Global / grid/column-width → --grid-column-max-width
+ * 04 Global / grid/gutter/tight → --gutter-tight
+ * 04 Global / grid/gutter/base → --gutter-base
+ * 04 Global / grid/gutter/loose → --gutter-loose
+ * 04 Global / font-spacing/heading-after-paragraph/xs → --heading-gap-xs
+ * 04 Global / font-spacing/heading-after-paragraph/sm → --heading-gap-sm
+ * 04 Global / font-spacing/heading-after-paragraph/md → --heading-gap-md
+ * 04 Global / font-spacing/heading-after-paragraph/lg → --heading-gap-lg
+ * 04 Global / font-spacing/heading-after-paragraph/xl → --heading-gap-xl
+ * 04 Global / font-spacing/heading-after-paragraph/2xl → --heading-gap-2xl
+ * 04 Global / font-spacing/heading-after-paragraph/3xl → --heading-gap-3xl
+ * 04 Global / font-spacing/heading-after-paragraph/4xl → --heading-gap-4xl
+ * 04 Global / font-spacing/heading-after-paragraph/5xl → --heading-gap-5xl
+ * 04 Global / grid/viewport → --settings-viewport
+ * 05 Components / card/sm/padding-y → --card-py-sm
+ * 05 Components / card/sm/padding-x → --card-px-sm
+ * 05 Components / card/sm/border-radius → --card-border-radius-sm
+ * 05 Components / card/sm/border-width → --card-border-width-sm
+ * 05 Components / card/md/padding-y → --card-py-md
+ * 05 Components / card/md/padding-x → --card-px-md
+ * 05 Components / card/md/border-radius → --card-border-radius-md
+ * 05 Components / card/md/border-width → --card-border-width-md
+ * 05 Components / card/lg/padding-y → --card-py-lg
+ * 05 Components / card/lg/padding-x → --card-px-lg
+ * 05 Components / card/lg/border-radius → --card-border-radius-lg
+ * 05 Components / card/lg/border-width → --card-border-width-lg
+ * 05 Components / card/xl/padding-y → --card-py-xl
+ * 05 Components / card/xl/padding-x → --card-px-xl
+ * 05 Components / card/xl/border-radius → --card-border-radius-xl
+ * 05 Components / card/xl/border-width → --card-border-width-xl
+ * 05 Components / button/sm/padding-y → --button-py-sm
+ * 05 Components / button/sm/padding-x → --button-px-sm
+ * 05 Components / button/sm/border-radius → --button-border-radius-sm
+ * 05 Components / button/sm/font-size → --button-font-size-sm
+ * 05 Components / button/sm/icon-gap → --button-icon-gap-sm
+ * 05 Components / button/sm/icon-only-font-size → --button-icon-only-font-size-sm
+ * 05 Components / button/sm/icon-only-width → --button-icon-only-width-sm
+ * 05 Components / button/sm/icon-only-height → --button-icon-only-height-sm
+ * 05 Components / button/sm/border-width → --button-border-width-sm
+ * 05 Components / button/md/padding-y → --button-py-md
+ * 05 Components / button/md/padding-x → --button-px-md
+ * 05 Components / button/md/border-radius → --button-border-radius-md
+ * 05 Components / button/md/font-size → --button-font-size-md
+ * 05 Components / button/md/icon-gap → --button-icon-gap-md
+ * 05 Components / button/md/icon-only-font-size → --button-icon-only-font-size-md
+ * 05 Components / button/md/icon-only-width → --button-icon-only-width-md
+ * 05 Components / button/md/icon-only-height → --button-icon-only-height-md
+ * 05 Components / button/md/border-width → --button-border-width-md
+ * 05 Components / button/lg/padding-y → --button-py-lg
+ * 05 Components / button/lg/padding-x → --button-px-lg
+ * 05 Components / button/lg/border-radius → --button-border-radius-lg
+ * 05 Components / button/lg/font-size → --button-font-size-lg
+ * 05 Components / button/lg/icon-gap → --button-icon-gap-lg
+ * 05 Components / button/lg/icon-only-font-size → --button-icon-only-font-size-lg
+ * 05 Components / button/lg/icon-only-width → --button-icon-only-width-lg
+ * 05 Components / button/lg/icon-only-height → --button-icon-only-height-lg
+ * 05 Components / button/lg/border-width → --button-border-width-lg
+ * 05 Components / module/spacing → --layout-module-spacing
+ * 05 Components / section/tight/padding-y → --section-padding-y-tight
+ * 05 Components / section/base/padding-y → --section-padding-y-base
+ * 05 Components / section/loose/padding-y → --section-padding-y-loose
+ * 05 Components / row/tight/padding-y → --row-padding-y-tight
+ * 05 Components / row/base/padding-y → --row-padding-y-base
+ * 05 Components / row/loose/padding-y → --row-padding-y-loose
+ * 05 Components / button/sm/icon-font-size → --button-icon-font-size-sm
+ * 05 Components / button/md/icon-font-size → --button-icon-font-size-md
+ * 05 Components / button/lg/icon-font-size → --button-icon-font-size-lg
+ */
+
+@use "sass:map";
+
+$reference-values: (
+  "transparent": #FFFFFF00,
+  "alpha-black-60": #00000099,
+  "white": #FFFFFFFF,
+  "black": #000000FF,
+  "neutral-0": #FFFFFFFF,
+  "brand-50": #F9FDD2FF,
+  "brand-100": #D9DCB3FF,
+  "brand-200": #BABC94FF,
+  "brand-300": #9B9E76FF,
+  "brand-400": #7E805AFF,
+  "brand-500": #61643EFF,
+  "brand-600": #4D4F2AFF,
+  "brand-700": #3A3B17FF,
+  "brand-800": #272803FF,
+  "brand-900": #161600FF,
+  "brand-950": #060600FF,
+  "neutral-50": #F8F8F8FF,
+  "neutral-100": #D8D8D8FF,
+  "neutral-200": #B8B8B8FF,
+  "neutral-300": #9A9A9AFF,
+  "neutral-400": #7C7C7CFF,
+  "neutral-500": #606060FF,
+  "neutral-600": #4C4C4CFF,
+  "neutral-700": #383838FF,
+  "neutral-800": #262626FF,
+  "neutral-900": #151515FF,
+  "neutral-950": #060606FF,
+  "red-50": #FFF6F5FF,
+  "red-100": #FBCBC6FF,
+  "red-200": #DAACA7FF,
+  "red-300": #BA8D89FF,
+  "red-400": #9B706CFF,
+  "red-500": #7D5450FF,
+  "red-600": #67403DFF,
+  "red-700": #512D2AFF,
+  "red-800": #3D1A18FF,
+  "red-900": #290807FF,
+  "red-950": #140001FF,
+  "blue-50": #F5F9FFFF,
+  "blue-100": #C5D9FDFF,
+  "blue-200": #A6B9DDFF,
+  "blue-300": #889BBDFF,
+  "blue-400": #6B7D9EFF,
+  "blue-500": #506180FF,
+  "blue-600": #3C4C6AFF,
+  "blue-700": #293855FF,
+  "blue-800": #172541FF,
+  "blue-900": #07132DFF,
+  "blue-950": #00041AFF,
+  "purple-50": #F8F7FFFF,
+  "purple-100": #D9D2FAFF,
+  "purple-200": #B9B3DAFF,
+  "purple-300": #9B94BAFF,
+  "purple-400": #7D779BFF,
+  "purple-500": #615B7DFF,
+  "purple-600": #4D4668FF,
+  "purple-700": #393352FF,
+  "purple-800": #27203EFF,
+  "purple-900": #160F2BFF,
+  "purple-950": #070118FF,
+  "green-50": #EAFFEDFF,
+  "green-100": #C0E3C5FF,
+  "green-200": #A1C3A6FF,
+  "green-300": #83A488FF,
+  "green-400": #66866BFF,
+  "green-500": #4A6950FF,
+  "green-600": #36553CFF,
+  "green-700": #224029FF,
+  "green-800": #0F2D17FF,
+  "green-900": #001B06FF,
+  "green-950": #000902FF,
+  "amber-50": #FFF7EEFF,
+  "amber-100": #F0D3B1FF,
+  "amber-200": #D0B393FF,
+  "amber-300": #B19575FF,
+  "amber-400": #927759FF,
+  "amber-500": #755B3DFF,
+  "amber-600": #5F4729FF,
+  "amber-700": #4B3316FF,
+  "amber-800": #372002FF,
+  "amber-900": #201100FF,
+  "amber-950": #0B0400FF,
+  "cyan-50": #EEFBFFFF,
+  "cyan-100": #AFE2EFFF,
+  "cyan-200": #90C2CFFF,
+  "cyan-300": #72A3B0FF,
+  "cyan-400": #558591FF,
+  "cyan-500": #396974FF,
+  "cyan-600": #23545FFF,
+  "cyan-700": #0B3F4AFF,
+  "cyan-800": #002C34FF,
+  "cyan-900": #00181EFF,
+  "cyan-950": #00070AFF,
+);
+
+$colors: (
+  "transparent": #FFFFFF00,
+  "alpha-black-60": #00000099,
+  "white": #FFFFFFFF,
+  "black": #000000FF,
+  "neutral-0": #FFFFFFFF,
+  "brand-50": #F9FDD2FF,
+  "brand-100": #D9DCB3FF,
+  "brand-200": #BABC94FF,
+  "brand-300": #9B9E76FF,
+  "brand-400": #7E805AFF,
+  "brand-500": #61643EFF,
+  "brand-600": #4D4F2AFF,
+  "brand-700": #3A3B17FF,
+  "brand-800": #272803FF,
+  "brand-900": #161600FF,
+  "brand-950": #060600FF,
+  "neutral-50": #F8F8F8FF,
+  "neutral-100": #D8D8D8FF,
+  "neutral-200": #B8B8B8FF,
+  "neutral-300": #9A9A9AFF,
+  "neutral-400": #7C7C7CFF,
+  "neutral-500": #606060FF,
+  "neutral-600": #4C4C4CFF,
+  "neutral-700": #383838FF,
+  "neutral-800": #262626FF,
+  "neutral-900": #151515FF,
+  "neutral-950": #060606FF,
+  "red-50": #FFF6F5FF,
+  "red-100": #FBCBC6FF,
+  "red-200": #DAACA7FF,
+  "red-300": #BA8D89FF,
+  "red-400": #9B706CFF,
+  "red-500": #7D5450FF,
+  "red-600": #67403DFF,
+  "red-700": #512D2AFF,
+  "red-800": #3D1A18FF,
+  "red-900": #290807FF,
+  "red-950": #140001FF,
+  "blue-50": #F5F9FFFF,
+  "blue-100": #C5D9FDFF,
+  "blue-200": #A6B9DDFF,
+  "blue-300": #889BBDFF,
+  "blue-400": #6B7D9EFF,
+  "blue-500": #506180FF,
+  "blue-600": #3C4C6AFF,
+  "blue-700": #293855FF,
+  "blue-800": #172541FF,
+  "blue-900": #07132DFF,
+  "blue-950": #00041AFF,
+  "purple-50": #F8F7FFFF,
+  "purple-100": #D9D2FAFF,
+  "purple-200": #B9B3DAFF,
+  "purple-300": #9B94BAFF,
+  "purple-400": #7D779BFF,
+  "purple-500": #615B7DFF,
+  "purple-600": #4D4668FF,
+  "purple-700": #393352FF,
+  "purple-800": #27203EFF,
+  "purple-900": #160F2BFF,
+  "purple-950": #070118FF,
+  "green-50": #EAFFEDFF,
+  "green-100": #C0E3C5FF,
+  "green-200": #A1C3A6FF,
+  "green-300": #83A488FF,
+  "green-400": #66866BFF,
+  "green-500": #4A6950FF,
+  "green-600": #36553CFF,
+  "green-700": #224029FF,
+  "green-800": #0F2D17FF,
+  "green-900": #001B06FF,
+  "green-950": #000902FF,
+  "amber-50": #FFF7EEFF,
+  "amber-100": #F0D3B1FF,
+  "amber-200": #D0B393FF,
+  "amber-300": #B19575FF,
+  "amber-400": #927759FF,
+  "amber-500": #755B3DFF,
+  "amber-600": #5F4729FF,
+  "amber-700": #4B3316FF,
+  "amber-800": #372002FF,
+  "amber-900": #201100FF,
+  "amber-950": #0B0400FF,
+  "cyan-50": #EEFBFFFF,
+  "cyan-100": #AFE2EFFF,
+  "cyan-200": #90C2CFFF,
+  "cyan-300": #72A3B0FF,
+  "cyan-400": #558591FF,
+  "cyan-500": #396974FF,
+  "cyan-600": #23545FFF,
+  "cyan-700": #0B3F4AFF,
+  "cyan-800": #002C34FF,
+  "cyan-900": #00181EFF,
+  "cyan-950": #00070AFF,
+);
+
+$theme-colors: (
+  "bg-surface-1": light-dark(var(--neutral-0), var(--neutral-900)),
+  "bg-surface-2": light-dark(var(--neutral-0), var(--neutral-800)),
+  "bg-surface-3": light-dark(var(--neutral-100), var(--neutral-950)),
+  "bg-inverse": light-dark(var(--neutral-900), var(--neutral-50)),
+  "bg-overlay": var(--alpha-black-60),
+  "text-1": light-dark(var(--neutral-900), var(--neutral-50)),
+  "text-2": light-dark(var(--neutral-600), var(--neutral-300)),
+  "text-3": light-dark(var(--neutral-500), var(--neutral-400)),
+  "text-disabled": light-dark(var(--neutral-400), var(--neutral-600)),
+  "text-inverse": light-dark(var(--neutral-0), var(--neutral-900)),
+  "border-subtle": light-dark(var(--neutral-100), var(--neutral-800)),
+  "border": light-dark(var(--neutral-200), var(--neutral-700)),
+  "border-strong": light-dark(var(--neutral-400), var(--neutral-500)),
+  "border-disabled": light-dark(var(--neutral-300), var(--neutral-700)),
+  "primary-bg": var(--brand-500),
+  "primary-bg-hover": light-dark(var(--brand-700), var(--brand-300)),
+  "primary-bg-pressed": light-dark(var(--brand-800), var(--brand-500)),
+  "primary-border": light-dark(var(--brand-600), var(--brand-400)),
+  "primary-border-hover": light-dark(var(--brand-700), var(--brand-300)),
+  "primary-border-pressed": light-dark(var(--brand-800), var(--brand-200)),
+  "primary-on-color": light-dark(var(--neutral-50), var(--neutral-950)),
+  "primary-on-color-hover": light-dark(var(--neutral-50), var(--neutral-950)),
+  "primary-on-color-pressed": light-dark(var(--neutral-50), var(--neutral-950)),
+  "primary-text": light-dark(var(--brand-700), var(--brand-300)),
+  "secondary-bg": var(--amber-500),
+  "secondary-bg-hover": light-dark(var(--amber-700), var(--amber-300)),
+  "secondary-bg-pressed": light-dark(var(--amber-800), var(--amber-500)),
+  "secondary-border": light-dark(var(--amber-600), var(--amber-400)),
+  "secondary-border-hover": light-dark(var(--amber-700), var(--amber-300)),
+  "secondary-border-pressed": light-dark(var(--amber-800), var(--amber-200)),
+  "secondary-on-color": light-dark(var(--neutral-50), var(--neutral-950)),
+  "secondary-on-color-hover": light-dark(var(--neutral-50), var(--neutral-950)),
+  "secondary-on-color-pressed": light-dark(var(--neutral-50), var(--neutral-950)),
+  "secondary-text": light-dark(var(--amber-700), var(--amber-300)),
+  "warning-bg": light-dark(var(--amber-50), var(--amber-950)),
+  "warning-on-color": light-dark(var(--amber-700), var(--amber-300)),
+  "warning-border": light-dark(var(--amber-200), var(--amber-800)),
+  "warning-text": light-dark(var(--amber-700), var(--amber-300)),
+  "success-bg": light-dark(var(--green-50), var(--green-950)),
+  "success-on-color": light-dark(var(--green-700), var(--green-300)),
+  "success-border": light-dark(var(--green-200), var(--green-800)),
+  "success-text": light-dark(var(--green-700), var(--green-300)),
+  "danger-bg": light-dark(var(--red-50), var(--red-950)),
+  "danger-on-color": light-dark(var(--red-700), var(--red-300)),
+  "danger-border": light-dark(var(--red-200), var(--red-800)),
+  "danger-text": light-dark(var(--red-700), var(--red-300)),
+  "info-bg": light-dark(var(--cyan-50), var(--cyan-950)),
+  "info-on-color": light-dark(var(--cyan-700), var(--cyan-300)),
+  "info-border": light-dark(var(--cyan-200), var(--cyan-800)),
+  "info-text": light-dark(var(--cyan-700), var(--cyan-300)),
+  "link": var(--brand-500),
+  "link-hover": light-dark(var(--brand-700), var(--brand-300)),
+  "link-pressed": light-dark(var(--brand-800), var(--brand-500)),
+  "focus-ring-color": light-dark(#2563EBFF, #93C5FDFF),
+  "shadow-color": light-dark(#0000001F, #00000066),
+  "primary-bg-subtle": alpha(var(--primary-bg), var(--opacity-subtle)),
+  "primary-bg-subtle-hover": alpha(var(--primary-bg), var(--opacity-hover)),
+  "primary-bg-subtle-pressed": alpha(var(--primary-bg), var(--opacity-pressed)),
+  "secondary-bg-subtle": alpha(var(--secondary-bg), var(--opacity-subtle)),
+  "secondary-bg-subtle-hover": alpha(var(--secondary-bg), var(--opacity-hover)),
+  "secondary-bg-subtle-pressed": alpha(var(--secondary-bg), var(--opacity-pressed)),
+);
+
+$themes: (
+  "light": (
+    "bg-canvas": var(--neutral-50),
+    "color-scheme": light,
+  ),
+  "dark": (
+    "bg-canvas": var(--neutral-950),
+    "color-scheme": dark,
+  ),
+);
+
+$has-dark-theme: map.has-key($themes, "dark");
+
+$global-focus-ring: (
+  "width": 2px,
+);
+
+$global-shadow: (
+  "sm": (
+    "x": size(0px),
+    "y": size(2px),
+    "blur": size(4px),
+    "spread": size(0px),
+  ),
+  "md": (
+    "x": size(0px),
+    "y": size(4px),
+    "blur": size(12px),
+    "spread": size(-2px),
+  ),
+  "lg": (
+    "x": size(0px),
+    "y": size(12px),
+    "blur": size(32px),
+    "spread": size(-4px),
+  ),
+);
+
+$global-font-size: (
+  "xs": size(14px),
+  "sm": size(16px),
+  "md": size(18px),
+  "lg": size(22px),
+  "xl": size(28px),
+  "2xl": size(36px),
+  "3xl": size(44px),
+  "4xl": size(54px),
+  "5xl": size(68px),
+);
+
+$global-font-family: (
+  "body": "Inter",
+  "heading": "Inter",
+  "button": "Inter",
+  "icon": "Font Awesome 7 Pro",
+);
+
+$global-font-weight: (
+  "body": 400,
+  "heading": 700,
+  "button": 400,
+  "link": 400,
+  "strong": 400,
+  "icon": 400,
+);
+
+$global-line-height: (
+  "heading": 1.2,
+  "body": 1.5,
+  "button": 1,
+);
+
+$global-font-spacing: (
+  "body": (
+    "xs": size(12px),
+    "sm": size(12px),
+    "md": size(14px),
+    "lg": size(18px),
+    "xl": size(22px),
+    "2xl": size(28px),
+    "3xl": size(34px),
+    "4xl": size(42px),
+    "5xl": size(52px),
+  ),
+  "heading": (
+    "xs": size(6px),
+    "sm": size(6px),
+    "md": size(6px),
+    "lg": size(8px),
+    "xl": size(10px),
+    "2xl": size(12px),
+    "3xl": size(14px),
+    "4xl": size(18px),
+    "5xl": size(22px),
+  ),
+  "heading-gap": (
+    "xs": size(18px),
+    "sm": size(18px),
+    "md": size(22px),
+    "lg": size(28px),
+    "xl": size(34px),
+    "2xl": size(42px),
+    "3xl": size(52px),
+    "4xl": size(64px),
+    "5xl": size(78px),
+  ),
+);
+
+$global-spacing: (
+  "1": size(4px),
+  "2": size(8px),
+  "3": size(12px),
+  "4": size(16px),
+  "5": size(24px),
+  "6": size(32px),
+  "7": size(48px),
+  "8": size(64px),
+  "9": size(96px),
+  "10": size(128px),
+);
+
+$global-border-radius: (
+  "xs": size(2px),
+  "sm": size(4px),
+  "md": size(8px),
+  "lg": size(12px),
+  "xl": size(16px),
+  "2xl": size(24px),
+  "none": size(0px),
+  "pill": size(9999px),
+  "round": size(50px),
+);
+
+$global-border-width: (
+  "none": 0px,
+  "sm": 1px,
+  "md": 2px,
+  "lg": 4px,
+);
+
+$global-grid: (
+  "columns": 12,
+  "edge-space": size(64px),
+  "column-width": size(72px),
+  "gutter": (
+    "tight": size(16px),
+    "base": size(24px),
+    "loose": size(32px),
+  ),
+  "viewport": size(1440px),
+);
+
+$global-motion: (
+  "duration": 100ms,
+  "easing": ease-out,
+);
+
+$global-opacity: (
+  "subtle": 0.08,
+  "hover": 0.24,
+  "pressed": 0.48,
+  "disabled": 0.4,
+  "overlay": 0.6,
+);
+
+$global-control: (
+  "sm": (
+    "min-height": rem(36px),
+  ),
+  "md": (
+    "min-height": rem(44px),
+  ),
+  "lg": (
+    "min-height": rem(52px),
+  ),
+);
+
+$variable-values: (
+  "focus-ring-width": 2px,
+  "shadow-sm-x": size(0px),
+  "shadow-sm-y": size(2px),
+  "shadow-sm-blur": size(4px),
+  "shadow-sm-spread": size(0px),
+  "shadow-md-x": size(0px),
+  "shadow-md-y": size(4px),
+  "shadow-md-blur": size(12px),
+  "shadow-md-spread": size(-2px),
+  "shadow-lg-x": size(0px),
+  "shadow-lg-y": size(12px),
+  "shadow-lg-blur": size(32px),
+  "shadow-lg-spread": size(-4px),
+  "font-size-xs": size(14px),
+  "font-size-sm": size(16px),
+  "font-size-md": size(18px),
+  "font-size-lg": size(22px),
+  "font-size-xl": size(28px),
+  "font-size-2xl": size(36px),
+  "font-size-3xl": size(44px),
+  "font-size-4xl": size(54px),
+  "font-size-5xl": size(68px),
+  "body-font-family": "Inter",
+  "heading-font-family": "Inter",
+  "button-font-family": "Inter",
+  "icon-font-family": "Font Awesome 7 Pro",
+  "body-font-weight": 400,
+  "heading-font-weight": 700,
+  "button-font-weight": 400,
+  "font-weight-link": 400,
+  "font-weight-strong": 400,
+  "icon-font-weight": 400,
+  "heading-line-height": 1.2,
+  "body-line-height": 1.5,
+  "button-line-height": 1,
+  "font-spacing-body-xs": size(12px),
+  "font-spacing-heading-xs": size(6px),
+  "font-spacing-body-sm": size(12px),
+  "font-spacing-heading-sm": size(6px),
+  "font-spacing-body-md": size(14px),
+  "font-spacing-heading-md": size(6px),
+  "font-spacing-body-lg": size(18px),
+  "font-spacing-heading-lg": size(8px),
+  "font-spacing-body-xl": size(22px),
+  "font-spacing-heading-xl": size(10px),
+  "font-spacing-body-2xl": size(28px),
+  "font-spacing-heading-2xl": size(12px),
+  "font-spacing-body-3xl": size(34px),
+  "font-spacing-heading-3xl": size(14px),
+  "font-spacing-body-4xl": size(42px),
+  "font-spacing-heading-4xl": size(18px),
+  "font-spacing-body-5xl": size(52px),
+  "font-spacing-heading-5xl": size(22px),
+  "spacing-1": size(4px),
+  "spacing-2": size(8px),
+  "spacing-3": size(12px),
+  "spacing-4": size(16px),
+  "spacing-5": size(24px),
+  "spacing-6": size(32px),
+  "spacing-7": size(48px),
+  "spacing-8": size(64px),
+  "spacing-9": size(96px),
+  "spacing-10": size(128px),
+  "radius-xs": size(2px),
+  "radius-sm": size(4px),
+  "radius-md": size(8px),
+  "radius-lg": size(12px),
+  "radius-xl": size(16px),
+  "radius-2xl": size(24px),
+  "radius-none": size(0px),
+  "radius-pill": size(9999px),
+  "radius-round": size(50px),
+  "border-width-none": 0px,
+  "border-width-sm": 1px,
+  "border-width-md": 2px,
+  "border-width-lg": 4px,
+  "grid-columns": 12,
+  "grid-edge-space": size(64px),
+  "grid-column-max-width": size(72px),
+  "gutter-tight": size(16px),
+  "gutter-base": size(24px),
+  "gutter-loose": size(32px),
+  "heading-gap-xs": size(18px),
+  "heading-gap-sm": size(18px),
+  "heading-gap-md": size(22px),
+  "heading-gap-lg": size(28px),
+  "heading-gap-xl": size(34px),
+  "heading-gap-2xl": size(42px),
+  "heading-gap-3xl": size(52px),
+  "heading-gap-4xl": size(64px),
+  "heading-gap-5xl": size(78px),
+  "settings-viewport": size(1440px),
+  "motion-duration": 100ms,
+  "motion-easing": ease-out,
+  "opacity-subtle": 0.08,
+  "opacity-hover": 0.24,
+  "opacity-pressed": 0.48,
+  "opacity-disabled": 0.4,
+  "opacity-overlay": 0.6,
+  "control-sm-min-height": rem(36px),
+  "control-md-min-height": rem(44px),
+  "control-lg-min-height": rem(52px),
+  "card-py-sm": var(--spacing-2),
+  "card-px-sm": var(--spacing-2),
+  "card-border-radius-sm": var(--radius-none),
+  "card-border-width-sm": var(--border-width-none),
+  "card-py-md": var(--spacing-4),
+  "card-px-md": var(--spacing-4),
+  "card-border-radius-md": var(--radius-md),
+  "card-border-width-md": var(--border-width-sm),
+  "card-py-lg": var(--spacing-5),
+  "card-px-lg": var(--spacing-5),
+  "card-border-radius-lg": var(--radius-lg),
+  "card-border-width-lg": var(--border-width-md),
+  "card-py-xl": var(--spacing-6),
+  "card-px-xl": var(--spacing-6),
+  "card-border-radius-xl": var(--radius-none),
+  "card-border-width-xl": var(--border-width-none),
+  "button-py-sm": var(--spacing-2),
+  "button-px-sm": var(--spacing-3),
+  "button-border-radius-sm": var(--radius-md),
+  "button-font-size-sm": var(--font-size-sm),
+  "button-icon-gap-sm": var(--spacing-2),
+  "button-icon-only-font-size-sm": var(--button-font-size-sm),
+  "button-icon-only-width-sm": rem(28px),
+  "button-icon-only-height-sm": rem(28px),
+  "button-border-width-sm": 1px,
+  "button-py-md": var(--spacing-3),
+  "button-px-md": var(--spacing-4),
+  "button-border-radius-md": var(--radius-md),
+  "button-font-size-md": var(--font-size-md),
+  "button-icon-gap-md": var(--spacing-3),
+  "button-icon-only-font-size-md": var(--button-font-size-md),
+  "button-icon-only-width-md": var(--control-md-min-height),
+  "button-icon-only-height-md": var(--control-md-min-height),
+  "button-border-width-md": 1px,
+  "button-py-lg": var(--spacing-4),
+  "button-px-lg": var(--spacing-5),
+  "button-border-radius-lg": var(--radius-md),
+  "button-font-size-lg": var(--font-size-lg),
+  "button-icon-gap-lg": var(--spacing-4),
+  "button-icon-only-font-size-lg": var(--button-font-size-lg),
+  "button-icon-only-width-lg": rem(54px),
+  "button-icon-only-height-lg": rem(54px),
+  "button-border-width-lg": 1px,
+  "section-padding-y": var(--spacing-7),
+  "row-padding-y": var(--spacing-5),
+  "layout-module-spacing": var(--spacing-5),
+  "section-padding-y-tight": var(--spacing-6),
+  "section-padding-y-base": var(--spacing-7),
+  "section-padding-y-loose": var(--spacing-8),
+  "row-padding-y-tight": var(--spacing-4),
+  "row-padding-y-base": var(--spacing-5),
+  "row-padding-y-loose": var(--spacing-6),
+  "button-icon-font-size-sm": var(--font-size-xs),
+  "button-icon-font-size-md": var(--button-font-size-md),
+  "button-icon-font-size-lg": var(--button-font-size-lg),
+  "search-inset-height": size(28px),
+  "shadow-sm": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+  "shadow-md": var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-color),
+  "shadow-lg": var(--shadow-lg-x) var(--shadow-lg-y) var(--shadow-lg-blur) var(--shadow-lg-spread) var(--shadow-color),
+  "focus-ring": var(--focus-ring-width) solid var(--focus-ring-color),
+);
+
+$letter-spacings: (
+  "body-xs": 0em,
+  "body-sm": 0em,
+  "body-md": 0em,
+  "body-lg": 0em,
+  "body-xl": 0em,
+  "body-2xl": 0em,
+  "body-3xl": 0em,
+  "body-4xl": 0em,
+  "body-5xl": 0em,
+  "heading-xs": 0em,
+  "heading-sm": 0em,
+  "heading-md": 0em,
+  "heading-lg": 0em,
+  "heading-xl": 0em,
+  "heading-2xl": 0em,
+  "heading-3xl": 0em,
+  "heading-4xl": 0em,
+  "heading-5xl": 0em,
+  "button-sm": 0em,
+  "button-md": 0em,
+  "button-lg": 0em,
+);
+
+$card-sizes: (
+  "sm": (
+    "padding-block": var(--card-py-sm),
+    "padding-inline": var(--card-px-sm),
+    "border-radius": var(--card-border-radius-sm),
+    "border-width": 0px,
+    "gap": var(--card-py-sm),
+  ),
+  "md": (
+    "padding-block": var(--card-py-md),
+    "padding-inline": var(--card-px-md),
+    "border-radius": var(--card-border-radius-md),
+    "border-width": 1px,
+    "gap": var(--card-py-md),
+  ),
+  "lg": (
+    "padding-block": var(--card-py-lg),
+    "padding-inline": var(--card-px-lg),
+    "border-radius": var(--card-border-radius-lg),
+    "border-width": 2px,
+    "gap": var(--card-py-lg),
+  ),
+  "xl": (
+    "padding-block": var(--card-py-xl),
+    "padding-inline": var(--card-px-xl),
+    "border-radius": var(--card-border-radius-xl),
+    "border-width": 0px,
+    "gap": var(--card-py-xl),
+  ),
+);
+
+$button-sizes: (
+  "sm": (
+    "padding-block": var(--button-py-sm),
+    "padding-inline": var(--button-px-sm),
+    "border-radius": size(8px),
+    "font-size": size(16px),
+    "gap": var(--button-icon-gap-sm),
+    "icon-only-font-size": var(--button-icon-only-font-size-sm),
+    "icon-only-width": var(--button-icon-only-width-sm),
+    "icon-only-height": var(--button-icon-only-height-sm),
+    "border-width": 1px,
+    "icon-size": var(--button-icon-font-size-sm),
+    "min-height": var(--control-sm-min-height),
+  ),
+  "md": (
+    "padding-block": var(--button-py-md),
+    "padding-inline": var(--button-px-md),
+    "border-radius": size(8px),
+    "font-size": size(18px),
+    "gap": var(--button-icon-gap-md),
+    "icon-only-font-size": var(--button-icon-only-font-size-md),
+    "icon-only-width": var(--button-icon-only-width-md),
+    "icon-only-height": var(--button-icon-only-height-md),
+    "border-width": 1px,
+    "icon-size": var(--button-icon-font-size-md),
+    "min-height": var(--control-md-min-height),
+  ),
+  "lg": (
+    "padding-block": var(--button-py-lg),
+    "padding-inline": var(--button-px-lg),
+    "border-radius": size(8px),
+    "font-size": size(22px),
+    "gap": var(--button-icon-gap-lg),
+    "icon-only-font-size": var(--button-icon-only-font-size-lg),
+    "icon-only-width": var(--button-icon-only-width-lg),
+    "icon-only-height": var(--button-icon-only-height-lg),
+    "border-width": 1px,
+    "icon-size": var(--button-icon-font-size-lg),
+    "min-height": var(--control-lg-min-height),
+  ),
+);
+
+$section: (
+  "padding-block": var(--section-padding-y-tight),
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "width": var(--settings-viewport),
+  "padding-inline": var(--grid-edge-space),
+  "gap": size(0px),
+);
+
+$row: (
+  "padding-block": var(--row-padding-y-tight),
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-inline": size(0px),
+  "gap": size(0px),
+);
+
+$module: (
+  "spacing": var(--layout-module-spacing),
+);
+
+$section-padding: (
+  "tight": (
+    "padding-block": var(--section-padding-y-tight),
+    "padding-inline": var(--grid-edge-space),
+  ),
+  "base": (
+    "padding-block": var(--section-padding-y-base),
+    "padding-inline": var(--grid-edge-space),
+  ),
+  "loose": (
+    "padding-block": var(--section-padding-y-loose),
+    "padding-inline": var(--grid-edge-space),
+  ),
+);
+
+$row-padding: (
+  "tight": (
+    "padding-block": var(--row-padding-y-tight),
+    "padding-inline": size(0px),
+  ),
+  "base": (
+    "padding-block": var(--row-padding-y-base),
+    "padding-inline": size(0px),
+  ),
+  "loose": (
+    "padding-block": var(--row-padding-y-loose),
+    "padding-inline": size(0px),
+  ),
+);
+
+$search: (
+  "inset-height": var(--search-inset-height),
+);
+
+$heading: (
+  "background": transparent,
+  "color": var(--text-1),
+  "box-shadow": none,
+  "font-family": var(--heading-font-family),
+  "font-weight": var(--heading-font-weight),
+  "line-height": 1.2,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+);
+
+$heading-sizes: (
+  "xs": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-xs),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-xs),
+  ),
+  "sm": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-sm),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-sm),
+  ),
+  "md": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-md),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-md),
+  ),
+  "lg": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-lg),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-lg),
+  ),
+  "xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-xl),
+  ),
+  "2xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-2xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-2xl),
+  ),
+  "3xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-3xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-3xl),
+  ),
+  "4xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-4xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-4xl),
+  ),
+  "5xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-heading-5xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-5xl),
+  ),
+);
+
+$heading-settings: (
+  "defaults": (
+    "size": "xs",
+    "spacing-above": false,
+    "spacing-below": true,
+  ),
+  "example": (
+    "size": "xs",
+    "spacing-above": false,
+    "spacing-below": true,
+  ),
+);
+
+$heading-content: (
+  "defaults": (
+    "text": "Heading",
+  ),
+  "example": (
+    "text": "Heading",
+  ),
+);
+
+$body: (
+  "background": transparent,
+  "color": var(--text-1),
+  "box-shadow": none,
+  "font-family": var(--body-font-family),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+);
+
+$body-sizes: (
+  "xs": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-xs),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-xs),
+  ),
+  "sm": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-sm),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-sm),
+  ),
+  "md": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-md),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-md),
+  ),
+  "lg": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-lg),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-lg),
+  ),
+  "xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-xl),
+  ),
+  "2xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-2xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-2xl),
+  ),
+  "3xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-3xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-3xl),
+  ),
+  "4xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-4xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-4xl),
+  ),
+  "5xl": (
+    "padding-inline": size(0px),
+    "padding-top": size(0px),
+    "padding-bottom": var(--font-spacing-body-5xl),
+    "gap": size(0px),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "font-size": var(--font-size-5xl),
+  ),
+);
+
+$body-settings: (
+  "defaults": (
+    "size": "xs",
+    "spacing-above": false,
+    "spacing-below": true,
+  ),
+  "example": (
+    "size": "xs",
+    "spacing-above": false,
+    "spacing-below": true,
+  ),
+);
+
+$body-content: (
+  "defaults": (
+    "text": "Body",
+  ),
+  "example": (
+    "text": "Body",
+  ),
+);
+
+$button-icon: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": size(0px),
+);
+
+$button-icon-states: (
+  "default": (
+    "background": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+  ),
+  "hover": (
+    "background": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+  ),
+  "pressed": (
+    "background": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+  ),
+  "focus": (
+    "background": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+  ),
+  "disabled": (
+    "background": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+  ),
+);
+
+$button-icon-settings: (
+  "defaults": (
+    "animation": "none",
+    "side": "start",
+  ),
+  "example": (
+    "animation": "none",
+    "side": "start",
+  ),
+);
+
+$button-icon-content: (
+  "defaults": (
+    "name": "plus",
+  ),
+  "example": (
+    "name": "plus",
+  ),
+);
+
+$button: (
+  "font-family": var(--button-font-family),
+  "font-weight": var(--button-font-weight),
+  "line-height": 1,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+);
+
+
+
+
+
+$button-settings: (
+  "defaults": (
+    "icon-start": true,
+    "icon-end": true,
+    "color": "primary",
+    "style": "filled",
+    "size": "sm",
+    "icon-only": false,
+    "round": false,
+  ),
+  "example": (
+    "color": "primary",
+    "style": "filled",
+    "size": "sm",
+    "icon-only": false,
+    "round": false,
+    "icon-end": true,
+    "icon-start": true,
+  ),
+);
+
+$button-content: (
+  "defaults": (
+    "label": "Button",
+  ),
+  "example": (
+    "label": "Button",
+  ),
+);
+
+$label: (
+  "color": var(--text-2),
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-sm),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+);
+
+$label-content: (
+  "defaults": (
+    "label": "Label",
+  ),
+  "example": (
+    "label": "Label",
+  ),
+);
+
+$input: (
+  "background": var(--bg-surface-1),
+  "border-color": var(--border),
+  "border-width": 1px,
+  "border-radius": var(--radius-sm),
+  "box-shadow": none,
+  "min-height": var(--control-md-min-height),
+  "padding-block": var(--spacing-2),
+  "padding-inline": var(--spacing-3),
+  "gap": var(--spacing-3),
+  "field-gap": var(--spacing-2),
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-sm),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "color": var(--text-1),
+  "placeholder-color": var(--text-2),
+  "opacity": 1,
+);
+
+$input-states: (
+  "hover": (
+    "border-color": var(--border-strong),
+  ),
+  "focus": (
+    "ring-color": var(--focus-ring-color),
+    "ring-width": 2px,
+    "ring-offset": size(0px),
+  ),
+  "error": (
+    "border-color": var(--danger-border),
+  ),
+  "disabled": (
+    "background": var(--bg-surface-3),
+    "color": var(--text-disabled),
+  ),
+);
+
+$input-settings: (
+  "defaults": (
+    "icon-start": false,
+    "icon-end": false,
+    "show-label": true,
+    "required": false,
+    "show-help-text": true,
+    "show-action": false,
+  ),
+  "example": (
+    "required": false,
+    "show-action": false,
+    "show-label": true,
+    "icon-end": false,
+    "show-help-text": true,
+    "icon-start": false,
+  ),
+);
+
+$input-content: (
+  "defaults": (
+    "icon-start-name": "plus",
+    "icon-end-name": "chevron-down",
+  ),
+  "example": (
+    "icon-start-name": "plus",
+    "icon-end-name": "chevron-down",
+  ),
+);
+
+$search-parts: (
+  "input": (
+    "component": "input",
+    "settings": (
+      "required": false,
+      "show-action": false,
+      "show-label": false,
+      "icon-end": false,
+      "show-help-text": false,
+      "icon-start": true,
+    ),
+    "content": (
+      "icon-start-name": "magnifying-glass",
+      "icon-end-name": "chevron-down",
+    ),
+  ),
+  "button": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Sök",
+    ),
+  ),
+);
+
+$search-settings: (
+  "defaults": (
+    "button-placement": "outside",
+  ),
+  "example": (
+    "button-placement": "inside",
+  ),
+);
+
+$search-button-parts: (
+  "button": (
+    "min-height": var(--search-inset-height),
+    "height": var(--search-inset-height),
+    "padding-block": size(0px),
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Sök",
+    ),
+  ),
+);
+
+$search-button-settings: (
+  "defaults": (
+    "color": "primary",
+    "style": "filled",
+    "icon-only": false,
+    "round": false,
+  ),
+  "example": (
+    "color": "primary",
+    "style": "filled",
+    "icon-only": false,
+    "round": false,
+  ),
+);
+
+$checkbox-parts: (
+  "checkbox": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--border),
+    "border-width": 1px,
+    "border-radius": var(--radius-xs),
+    "box-shadow": none,
+    "width": var(--spacing-4),
+    "height": var(--spacing-4),
+    "padding-block": size(0px),
+    "padding-inline": size(0px),
+    "gap": size(0px),
+  ),
+  "label": (
+    "color": var(--text-1),
+    "component": "body",
+    "size": "sm",
+  ),
+);
+
+$radio-parts: (
+  "radio": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--border),
+    "border-width": 1px,
+    "border-radius": var(--radius-pill),
+    "box-shadow": none,
+    "width": var(--spacing-4),
+    "height": var(--spacing-4),
+    "padding-block": size(0px),
+    "padding-inline": size(0px),
+    "gap": size(0px),
+  ),
+  "label": (
+    "color": var(--text-1),
+    "component": "body",
+    "size": "sm",
+  ),
+);
+
+$dropdown: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": var(--spacing-2),
+);
+
+$dropdown-parts: (
+  "select-control": (
+    "component": "input",
+    "settings": (
+      "required": false,
+      "show-action": false,
+      "show-label": true,
+      "icon-end": true,
+      "show-help-text": false,
+      "icon-start": false,
+    ),
+    "content": (
+      "icon-start-name": "plus",
+      "icon-end-name": "chevron-down",
+    ),
+  ),
+  "options-card": (
+    "component": "dropdown-menu",
+  ),
+);
+
+$dropdown-settings: (
+  "defaults": (
+    "open": false,
+  ),
+  "example": (
+    "open": false,
+  ),
+);
+
+$dropdown-menu-parts: (
+  "card": (
+    "component": "card",
+    "size": "sm",
+  ),
+  "option": (
+    "component": "dropdown-option",
+    "settings": (
+      "show-count": true,
+    ),
+    "content": (
+      "count": "42",
+      "label": "Alla kategorier",
+    ),
+  ),
+);
+
+$dropdown-option: (
+  "background": var(--bg-surface-1),
+  "border-width": 0px,
+  "border-radius": var(--radius-sm),
+  "color": var(--text-1),
+  "box-shadow": none,
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-sm),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "padding-block": var(--spacing-2),
+  "padding-inline": var(--spacing-2),
+  "gap": var(--spacing-2),
+);
+
+$dropdown-option-states: (
+  "default": (
+    "background": var(--bg-surface-1),
+    "color": var(--text-1),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-1),
+    "count-color": var(--text-2),
+  ),
+  "hover": (
+    "background": var(--bg-surface-2),
+    "color": var(--text-1),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-1),
+    "count-color": var(--text-2),
+  ),
+  "selected": (
+    "background": var(--primary-bg),
+    "color": var(--primary-on-color),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--primary-on-color),
+    "count-color": var(--primary-on-color),
+  ),
+  "disabled": (
+    "background": var(--bg-surface-1),
+    "color": var(--text-disabled),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-disabled),
+    "count-color": var(--text-disabled),
+  ),
+);
+
+$dropdown-option-parts: (
+  "checkbox": (
+    "component": "checkbox",
+  ),
+  "label": (
+    "color": var(--text-1),
+    "component": "body",
+    "size": "sm",
+  ),
+  "count": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "sm",
+  ),
+);
+
+$dropdown-option-settings: (
+  "defaults": (
+    "show-count": true,
+  ),
+  "example": (
+    "show-count": true,
+  ),
+);
+
+$dropdown-option-content: (
+  "defaults": (
+    "label": "Alternativ",
+    "count": "12",
+  ),
+  "example": (
+    "label": "Alternativ",
+    "count": "12",
+  ),
+);
+
+$navigation-item: (
+  "background": transparent,
+  "border-color": transparent,
+  "border-width": 1px,
+  "border-radius": var(--radius-sm),
+  "color": var(--text-2),
+  "box-shadow": none,
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-sm),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "padding-block": var(--spacing-3),
+  "padding-inline": var(--spacing-3),
+  "gap": size(0px),
+);
+
+$navigation-item-states: (
+  "default": (
+    "background": transparent,
+    "border-color": transparent,
+    "color": var(--text-2),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-2),
+  ),
+  "hover": (
+    "background": transparent,
+    "border-color": transparent,
+    "color": var(--text-2),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-2),
+  ),
+  "active": (
+    "background": var(--bg-surface-2),
+    "border-color": transparent,
+    "color": var(--primary-text),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--primary-text),
+  ),
+  "disabled": (
+    "background": transparent,
+    "border-color": transparent,
+    "color": var(--text-disabled),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-disabled),
+  ),
+);
+
+$navigation-item-parts: (
+  "label": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "sm",
+  ),
+);
+
+$tab: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "color": var(--text-2),
+  "indicator-color": transparent,
+  "box-shadow": none,
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-sm),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": var(--spacing-2),
+);
+
+$tab-states: (
+  "default": (
+    "background": transparent,
+    "color": var(--text-2),
+    "indicator-color": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-2),
+  ),
+  "selected": (
+    "background": transparent,
+    "color": var(--primary-text),
+    "indicator-color": var(--primary-bg),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--primary-text),
+  ),
+  "disabled": (
+    "background": transparent,
+    "color": var(--text-disabled),
+    "indicator-color": transparent,
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-disabled),
+  ),
+);
+
+$tab-parts: (
+  "label": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "sm",
+  ),
+  "selection-indicator": (
+    "background": transparent,
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "height": var(--spacing-1),
+    "aspect-ratio": 17.25,
+  ),
+);
+
+$pagination-parts: (
+  "first": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "First",
+    ),
+  ),
+  "prev": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Prev",
+    ),
+  ),
+  "page": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "1",
+    ),
+  ),
+  "ellipsis": (
+    "component": "button",
+    "size": "md",
+    "style": "ghost",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "…",
+    ),
+  ),
+  "next": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Next",
+    ),
+  ),
+  "last": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Last",
+    ),
+  ),
+);
+
+$pagination-settings: (
+  "defaults": (
+    "show-first-last": true,
+    "load-more": false,
+  ),
+  "example": (
+    "load-more": false,
+    "show-first-last": true,
+  ),
+);
+
+$tag: (
+  "background": var(--bg-surface-1),
+  "border-color": var(--border),
+  "border-width": 1px,
+  "border-radius": var(--radius-sm),
+  "color": var(--text-2),
+  "box-shadow": none,
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-xs),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "padding-block": var(--spacing-2),
+  "padding-inline": var(--spacing-2),
+  "gap": size(0px),
+);
+
+$tag-parts: (
+  "label": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "xs",
+  ),
+);
+
+$tag-content: (
+  "defaults": (
+    "label": "Kategori",
+  ),
+  "example": (
+    "label": "Kategori",
+  ),
+);
+
+$chip: (
+  "background": var(--bg-surface-1),
+  "border-color": var(--border),
+  "border-width": 1px,
+  "border-radius": var(--radius-sm),
+  "color": var(--text-2),
+  "box-shadow": none,
+  "font-family": var(--body-font-family),
+  "font-size": var(--font-size-xs),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "padding-block": var(--spacing-2),
+  "padding-inline": var(--spacing-2),
+  "gap": size(0px),
+);
+
+$chip-states: (
+  "neutral": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--border),
+    "color": var(--text-2),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-2),
+  ),
+  "selected": (
+    "background": var(--primary-bg),
+    "border-color": var(--primary-bg),
+    "color": var(--primary-on-color),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--primary-on-color),
+  ),
+);
+
+$chip-parts: (
+  "label": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "xs",
+  ),
+);
+
+$chip-content: (
+  "defaults": (
+    "label": "Filter",
+  ),
+  "example": (
+    "label": "Filter",
+  ),
+);
+
+$alert-states: (
+  "success": (
+    "background": var(--success-bg),
+    "border-color": var(--success-border),
+    "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+    "opacity": 1,
+    "title-color": var(--success-on-color),
+    "message-color": var(--success-on-color),
+  ),
+  "warning": (
+    "background": var(--warning-bg),
+    "border-color": var(--warning-border),
+    "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+    "opacity": 1,
+    "title-color": var(--warning-on-color),
+    "message-color": var(--warning-on-color),
+  ),
+  "danger": (
+    "background": var(--danger-bg),
+    "border-color": var(--danger-border),
+    "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+    "opacity": 1,
+    "title-color": var(--danger-on-color),
+    "message-color": var(--danger-on-color),
+  ),
+  "info": (
+    "background": var(--info-bg),
+    "border-color": var(--info-border),
+    "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+    "opacity": 1,
+    "title-color": var(--info-on-color),
+    "message-color": var(--info-on-color),
+  ),
+);
+
+$alert-parts: (
+  "card": (
+    "background": var(--success-bg),
+    "border-color": var(--success-border),
+    "component": "card",
+    "size": "md",
+  ),
+  "title": (
+    "color": var(--success-on-color),
+    "component": "heading",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Success alert",
+    ),
+  ),
+  "message": (
+    "color": var(--success-on-color),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Status colors communicate meaning and do not follow Accent.",
+    ),
+  ),
+);
+
+$table-row: (
+  "background": var(--bg-surface-1),
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": var(--spacing-3),
+  "padding-inline": var(--spacing-3),
+  "gap": var(--spacing-5),
+);
+
+$table-row-states: (
+  "default": (
+    "background": var(--bg-surface-1),
+    "box-shadow": none,
+    "opacity": 1,
+    "email-color": var(--text-2),
+  ),
+  "hover": (
+    "background": var(--bg-surface-2),
+    "box-shadow": none,
+    "opacity": 1,
+    "email-color": var(--text-2),
+  ),
+  "danger": (
+    "background": var(--bg-surface-1),
+    "box-shadow": none,
+    "opacity": 1,
+    "customer-color": var(--danger-text),
+    "email-color": var(--danger-text),
+    "amount-color": var(--danger-text),
+  ),
+);
+
+$table-row-parts: (
+  "customer": (
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Customer name",
+    ),
+  ),
+  "email": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "example@email.com",
+    ),
+  ),
+  "amount": (
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "$1,240",
+    ),
+  ),
+);
+
+$tooltip: (
+  "background": var(--primary-bg),
+  "border-width": 0px,
+  "border-radius": var(--radius-sm),
+  "box-shadow": var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-color),
+  "padding-block": var(--spacing-2),
+  "padding-inline": var(--spacing-2),
+  "gap": size(0px),
+);
+
+$tooltip-parts: (
+  "message": (
+    "color": var(--primary-on-color),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Helpful information",
+    ),
+  ),
+);
+
+$modal-parts: (
+  "card": (
+    "box-shadow": var(--shadow-lg-x) var(--shadow-lg-y) var(--shadow-lg-blur) var(--shadow-lg-spread) var(--shadow-color),
+    "component": "card",
+    "size": "md",
+  ),
+  "title": (
+    "component": "heading",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Dialog title",
+    ),
+  ),
+  "message": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Raised surfaces use the same global Theme while actions inside can switch Accent.",
+    ),
+  ),
+  "actions": (
+    "background": transparent,
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "padding-block": size(0px),
+    "padding-inline": size(0px),
+    "gap": var(--spacing-3),
+  ),
+  "cancel": (
+    "component": "button",
+    "size": "md",
+    "style": "ghost",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": true,
+      "icon-start": true,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Cancel",
+    ),
+  ),
+  "confirm": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": true,
+      "icon-start": true,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Continue",
+    ),
+  ),
+);
+
+$card: (
+  "background": var(--bg-surface-1),
+  "border-color": var(--border),
+  "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+);
+
+$card-states: (
+  "default": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--border),
+    "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+    "opacity": 1,
+  ),
+  "hover": (
+    "background": var(--bg-surface-2),
+    "border-color": var(--border-strong),
+    "box-shadow": var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--shadow-color),
+    "opacity": 1,
+  ),
+  "focus": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--primary-border),
+    "box-shadow": var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--shadow-color),
+    "opacity": 1,
+  ),
+);
+
+$card-settings: (
+  "defaults": (
+    "size": "sm",
+  ),
+  "example": (
+    "size": "sm",
+  ),
+);
+
+$row-settings: (
+  "defaults": (
+    "padding": "tight",
+  ),
+  "example": (
+    "padding": "tight",
+  ),
+);
+
+$section-parts: (
+  "row": (
+    "component": "row",
+    "settings": (
+      "padding": "base",
+    ),
+  ),
+);
+
+$section-settings: (
+  "defaults": (
+    "padding": "tight",
+  ),
+  "example": (
+    "padding": "tight",
+  ),
+);
+
+$module-blurb-parts: (
+  "card": (
+    "component": "card",
+    "size": "md",
+  ),
+  "image": (
+    "background": var(--bg-surface-3),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "aspect-ratio": 1.7875,
+  ),
+  "icon": (
+    "color": var(--primary-text),
+    "font-family": var(--icon-font-family),
+    "font-size": var(--font-size-md),
+    "font-weight": var(--icon-font-weight),
+    "line-height": 1,
+    "letter-spacing": size(0px),
+    "text-transform": none,
+    "text-decoration": none,
+    "icon-size": var(--font-size-md),
+  ),
+  "heading": (
+    "component": "heading",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Module heading",
+    ),
+  ),
+  "subheading": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Short supporting line",
+    ),
+  ),
+  "body": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Describe the module and its benefit.",
+    ),
+  ),
+  "button": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": true,
+      "icon-start": true,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Learn more",
+    ),
+  ),
+);
+
+$module-image: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": var(--spacing-2),
+);
+
+$module-image-parts: (
+  "image": (
+    "background": var(--bg-surface-3),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "aspect-ratio": 1.777778,
+  ),
+  "figcaption": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Image caption",
+    ),
+  ),
+);
+
+$module-image-settings: (
+  "defaults": (
+    "show-figcaption": true,
+  ),
+  "example": (
+    "show-figcaption": true,
+  ),
+);
+
+$module-listing: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": var(--spacing-6),
+);
+
+$module-listing-parts: (
+  "filters": (
+    "component": "listing-filter",
+    "settings": (
+      "show-selected-filters": true,
+      "show-clear": true,
+      "show-search": true,
+    ),
+  ),
+  "item": (
+    "component": "listing-post",
+  ),
+  "pagination": (
+    "component": "pagination",
+    "settings": (
+      "load-more": false,
+      "show-first-last": true,
+    ),
+  ),
+);
+
+$module-listing-settings: (
+  "defaults": (
+    "show-listing-filter": true,
+    "show-pagination": true,
+  ),
+  "example": (
+    "show-pagination": true,
+    "show-listing-filter": true,
+  ),
+);
+
+$listing-filter-categories: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": size(0px),
+);
+
+$listing-filter-categories-parts: (
+  "categories": (
+    "component": "dropdown",
+    "settings": (
+      "open": false,
+    ),
+  ),
+);
+
+$listing-filter-categories-settings: (
+  "defaults": (
+    "dropdown": true,
+  ),
+  "example": (
+    "dropdown": true,
+  ),
+);
+
+$listing-filter: (
+  "background": transparent,
+  "border-width": 0px,
+  "border-radius": size(0px),
+  "box-shadow": none,
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": var(--spacing-3),
+);
+
+$listing-filter-parts: (
+  "controls": (
+    "background": transparent,
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "padding-block": size(0px),
+    "padding-inline": size(0px),
+    "gap": var(--spacing-3),
+  ),
+  "categories": (
+    "component": "listing-filter-categories",
+    "settings": (
+      "dropdown": true,
+    ),
+  ),
+  "search": (
+    "component": "input",
+    "settings": (
+      "required": false,
+      "show-action": false,
+      "show-label": true,
+      "icon-end": true,
+      "show-help-text": false,
+      "icon-start": false,
+    ),
+    "content": (
+      "icon-start-name": "plus",
+      "icon-end-name": "magnifying-glass",
+    ),
+  ),
+  "search-button": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Sök",
+    ),
+  ),
+  "clear": (
+    "component": "button",
+    "size": "md",
+    "style": "ghost",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": false,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "plus",
+      "icon-end-animation": "none",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Rensa",
+    ),
+  ),
+  "selected-filters": (
+    "background": transparent,
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "padding-block": size(0px),
+    "padding-inline": size(0px),
+    "gap": var(--spacing-2),
+  ),
+);
+
+$listing-filter-settings: (
+  "defaults": (
+    "show-search": true,
+    "show-clear": true,
+    "show-selected-filters": true,
+  ),
+  "example": (
+    "show-selected-filters": true,
+    "show-clear": true,
+    "show-search": true,
+  ),
+);
+
+$listing-post-parts: (
+  "card": (
+    "component": "card",
+    "size": "md",
+  ),
+  "image": (
+    "background": var(--bg-surface-3),
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "aspect-ratio": 1.768645,
+  ),
+  "terms": (
+    "background": transparent,
+    "border-width": 0px,
+    "border-radius": size(0px),
+    "box-shadow": none,
+    "padding-block": size(0px),
+    "padding-inline": size(0px),
+    "gap": var(--spacing-2),
+  ),
+  "date": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "sm",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": true,
+    ),
+    "content": (
+      "text": "21 oktober 2026",
+    ),
+  ),
+  "title": (
+    "component": "heading",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": true,
+    ),
+    "content": (
+      "text": "En tydlig rubrik för inlägget",
+    ),
+  ),
+  "excerpt": (
+    "component": "body",
+    "size": "md",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": true,
+    ),
+    "content": (
+      "text": "En kort sammanfattning som introducerar innehållet och väcker intresse för att läsa vidare.",
+    ),
+  ),
+  "author": (
+    "color": var(--text-2),
+    "component": "body",
+    "size": "sm",
+    "settings": (
+      "spacing-above": false,
+      "spacing-below": false,
+    ),
+    "content": (
+      "text": "Av Anna Andersson",
+    ),
+  ),
+  "read-more": (
+    "component": "button",
+    "size": "md",
+    "style": "filled",
+    "settings": (
+      "color": "primary",
+      "icon-only": false,
+      "round": false,
+      "icon-end": true,
+      "icon-start": false,
+      "icon-start-name": "plus",
+      "icon-start-animation": "none",
+      "icon-start-side": "start",
+      "icon-end-name": "arrow-right",
+      "icon-end-animation": "slide",
+      "icon-end-side": "end",
+    ),
+    "content": (
+      "label": "Läs mer",
+    ),
+  ),
+);
+
+$field-message: (
+  "color": var(--text-2),
+  "font-family": var(--body-font-family),
+  "font-weight": var(--body-font-weight),
+  "line-height": 1.5,
+  "letter-spacing": 0em,
+  "text-transform": none,
+  "text-decoration": none,
+  "font-size": var(--font-size-md),
+);
+
+$field-message-states: (
+  "error": (
+    "color": var(--danger-text),
+  ),
+  "disabled": (
+    "color": var(--text-disabled),
+  ),
+  "success": (
+    "color": var(--success-text),
+  ),
+  "warning": (
+    "color": var(--warning-text),
+  ),
+  "info": (
+    "color": var(--info-text),
+  ),
+);
+
+$input-icon: (
+  "color": var(--text-2),
+  "icon-size": var(--font-size-sm),
+);
+
+$choice: (
+  "background": var(--bg-surface-1),
+  "border-color": var(--border),
+  "border-width": 1px,
+  "box-shadow": none,
+  "width": var(--spacing-4),
+  "height": var(--spacing-4),
+  "padding-block": size(0px),
+  "padding-inline": size(0px),
+  "gap": size(0px),
+);
+
+$choice-states: (
+  "unchecked": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--border),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-1),
+  ),
+  "hover": (
+    "background": var(--bg-surface-2),
+    "border-color": var(--border-strong),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-1),
+  ),
+  "focus": (
+    "background": var(--bg-surface-1),
+    "border-color": var(--border),
+    "box-shadow": none,
+    "opacity": 1,
+    "ring-color": var(--focus-ring-color),
+    "ring-width": 2px,
+    "ring-offset": size(0px),
+    "label-color": var(--text-1),
+  ),
+  "checked": (
+    "background": var(--primary-bg),
+    "border-color": var(--primary-bg),
+    "indicator-color": var(--primary-on-color),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-1),
+  ),
+  "checked-hover": (
+    "background": var(--primary-bg-hover),
+    "border-color": var(--primary-bg-hover),
+    "indicator-color": var(--primary-on-color-hover),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-1),
+  ),
+  "checked-focus": (
+    "background": var(--primary-bg),
+    "border-color": var(--primary-bg),
+    "indicator-color": var(--primary-on-color),
+    "box-shadow": none,
+    "opacity": 1,
+    "ring-color": var(--focus-ring-color),
+    "ring-width": 2px,
+    "ring-offset": size(0px),
+    "label-color": var(--text-1),
+  ),
+  "disabled": (
+    "background": var(--bg-surface-3),
+    "border-color": var(--border),
+    "box-shadow": none,
+    "opacity": 1,
+    "label-color": var(--text-disabled),
+  ),
+);
+
+$checkbox: (
+  "border-radius": var(--radius-xs),
+  "indicator": "check",
+);
+
+$radio: (
+  "border-radius": var(--radius-pill),
+  "indicator": "dot",
+);

@@ -1,0 +1,12 @@
+@use 'mixins' as chip;
+
+@layer components {
+  :where(.chip) {
+    @include chip.chip;
+  }
+
+  .chip.is-selected,
+  .chip[aria-pressed='true'] {
+    @include chip.selected;
+  }
+}

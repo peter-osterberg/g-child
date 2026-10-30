@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use '@lib/tokens' as tokens;
+@use '@lib/mixins/mixin-api' as api;
+
+:root {
+  // Generate spacing variables
+  @each $name, $value in tokens.$spacing {
+    @include api.as-props('spacing', $name, $value, true);
+  }
+
+  // Generate font-family variables
+  @each $role, $value in tokens.$font-family {
+    @include api.as-props($role, 'font-family', $value);
+  }
+
+  // Generate font-weight variables
+  @each $name, $value in tokens.$font-weight {
+    @include api.as-props('font-weight', $name, $value);
+  }
+
+  // Generate role-specific font-weight variables
+  @each $role, $value in tokens.$role-font-weight {
+    @include api.as-props($role, 'font-weight', $value);
+  }
+
+  // Generate font-size variables
+  @each $name, $value in tokens.$font-size {
+    @include api.as-props('font-size', $name, $value, true);
+  }
+
+  // Generate typography spacing variables.
+  @each $size, $value in map.get(tokens.$font-space, 'body') {
+    @include api.as-props('body-space', $size, $value, true);
+  }
+
+  @each $size, $value in map.get(tokens.$font-space, 'heading') {
+    @include api.as-props('heading-space', $size, $value, true);
+  }
+
+  @each $size, $value in map.get(tokens.$font-space, 'heading-gap') {
+    @include api.as-props('heading-gap', $size, $value, true);
+  }
+
+  // Generate line-height variables
+  @each $role, $value in tokens.$line-height {
+    @include api.as-props($role, 'line-height', $value);
+  }
+
+  // Generate letter-spacing variables
+  @each $role, $value in tokens.$letter-spacing {
+    @include api.as-props($role, 'letter-spacing', $value);
+  }
+
+  // Generate radius variables
+  @each $name, $value in tokens.$radius {
+    @include api.as-props('radius', $name, $value, true);
+  }
+}

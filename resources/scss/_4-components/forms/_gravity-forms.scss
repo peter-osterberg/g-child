@@ -57,18 +57,32 @@
     margin-block-end: var(--field-gap, var(--spacing-2));
   }
 
-  .gfield_description {
-    @include forms.help;
+  .gfield_description,
+  .gfield_validation_message,
+  .gform_submission_error,
+  .gform_wrapper :where(.validation_message, .validation_message--hidden-on-empty) {
+    @include forms.message;
   }
 
   .gfield_validation_message,
   .gform_submission_error,
   .gform_wrapper :where(.validation_message, .validation_message--hidden-on-empty) {
-    @include forms.error;
+    @include forms.message-state(error);
   }
 
   .gfield_required {
     color: var(--field-error-color, var(--danger-text));
+  }
+
+  .gfield:focus-within,
+  .gfield:has([aria-invalid='true']) {
+    --field-label-color: var(--text-1);
+  }
+
+  .gfield:has(:disabled) {
+    --field-label-color: var(--text-disabled);
+    --field-message-color: #{map.get(tokens.$field-message-states, 'disabled', 'color')};
+    --input-icon-color: var(--text-disabled);
   }
 
   .gfield_checkbox,
@@ -114,11 +128,10 @@
     @include button.button;
   }
 
-  .gform_button:focus-visible,
-  .gform_button_select_files:focus-visible,
+  // The error summary also needs a ring after programmatic focus, regardless of input method.
   .gform_validation_errors:focus {
-    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .gform_drop_area {
@@ -128,7 +141,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--spacing-5);
-    border: 1px dashed var(--input-border, #{map.get(tokens.$colors, 'border')});
+    border: 1px dashed var(--input-border, #{map.get(tokens.$input, 'border-color')});
     border-radius: var(--radius-md);
   }
 
@@ -163,7 +176,7 @@
   .gform-loading-overlay-spinner {
     inline-size: var(--spacing-6);
     block-size: var(--spacing-6);
-    border: 3px solid map.get(tokens.$colors, 'border');
+    border: 3px solid map.get(tokens.$input, 'border-color');
     border-block-start-color: var(--primary-bg);
     border-radius: var(--radius-pill);
 

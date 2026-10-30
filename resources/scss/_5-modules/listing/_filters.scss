@@ -1,0 +1,125 @@
+@use '../../_4-components/button' as button;
+@use '../../_4-components/chip' as chip;
+@use '../../_4-components/dropdown' as dropdown;
+@use '../../_4-components/forms' as forms;
+
+@layer modules {
+  .module-listing {
+    .listing-filter-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-3);
+      align-items: end;
+    }
+
+    .listing-search-wrapper {
+      flex: 1 1 16rem;
+      min-inline-size: 0;
+    }
+
+    .terms-dropdown {
+      flex: 1 1 14rem;
+      min-inline-size: 0;
+    }
+
+    .listing-search-form,
+    .dropdown-inner {
+      @include forms.field;
+    }
+
+    .listing-search-form {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .listing-search-form > label {
+      @include forms.label;
+
+      grid-column: 1 / -1;
+    }
+
+    .search-input-wrapper {
+      min-inline-size: 0;
+    }
+
+    .listing-search-btn,
+    .listing-clear-filter {
+      @include button.button;
+    }
+
+    .listing-clear-filter.disabled {
+      visibility: hidden;
+    }
+
+    .dropdown-wrapper {
+      @include dropdown.shell;
+    }
+
+    .dropdown-label {
+      @include dropdown.control;
+    }
+
+    .filter-dropdown {
+      @include dropdown.menu;
+    }
+
+    .terms-dropdown:not(.open) .filter-dropdown {
+      // display: none;
+    }
+
+    .filter-dropdown li {
+      padding: 0;
+      margin: 0;
+    }
+
+    .filter-dropdown a {
+      @include dropdown.option;
+      @include dropdown.option-choice;
+
+      grid-template-columns: var(--_choice-inline-size) minmax(0, 1fr) auto;
+    }
+
+    .filter-dropdown [aria-selected='true'] > a {
+      @include dropdown.selected;
+      @include dropdown.option-choice-selected;
+    }
+
+    .listing-filter-item-count {
+      margin-inline-start: auto;
+    }
+
+    .listing-filter-taxonomy:not(.terms-dropdown),
+    .filter-active-tags-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+      align-items: center;
+    }
+
+    .filter-active-tags-wrapper {
+      flex-basis: 100%;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    .listing-filter-taxonomy:not(.terms-dropdown) > a,
+    .listing-active-filter-item {
+      @include chip.chip;
+    }
+
+    .listing-filter-taxonomy:not(.terms-dropdown) > a.active {
+      @include chip.selected;
+    }
+
+    .listing-active-filter-item-remove {
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+      background: none;
+      border: 0;
+    }
+  }
+}

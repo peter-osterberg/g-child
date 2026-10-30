@@ -1,0 +1,40 @@
+/* stylelint-disable order/order -- Module overrides must follow component mixins. */
+@use '../../_4-components/button' as button;
+
+@layer modules {
+  .module-listing {
+    .listing-pagination a.page-numbers:not(.current, .dots),
+    .listing-load-more-btn {
+      @include button.button($variant: ghost);
+      @include button.square;
+    }
+
+    .listing-pagination-inner,
+    .numbers-wrapper,
+    .prev-wrapper,
+    .next-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+      align-items: center;
+      justify-content: center;
+    }
+
+    // The outer pagination wrapper also has .page-numbers; only its descendants are buttons.
+    .listing-pagination .page-numbers {
+      // min-inline-size: 3rem;
+    }
+
+    .listing-pagination .page-numbers.current {
+      @include button.button($interactive: false);
+      @include button.square;
+    }
+
+    .page-numbers.dots {
+      color: var(--text-2);
+      cursor: default;
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+}

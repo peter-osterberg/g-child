@@ -1,0 +1,43 @@
+@use 'sass:map';
+@use '@lib/tokens' as tokens;
+
+@layer modules {
+  .module-listing .listing-wrapper {
+    display: grid;
+    gap: var(--spacing-6);
+    min-inline-size: 0;
+  }
+
+  .module-listing .listing-items-wrapper {
+    display: grid;
+    gap: var(--spacing-5);
+    min-inline-size: 0;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern -- Parent G-Theme grid modifier. */
+  .module-listing .listing-items-wrapper--grid {
+    grid-template-columns: repeat(var(--listing-cols, 1), minmax(0, 1fr));
+  }
+
+  // G-Theme emits these names as inline variables. Unset smaller breakpoints inherit larger ones.
+  $columns: 'var(--listing-cols, 1)';
+  $breakpoints: (
+    'container': tokens.$site-max-width,
+    'xlarge': map.get(tokens.$breakpoints, 'xl'),
+    'large': map.get(tokens.$breakpoints, 'lg'),
+    'medium': map.get(tokens.$breakpoints, 'md'),
+    'small': map.get(tokens.$breakpoints, 'sm'),
+    'xsmall': map.get(tokens.$breakpoints, 'xs'),
+  );
+
+  @each $name, $width in $breakpoints {
+    $columns: 'var(--listing-cols-#{$name}, #{$columns})';
+
+    @media (width < #{$width}) {
+      /* stylelint-disable-next-line selector-class-pattern -- Parent G-Theme grid modifier. */
+      .module-listing .listing-items-wrapper--grid {
+        grid-template-columns: repeat(#{$columns}, minmax(0, 1fr));
+      }
+    }
+  }
+}

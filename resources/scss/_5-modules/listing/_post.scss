@@ -1,0 +1,92 @@
+@use '../../_4-components/card' as card;
+@use '../../_4-components/typography' as typography;
+
+@layer modules {
+  .module-listing {
+    .listing-post {
+      min-inline-size: 0;
+    }
+
+    .listing-post-inner {
+      --card-bg: var(--bg-surface-1);
+      --card-border: var(--border);
+
+      @include card.card;
+
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-4);
+      block-size: 100%;
+    }
+
+    .listing-item-overlay-link {
+      --focus-ring-offset: 2px;
+
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+    }
+
+    .listing-item-image-wrapper {
+      min-inline-size: 0;
+      overflow: clip;
+      border-radius: var(--radius-sm);
+    }
+
+    .listing-item-image-wrapper img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+    }
+
+    .listing-item-text-wrapper {
+      @include typography.body;
+
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: var(--spacing-3);
+      min-inline-size: 0;
+      color: var(--text-2);
+      overflow-wrap: anywhere;
+    }
+
+    .listing-item-meta-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+      align-items: center;
+    }
+
+    .listing-item-title {
+      @include typography.heading;
+
+      margin: 0;
+      color: var(--text-1);
+    }
+
+    .listing-item-date,
+    .listing-item-author {
+      font-size: var(--font-size-sm);
+    }
+
+    .listing-item-excerpt > p {
+      margin: 0;
+    }
+
+    .listing-item-read-more {
+      margin-block-start: auto;
+    }
+
+    .listing-item-title a,
+    .listing-item-read-more a,
+    .listing-item-terms a {
+      position: relative;
+      z-index: 2;
+      color: inherit;
+    }
+  }
+}

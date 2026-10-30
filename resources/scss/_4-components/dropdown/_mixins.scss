@@ -1,0 +1,164 @@
+@use 'sass:map';
+@use '../card' as card;
+@use '../forms' as forms;
+@use '../forms/tokens' as formTokens;
+@use '../forms/indicators';
+@use 'tokens';
+
+@mixin shell {
+  position: relative;
+  min-inline-size: 0;
+}
+
+@mixin control {
+  @include forms.input;
+  @include forms.select-indicator;
+
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
+  justify-content: space-between;
+  text-align: start;
+  cursor: pointer;
+}
+
+// Opening, closing and keyboard interaction belong to the existing dropdown owner.
+@mixin menu {
+  --card-bg: var(--bg-surface-1);
+  --card-border: var(--border);
+  --card-shadow: var(--shadow-md);
+
+  @include card.card(sm);
+
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline: 0;
+  z-index: 1;
+  max-block-size: min(20rem, 50dvh);
+  margin: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+@mixin option {
+  // Selected options replace this value without duplicating the hover selector.
+  --_dropdown-option-hover-background: var(--bg-surface-2);
+  --focus-ring-offset: -2px;
+
+  display: flex;
+  gap: map.get(tokens.$option, 'gap');
+  align-items: center;
+  padding-block: map.get(tokens.$option, 'padding-block');
+  padding-inline: map.get(tokens.$option, 'padding-inline');
+  font: inherit;
+  color: map.get(tokens.$option, 'color');
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  background: map.get(tokens.$option, 'background');
+  border: 0;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled, [aria-disabled='true']) {
+      background: var(--_dropdown-option-hover-background);
+    }
+  }
+}
+
+@mixin selected {
+  --_dropdown-option-hover-background: #{map.get(tokens.$selected, 'background')};
+
+  color: map.get(tokens.$selected, 'color');
+  background: map.get(tokens.$selected, 'background');
+}
+
+/* stylelint-disable order/order -- Keep variant merging before includes and state precedence explicit. */
+// Also usable when the selected state lives on the option's parent element.
+@mixin option-choice-selected($variant: formTokens.$checkbox) {
+  $states: formTokens.$choice-states;
+  $indicator: map.get($variant, 'indicator');
+
+  @if map.has-key($variant, 'states') {
+    $states: map.deep-merge($states, map.get($variant, 'states'));
+  }
+
+  @include forms.choice-state($states, checked, $indicator);
+
+  &:focus-visible {
+    @include forms.choice-state($states, checked-focus, $indicator);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled, [aria-disabled='true']) {
+      @include forms.choice-state($states, checked-hover, $indicator);
+    }
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    @include forms.choice-state($states, disabled);
+
+    --_choice-image: var(--choice-#{$indicator}-disabled-image);
+  }
+
+  @media (forced-colors: active) {
+    &::before {
+      background-image: #{indicators.image($indicator, CanvasText)};
+    }
+
+    &:disabled::before,
+    &[aria-disabled='true']::before {
+      background-image: #{indicators.image($indicator, GrayText)};
+    }
+  }
+}
+
+// The option owns selection and focus; its marker uses the native checkbox box and image.
+@mixin option-choice($variant: formTokens.$checkbox) {
+  $states: formTokens.$choice-states;
+
+  @if map.has-key($variant, 'states') {
+    $states: map.deep-merge($states, map.get($variant, 'states'));
+  }
+
+  @include forms.choice-values($variant);
+
+  --_choice-image: none;
+
+  @include forms.choice-state($states, unchecked);
+
+  display: grid;
+  grid-template-columns: var(--_choice-inline-size) minmax(0, 1fr);
+  align-items: start;
+
+  &[aria-selected='true'] {
+    @include option-choice-selected($variant);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    @include forms.choice-state($states, disabled);
+
+    cursor: default;
+
+    @media (forced-colors: active) {
+      &::before {
+        border-color: GrayText;
+      }
+    }
+  }
+
+  &::before {
+    @include forms.choice-box;
+
+    grid-area: 1 / 1;
+    pointer-events: none;
+    content: '';
+    transform: translateY(calc((1lh - var(--_choice-block-size)) / 2));
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled, [aria-disabled='true']) {
+      @include forms.choice-state($states, hover);
+    }
+  }
+}

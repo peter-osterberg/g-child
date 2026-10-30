@@ -7,7 +7,8 @@
 - Briefly flag significant unrelated bugs or security risks without implementing fixes or turning them into a follow-up task list.
 - Plan when complexity, risk, or coordination warrants it. Execute small, obvious changes directly; touching multiple files alone does not require a written plan.
 - Once the requested outcome is complete and verified, briefly summarize the result, verification, and material limitations, then stop.
-- Understand the surrounding code, ownership, and existing patterns before changing behavior.
+- Understand the existing user journey, code path, ownership and sources of truth before changing behavior. Keep investigation proportionate to the decision.
+- Verify reported problems against current code and relevant runtime evidence before fixing them. Check that logs, state and results refer to the same execution and point in time; distinguish an incomplete or pending operation from a confirmed failure.
 - For frontend or theme work, inspect the relevant nearby templates, components, styles, JavaScript modules, or rendering helpers before adding a new pattern.
 - Prefer clear, readable code over clever abstractions.
 - Separate logical steps within functions, methods, and callbacks with a single blank line. Group related statements together. Separate setup, guards, processing, external calls, side effects, persistence, and returns where they represent distinct steps. Preserve this spacing when refactoring; do not add blank lines mechanically after every statement.
@@ -18,12 +19,13 @@
 - Avoid duplication when the shared abstraction makes the code easier to follow.
 - Keep local duplication when extracting a helper would hide the final shape or force readers to jump between files.
 - Keep behavior close to the code or component that owns it unless a shared abstraction already exists.
-- Do not introduce new dependencies, component systems, helpers, or architecture without a clear recurring need.
+- Prefer existing data models, components and native or framework capabilities. Before adding infrastructure, dependencies, recovery mechanisms or extra state, identify the concrete requirement the current system cannot satisfy and weigh the maintenance cost.
+- Keep shared behavior with its owner and domain-specific validation at the relevant boundary. Consider credible related uses and normal data growth without building speculative frameworks. Simplification must preserve permissions, data integrity and audit history.
 - Use descriptive names that explain intent instead of vague abbreviations.
 - Treat long parameter lists and multi-line method signatures as design pressure to simplify inputs or split behavior.
 - Do not add speculative fallbacks or defensive support for unsupported data shapes. Prefer clear contracts and normalize data at the boundary.
 - Do not edit generated, vendored, or SDK-like code by hand. Change the source schema, template, generator, dependency, or application wrapper instead.
 - Treat deployed migrations, published schemas, and irreversible history as immutable. Add a new change rather than rewriting history.
-- Test changes programmatically with the smallest relevant scope first, then broaden testing when the risk or surface area requires it. Run required repository checks; repeat checks only when further changes, failures, or unresolved concerns justify it.
-- Put short, always-on project rules in guidelines. Put repeatable workflows, checklists, examples, and specialized procedures in skills.
+- Verify changes with the least expensive check that proves the relevant behavior. Reuse existing tests and add coverage for meaningful regression risks; copy and styling edits do not automatically require new tests. Run required repository checks, and broaden or repeat verification when changes, failures or unresolved risks justify it.
+- Keep essential cross-cutting rules in guidelines, task-specific procedures in skills and feature decisions in plans or domain documentation. Give each rule one owner and load details only when relevant to the task.
 - Repository-specific conventions override these general rules.

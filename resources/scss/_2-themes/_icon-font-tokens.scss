@@ -1,4 +1,4 @@
-@use '@lib' as *;
+@use '../_1-lib/variables' as *;
 
 // Surface the Font Awesome family/weight config as runtime tokens so pseudo-elements and inline SVGs stay aligned.
 :root {

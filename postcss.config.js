@@ -22,8 +22,8 @@ module.exports = {
 			logger: (msg) => console.log(msg),
 		}),
 		postcssRfs({
-			functionName: 'fs', // fs() -> rem clamp(...)
-			pxFunctionNames: ['size'], // size() -> px clamp(...)
+			functionName: 'size', // fs() -> rem clamp(...)
+			// pxFunctionNames: ['size'], // size() -> px clamp(...)
 			baseValue: 20,
 			factor: 2, // global
 			breakpoint: 1440,

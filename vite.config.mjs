@@ -85,7 +85,9 @@ export default defineConfig(async ({ command, mode }) => {
 			lightningcss: {
 				// Features.IsSelector (16): keep minification from creating :is()
 				// selector lists that WP Rocket's unused-CSS parser can miss.
-				exclude: 16,
+				// Features.LightDark (1048576): inherited semantic tokens must
+				// resolve against the consuming element's native color-scheme.
+				exclude: 16 | 1048576,
 			},
 		},
 		build: {

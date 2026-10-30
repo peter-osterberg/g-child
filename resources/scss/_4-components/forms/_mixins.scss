@@ -1,92 +1,137 @@
 /* stylelint-disable order/custom-properties-alphabetical-order */
 @use 'sass:map';
 @use 'tokens';
+@use 'indicators';
+@use 'sizes';
 
-// Space a label, control and message consistently in any form integration.
-// Keep layout separate from the control shell so native controls stay reusable.
 @mixin field {
   display: grid;
-  gap: var(--field-gap, var(--spacing-2));
+  gap: var(--field-gap, #{map.get(tokens.$input, 'field-gap')});
   min-inline-size: 0;
 }
 
-// Give field labels the same weight across native and plugin-generated forms.
 @mixin label {
-  font-weight: var(--field-label-font-weight, var(--font-weight-medium));
+  font-family: map.get(tokens.$label, 'font-family'), sans-serif;
+  font-size: map.get(tokens.$label, 'font-size');
+  font-weight: map.get(tokens.$label, 'font-weight');
+  line-height: map.get(tokens.$label, 'line-height');
+  color: var(--field-label-color, #{map.get(tokens.$label, 'color')});
 }
 
-// Render supporting instructions consistently without browser paragraph margins.
-@mixin help {
+@mixin message {
   margin: 0;
-  font-size: var(--font-size-sm);
-  color: var(--field-help-color, #{map.get(tokens.$colors, 'color')});
+  font-family: map.get(tokens.$field-message, 'font-family'), sans-serif;
+  font-size: map.get(tokens.$field-message, 'font-size');
+  font-weight: map.get(tokens.$field-message, 'font-weight');
+  line-height: map.get(tokens.$field-message, 'line-height');
+  color: var(--field-message-color, #{map.get(tokens.$field-message, 'color')});
+  text-transform: map.get(tokens.$field-message, 'text-transform');
+  letter-spacing: map.get(tokens.$field-message, 'letter-spacing');
+  text-decoration: map.get(tokens.$field-message, 'text-decoration');
 }
 
-// Share error typography and color so integrations follow the same validation styling.
+// Icon rendering belongs to the shared icon styles; this role only sets size and color.
+@mixin input-icon {
+  font-size: map.get(tokens.$input-icon, 'icon-size');
+  color: var(--input-icon-color, #{map.get(tokens.$input-icon, 'color')});
+}
+
+@mixin message-state($status: error) {
+  $values: map.get(tokens.$field-message-states, $status);
+
+  @if not $values {
+    @error 'Unknown validation status: #{$status}';
+  }
+
+  color: map.get($values, 'color');
+}
+
+@mixin validation($status: error) {
+  @include message;
+  @include message-state($status);
+}
+
 @mixin error {
-  margin: 0;
-  font-size: var(--font-size-sm);
-  color: var(--field-error-color, var(--danger-text));
+  @include validation(error);
 }
 
-// Align a native choice control beside its label, including labels that wrap.
 @mixin choice {
+  @include label;
+
   display: inline-flex;
-  gap: var(--choice-gap, var(--spacing-2));
+  gap: var(--choice-gap, var(--spacing-3));
   align-items: start;
-}
+  color: map.get(tokens.$choice-states, 'unchecked', 'label-color');
 
-// Set text-control dimensions from the shared form size scale.
-// Public input variables allow local adjustments without adding another size.
-@mixin size($size: md) {
-  $config: map.get(tokens.$sizes, $size);
+  > :where(label, .field-label) {
+    font: inherit;
+    letter-spacing: inherit;
+  }
 
-  @if $config {
-    @each $key, $value in $config {
-      --_input-#{$key}: var(--input-#{$key}, #{$value});
-    }
-  } @else {
-    @error 'Unknown input size: #{$size}';
+  // Match the label's first line, including controls taller than the line box.
+  > :where(input[type='checkbox'], input[type='radio'], .checkbox, .radio) {
+    font: inherit;
+    transform: translateY(calc((1lh - var(--_choice-block-size)) / 2));
   }
 }
 
-// Render text inputs, selects and textareas with medium defaults and native states.
-// Keep the states together and use outlines for focus so the layout stays stable.
-@mixin shell {
-  --_input-padding-y: var(--input-padding-y, var(--spacing-2));
-  --_input-padding-x: var(--input-padding-x, var(--spacing-4));
-  --_input-font-size: var(--input-font-size, var(--font-size-md));
-  --_input-min-height: var(--input-min-height, 3rem);
-  --_input-radius: var(--input-radius, var(--radius-md));
-  --_input-bg: #{map.get(tokens.$colors, 'bg')};
-  --_input-color: #{map.get(tokens.$colors, 'color')};
-  --_input-border: #{map.get(tokens.$colors, 'border')};
+// State colors use the final semantic values directly, respecting public overrides.
+@mixin input-state($state) {
+  @each $property, $value in map.get(tokens.$input-states, $state) {
+    @if $property == background {
+      background: var(--input-bg, #{$value});
+    } @else if $property == border-color {
+      border-color: var(--input-border, #{$value});
+    } @else if $property == color {
+      color: var(--input-color, #{$value});
+    } @else if $property == box-shadow {
+      box-shadow: $value;
+    } @else if $property == opacity {
+      opacity: $value;
+    }
+  }
+}
+
+@mixin size($size: md) {
+  $values: map.get(sizes.$input-sizes, $size);
+
+  @if not $values {
+    @error 'Unknown input size: #{$size}';
+  }
+
+  @each $property, $value in $values {
+    --_input-#{$property}: #{$value};
+  }
+}
+
+@mixin shell($size: md) {
+  @include size($size);
 
   box-sizing: border-box;
   inline-size: 100%;
   min-inline-size: 0;
-  min-block-size: var(--_input-min-height);
-  padding-block: var(--_input-padding-y);
-  padding-inline: var(--_input-padding-x);
-  font-family: var(--input-font-family, var(--body-font-family, sans-serif)), sans-serif;
-  font-size: var(--_input-font-size);
-  font-weight: var(--input-font-weight, var(--body-font-weight, 400));
-  line-height: var(--input-line-height, var(--body-line-height, 1.5));
-  color: var(--input-color, var(--_input-color));
-  letter-spacing: var(--input-letter-spacing, var(--body-letter-spacing, normal));
-  background-color: var(--input-bg, var(--_input-bg));
-  border: var(--input-border-width, 1px) solid var(--input-border, var(--_input-border));
-  border-radius: var(--_input-radius);
-
-  &:focus-visible {
-    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
-    outline-offset: 2px;
-  }
+  min-block-size: var(--input-min-height, var(--_input-min-height));
+  padding-block: var(--input-padding-block, var(--_input-padding-block));
+  padding-inline: var(--input-padding-inline, var(--_input-padding-inline));
+  font-family: map.get(tokens.$input, 'font-family'), sans-serif;
+  font-size: var(--input-font-size, var(--_input-font-size));
+  font-weight: map.get(tokens.$input, 'font-weight');
+  line-height: map.get(tokens.$input, 'line-height');
+  color: var(--input-color, #{map.get(tokens.$input, 'color')});
+  text-transform: map.get(tokens.$input, 'text-transform');
+  letter-spacing: map.get(tokens.$input, 'letter-spacing');
+  text-decoration: map.get(tokens.$input, 'text-decoration');
+  background: var(--input-bg, #{map.get(tokens.$input, 'background')});
+  border: map.get(tokens.$input, 'border-width') solid var(--input-border, #{map.get(tokens.$input, 'border-color')});
+  border-radius: map.get(tokens.$input, 'border-radius');
+  box-shadow: map.get(tokens.$input, 'box-shadow');
+  opacity: map.get(tokens.$input, 'opacity');
 
   &:focus {
-    color: var(--input-color-focus, #{map.get(tokens.$colors, 'focus', 'color')});
-    background-color: var(--input-bg-focus, #{map.get(tokens.$colors, 'focus', 'background')});
-    border-color: var(--input-border-focus, #{map.get(tokens.$colors, 'focus', 'border-color')});
+    @include input-state(focus);
+
+    outline: none;
+    border-color: var(--input-border, var(--focus-ring-color));
   }
 
   &:where(textarea) {
@@ -95,108 +140,230 @@
   }
 
   &[aria-invalid='true']:not(:disabled) {
-    color: var(--input-color-error, #{map.get(tokens.$colors, 'error', 'color')});
-    background-color: var(--input-bg-error, #{map.get(tokens.$colors, 'error', 'background')});
-    border-color: var(--input-border-error, #{map.get(tokens.$colors, 'error', 'border-color')});
+    @include input-state(error);
   }
 
   &[readonly] {
     cursor: default;
-    background-color: var(--input-bg-readonly, #{map.get(tokens.$colors, 'disabled', 'background')});
   }
 
-  &:disabled {
-    color: var(--input-color-disabled, #{map.get(tokens.$colors, 'disabled', 'color')});
-    cursor: not-allowed;
-    background-color: var(--input-bg-disabled, #{map.get(tokens.$colors, 'disabled', 'background')});
-    border-color: var(--input-border-disabled, #{map.get(tokens.$colors, 'disabled', 'border-color')});
-    opacity: var(--input-opacity-disabled, 0.5);
+  &::placeholder {
+    color: map.get(tokens.$input, 'placeholder-color');
+    opacity: 1;
   }
 
   @media (hover: hover) and (pointer: fine) {
     &:hover:not(:disabled, [readonly], [aria-invalid='true'], :focus) {
-      color: var(--input-color-hover, #{map.get(tokens.$colors, 'hover', 'color')});
-      background-color: var(--input-bg-hover, #{map.get(tokens.$colors, 'hover', 'background')});
-      border-color: var(--input-border-hover, #{map.get(tokens.$colors, 'hover', 'border-color')});
+      @include input-state(hover);
+    }
+  }
+
+  &:disabled {
+    @include input-state(disabled);
+
+    cursor: not-allowed;
+  }
+}
+
+@mixin input($size: md) {
+  @include shell($size);
+}
+
+// Native single selects and custom dropdown controls use the same background arrow.
+@mixin select-indicator {
+  --_select-image: var(--select-image);
+
+  padding-inline-end: calc(var(--input-padding-inline, var(--_input-padding-inline)) + var(--select-icon-size, 1em) + var(--spacing-2));
+  appearance: none;
+  background-image: var(--_select-image);
+  background-repeat: no-repeat;
+  background-position: right var(--input-padding-inline, var(--_input-padding-inline)) center;
+  background-size: var(--select-icon-size, 1em) var(--select-icon-size, 1em);
+
+  &:dir(rtl) {
+    background-position: left var(--input-padding-inline, var(--_input-padding-inline)) center;
+  }
+
+  &[aria-expanded='true'] {
+    --_select-image: var(--select-open-image);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    --_select-image: var(--select-disabled-image);
+  }
+
+  @media (forced-colors: active) {
+    appearance: auto;
+    background-image: none;
+  }
+}
+
+@mixin select($size: md) {
+  @include input($size);
+  @include select-indicator;
+}
+
+@mixin choice-state($states, $state, $indicator: null) {
+  $values: map.get($states, $state);
+
+  --_choice-background: #{map.get($values, 'background')};
+  --_choice-border: #{map.get($values, 'border-color')};
+
+  @if $indicator and map.has-key($values, 'indicator-color') {
+    --_choice-image: var(--choice-#{$indicator}-#{$state}-image);
+  }
+}
+
+// Resolve the SVG images before deciding which values differ from the shared base.
+@function resolved-control-images($palette, $roles, $theme) {
+  $images: ();
+  $values: map.merge($palette, map.merge($roles, map.remove($theme, 'color-scheme')));
+
+  @each $variant in tokens.$checkbox, tokens.$radio {
+    $states: tokens.$choice-states;
+    $indicator: map.get($variant, 'indicator');
+
+    @if map.has-key($variant, 'states') {
+      $states: map.deep-merge($states, map.get($variant, 'states'));
+    }
+
+    @each $state in checked, checked-hover, checked-focus, disabled {
+      $color: map.get($states, $state, 'indicator-color');
+
+      @if $state == disabled {
+        $color: map.get($states, $state, 'label-color');
+      }
+
+      $images: map.set($images, 'choice-#{$indicator}-#{$state}-image', indicators.image($indicator, indicators.resolve-color($color, $values, map.get($theme, 'color-scheme'))));
+    }
+  }
+
+  $select-color: indicators.resolve-color(map.get(tokens.$input-icon, 'color'), $values, map.get($theme, 'color-scheme'));
+  $disabled-color: indicators.resolve-color(map.get(tokens.$input-states, 'disabled', 'color'), $values, map.get($theme, 'color-scheme'));
+
+  @return map.merge($images, (
+    'select-image': indicators.image(chevron-down, $select-color),
+    'select-open-image': indicators.image(chevron-up, $select-color),
+    'select-disabled-image': indicators.image(chevron-down, $disabled-color),
+  ));
+}
+
+// Publish base images once and only changed images for a theme variant.
+@mixin control-images($palette, $roles, $theme, $base-theme: null) {
+  $base-images: ();
+
+  @if $base-theme {
+    $base-images: resolved-control-images($palette, $roles, $base-theme);
+  }
+
+  @each $name, $image in resolved-control-images($palette, $roles, $theme) {
+    @if $image != map.get($base-images, $name) {
+      --#{$name}: #{$image};
     }
   }
 }
 
-// Build a complete text control for components that do not use the .input class.
-// Apply the selected size after the shell so it replaces the medium defaults.
-@mixin input($size: md) {
-  @include shell;
-  @include size($size);
+// Seed values on the control or on the owner of decorative pseudo-elements.
+@mixin choice-values($variant) {
+  $base: map.merge(tokens.$choice, $variant);
+
+  --_choice-block-size: var(--choice-size, #{map.get($base, 'height')});
+  --_choice-inline-size: var(--choice-size, #{map.get($base, 'width')});
+  --_choice-border-width: #{map.get($base, 'border-width')};
+  --_choice-border-radius: #{map.get($base, 'border-radius')};
 }
 
-// Size native checkboxes and radio buttons using their own shared scale.
-// Keep their compact dimensions independent of text-control padding and height.
-@mixin choice-size($size: md) {
-  $value: map.get(tokens.$choice-sizes, $size);
+// Shared box and background-image rendering for native controls and dropdown markers.
+@mixin choice-box {
+  box-sizing: border-box;
+  display: inline-grid;
+  flex-shrink: 0;
+  place-content: center;
+  inline-size: var(--_choice-inline-size);
+  block-size: var(--_choice-block-size);
+  padding: max(0px, var(--_choice-border-width));
+  margin: 0;
+  vertical-align: middle;
+  background: var(--_choice-background);
+  background-image: var(--_choice-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-origin: content-box;
+  background-size: 100% 100%;
+  border: var(--_choice-border-width) solid var(--_choice-border);
+  border-radius: var(--_choice-border-radius);
 
-  @if not $value {
-    @error 'Unknown choice size: #{$size}';
+  @media (forced-colors: active) {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+}
+
+// Native states belong here; decorative markers use their owner's selected state.
+@mixin choice-control($variant) {
+  $states: tokens.$choice-states;
+  $indicator: map.get($variant, 'indicator');
+
+  --_choice-image: none;
+
+  @if map.has-key($variant, 'states') {
+    $states: map.deep-merge($states, map.get($variant, 'states'));
   }
 
-  --_choice-size: #{$value};
+  --focus-ring-offset: #{map.get($states, 'focus', 'ring-offset')};
+
+  @include choice-values($variant);
+  @include choice-state($states, unchecked);
+  @include choice-box;
+
+  appearance: none;
+  cursor: pointer;
+
+  &:checked {
+    @include choice-state($states, checked, $indicator);
+  }
+
+  &:checked:focus-visible {
+    @include choice-state($states, checked-focus, $indicator);
+  }
+
+  &[aria-invalid='true']:not(:disabled) {
+    border-color: map.get(tokens.$input-states, 'error', 'border-color');
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled, [aria-invalid='true']) {
+      @include choice-state($states, hover);
+    }
+
+    &:checked:hover:not(:disabled, [aria-invalid='true']) {
+      @include choice-state($states, checked-hover, $indicator);
+    }
+  }
+
+  @media (forced-colors: active) {
+    appearance: auto;
+    forced-color-adjust: auto;
+    background-image: none;
+  }
+
+  &:disabled {
+    @include choice-state($states, disabled);
+
+    cursor: not-allowed;
+  }
+
+  &:checked:disabled {
+    --_choice-image: var(--choice-#{$indicator}-disabled-image);
+  }
 }
 
-// Style a native checkbox while keeping its checked and keyboard behavior.
-// Keep its states explicit so checkbox styling can change independently of radio buttons.
 @mixin checkbox {
-  flex-shrink: 0;
-  inline-size: var(--checkbox-size, var(--_choice-size, 1.25rem));
-  block-size: var(--checkbox-size, var(--_choice-size, 1.25rem));
-  margin: 0;
-  vertical-align: middle;
-  accent-color: var(--checkbox-accent, var(--primary-bg));
-  cursor: pointer;
-
-  &:focus-visible {
-    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
-    outline-offset: 2px;
-  }
-
-  &:checked {
-    accent-color: var(--checkbox-accent-checked, var(--checkbox-accent, var(--primary-bg)));
-  }
-
-  &[aria-invalid='true']:not(:disabled) {
-    outline: 2px solid var(--input-border-error, #{map.get(tokens.$colors, 'error', 'border-color')});
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: var(--checkbox-opacity-disabled, 0.5);
-  }
+  @include choice-control(tokens.$checkbox);
 }
 
-// Style a native radio button while keeping browser-managed selection and keyboard behavior.
-// Keep its states explicit so radio styling can change independently of checkboxes.
 @mixin radio {
-  flex-shrink: 0;
-  inline-size: var(--radio-size, var(--_choice-size, 1.25rem));
-  block-size: var(--radio-size, var(--_choice-size, 1.25rem));
-  margin: 0;
-  vertical-align: middle;
-  accent-color: var(--radio-accent, var(--primary-bg));
-  cursor: pointer;
-
-  &:focus-visible {
-    outline: 2px solid var(--input-ring-focus, #{map.get(tokens.$colors, 'focus', 'ring-color')});
-    outline-offset: 2px;
-  }
-
-  &:checked {
-    accent-color: var(--radio-accent-checked, var(--radio-accent, var(--primary-bg)));
-  }
-
-  &[aria-invalid='true']:not(:disabled) {
-    outline: 2px solid var(--input-border-error, #{map.get(tokens.$colors, 'error', 'border-color')});
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: var(--radio-opacity-disabled, 0.5);
-  }
+  @include choice-control(tokens.$radio);
 }

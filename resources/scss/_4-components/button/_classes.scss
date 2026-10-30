@@ -1,3 +1,5 @@
+/* Keep defaults before modifiers. */
+/* stylelint-disable order/order */
 @use 'sass:map';
 @use 'tokens';
 @use 'mixins' as button;
@@ -7,21 +9,55 @@
     @include button.shell;
   }
 
-  @each $variant in filled, outline, ghost {
-    .btn-#{$variant} {
-      @include button.variant($variant);
+  @each $variant in tokens.$variants {
+    @each $color in tokens.$colors {
+      $selector: '.btn-#{$variant}.btn-#{$color}';
+
+      @if $color == primary {
+        $selector: '.btn-#{$variant}';
+      }
+
+      @if $variant == filled {
+        $selector: '#{$selector}, .btn-#{$color}:not(.btn-outline, .btn-ghost, .btn-text)';
+      }
+
+      #{$selector} {
+        @include button.variant($variant, $color);
+      }
     }
   }
 
-  @each $size in map.keys(tokens.$sizes) {
+  @each $size in map.keys(tokens.$button-sizes) {
     .btn-#{$size} {
       @include button.size($size);
     }
   }
 
-  @each $color in tokens.$colors {
-    .btn-#{$color} {
-      @include button.color($color);
-    }
+  .btn-text.btn-currentcolor {
+    --button-color: currentcolor;
+  }
+
+  .btn-block {
+    inline-size: 100%;
+  }
+
+  .btn-icon-start {
+    @include button.icon-start;
+  }
+
+  .btn-icon-end {
+    @include button.icon-end;
+  }
+
+  .btn-square {
+    @include button.square;
+  }
+
+  .btn-icon-only {
+    @include button.icon-only;
+  }
+
+  .btn-round {
+    @include button.round;
   }
 }

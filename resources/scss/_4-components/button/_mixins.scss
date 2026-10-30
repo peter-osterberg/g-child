@@ -1,141 +1,228 @@
 /* stylelint-disable order/custom-properties-alphabetical-order */
+@use 'sass:meta';
 @use 'sass:map';
 @use 'sass:list';
-
 @use 'tokens';
+@use '../../_1-lib/variables' as config;
+@use '../../_1-lib/mixins/mixin-icon-font' as icon-font;
 
-// Set padding and font size from the shared scale so buttons use consistent sizes.
-// Public CSS variables allow local adjustments without adding another size.
 @mixin size($size: md) {
-  $config: map.get(tokens.$sizes, $size);
+  $values: map.get(tokens.$button-sizes, $size);
 
-  @if $config {
-    @each $key, $value in $config {
-      --_button-#{$key}: var(--button-#{$key}, #{$value});
-    }
-  } @else {
+  @if not $values {
     @error 'Unknown button size: #{$size}';
+  }
+
+  @each $key, $value in $values {
+    --_button-#{$key}: #{$value};
   }
 }
 
-// Select the palette for normal, hover and pressed states.
-// Keeping the palette separate lets the same color work with every variant.
-@mixin color($color: primary) {
-  $config: list.index(tokens.$colors, $color);
+// Defaults live in the shell; replacing an existing variant resets its differences.
+@mixin reset-appearance {
+  --_button-default-background: transparent;
+  --_button-default-border-color: transparent;
+  --_button-default-color: currentcolor;
 
-  @if not $config {
+  @each $state in hover, pressed, disabled {
+    @each $property in background, border-color, color {
+      --_button-#{$state}-#{$property}: initial;
+    }
+  }
+}
+
+@mixin variant($variant: filled, $color: primary) {
+  @if not list.index(tokens.$colors, $color) {
     @error 'Unknown button color: #{$color}';
   }
 
-  --_button-fill: var(--#{$color}-bg);
-  --_button-fill-hover: var(--#{$color}-bg-hover);
-  --_button-fill-pressed: var(--#{$color}-bg-pressed);
-  --_button-on: var(--#{$color}-on-color);
-  --_button-on-hover: var(--#{$color}-on-color-hover);
-  --_button-on-pressed: var(--#{$color}-on-color-pressed);
-  --_button-stroke: var(--#{$color}-border);
-  --_button-stroke-hover: var(--#{$color}-border-hover);
-  --_button-stroke-pressed: var(--#{$color}-border-pressed);
-}
-
-// Assign background, text and border colors for each variant and interaction state.
-// Each variant has a complete block so its appearance can be understood in one place.
-@mixin variant($variant: filled) {
   @if $variant == filled {
-    --_button-bg: var(--_button-fill);
-    --_button-color: var(--_button-on);
-    --_button-border: var(--_button-stroke);
-    --_button-hover-bg: var(--_button-fill-hover);
-    --_button-hover-color: var(--_button-on-hover);
-    --_button-hover-border: var(--_button-stroke-hover);
-    --_button-pressed-bg: var(--_button-fill-pressed);
-    --_button-pressed-color: var(--_button-on-pressed);
-    --_button-pressed-border: var(--_button-stroke-pressed);
+    --_button-default-background: var(--#{$color}-bg);
+    --_button-default-color: var(--#{$color}-on-color);
+    --_button-hover-background: var(--#{$color}-bg-hover);
+    --_button-hover-color: var(--#{$color}-on-color-hover);
+    --_button-pressed-background: var(--#{$color}-bg-pressed);
+    --_button-pressed-color: var(--#{$color}-on-color-pressed);
+    --_button-disabled-background: var(--bg-surface-3);
   } @else if $variant == outline {
-    --_button-bg: transparent;
-    --_button-color: var(--_button-fill);
-    --_button-border: var(--_button-stroke);
-    --_button-hover-bg: color-mix(in srgb, var(--_button-fill) 8%, transparent);
-    --_button-hover-color: var(--_button-fill);
-    --_button-hover-border: var(--_button-stroke-hover);
-    --_button-pressed-bg: color-mix(in srgb, var(--_button-fill) 16%, transparent);
-    --_button-pressed-color: var(--_button-fill);
-    --_button-pressed-border: var(--_button-stroke-pressed);
+    --_button-default-border-color: var(--#{$color}-border);
+    --_button-default-color: var(--#{$color}-text);
+    --_button-hover-background: var(--#{$color}-bg-hover);
+    --_button-hover-border-color: var(--#{$color}-border-hover);
+    --_button-hover-color: var(--#{$color}-on-color-hover);
+    --_button-pressed-background: var(--#{$color}-bg-pressed);
+    --_button-pressed-border-color: var(--#{$color}-border-pressed);
+    --_button-pressed-color: var(--#{$color}-on-color-pressed);
+    --_button-disabled-border-color: var(--border-disabled);
   } @else if $variant == ghost {
-    --_button-bg: transparent;
-    --_button-color: var(--_button-fill);
-    --_button-border: transparent;
-    --_button-hover-bg: color-mix(in srgb, var(--_button-fill) 8%, transparent);
-    --_button-hover-color: var(--_button-fill);
-    --_button-hover-border: transparent;
-    --_button-pressed-bg: color-mix(in srgb, var(--_button-fill) 16%, transparent);
-    --_button-pressed-color: var(--_button-fill);
-    --_button-pressed-border: transparent;
+    --_button-default-color: var(--#{$color}-text);
+    --_button-hover-background: var(--#{$color}-bg-subtle-hover);
+    --_button-pressed-background: var(--#{$color}-bg-subtle-pressed);
+  } @else if $variant == text {
+    --_button-default-color: var(--#{$color}-text);
+
+    min-block-size: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
   } @else {
     @error 'Unknown button variant: #{$variant}';
   }
+
+  --_button-disabled-color: var(--text-disabled);
 }
 
-// Render a usable neutral button with basic sizing and interaction fallbacks.
-// Modifier classes replace these defaults without requiring a full button preset.
-// Remove link underlines so anchors and buttons share the same shell.
-@mixin shell {
-  --_button-padding-y: var(--button-padding-y, var(--spacing-3));
-  --_button-padding-x: var(--button-padding-x, var(--spacing-4));
-  --_button-font-size: var(--button-font-size, var(--font-size-md));
-  --_button-bg: transparent;
-  --_button-color: currentcolor;
-  --_button-border: transparent;
-  --_button-hover-bg: var(--_button-bg);
-  --_button-hover-color: var(--_button-color);
-  --_button-hover-border: var(--_button-border);
-  --_button-pressed-bg: var(--_button-bg);
-  --_button-pressed-color: var(--_button-color);
-  --_button-pressed-border: var(--_button-border);
+@mixin paint($state) {
+  color: var(--button-color, var(--_button-#{$state}-color, var(--_button-default-color)));
+  background: var(--button-bg, var(--_button-#{$state}-background, var(--_button-default-background)));
+  border-color: var(--button-border, var(--_button-#{$state}-border-color, var(--_button-default-border-color)));
+}
 
+@mixin shell($size: md, $interactive: true) {
+  @include reset-appearance;
+  @include size($size);
+  @include paint(default);
+
+  box-sizing: border-box;
   display: inline-flex;
-  gap: var(--button-gap, var(--spacing-2));
+  gap: var(--button-gap, var(--_button-gap));
   align-items: center;
   justify-content: center;
-  padding-block: var(--_button-padding-y);
-  padding-inline: var(--_button-padding-x);
-  font-family: var(--button-font-family, sans-serif), sans-serif;
-  font-size: var(--_button-font-size);
-  font-weight: var(--button-font-weight);
-  line-height: var(--button-line-height);
-  color: var(--button-color, var(--_button-color));
-  letter-spacing: var(--button-letter-spacing);
+  inline-size: auto;
+  block-size: auto;
+  min-block-size: var(--_button-min-height);
+  padding-block: max(0px, (var(--button-padding-block, var(--_button-padding-block)) - var(--_button-border-width)));
+  padding-inline: max(0px, (var(--button-padding-inline, var(--_button-padding-inline)) - var(--_button-border-width)));
+  font-family: var(--button-font-family, #{meta.inspect(map.get(tokens.$button, 'font-family'))}), sans-serif;
+  font-size: var(--button-font-size, var(--_button-font-size));
+  font-weight: var(--button-font-weight, #{map.get(tokens.$button, 'font-weight')});
+  line-height: map.get(tokens.$button, 'line-height');
+  text-align: center;
+  letter-spacing: map.get(tokens.$button, 'letter-spacing');
   text-decoration: none;
   cursor: pointer;
-  background: var(--button-bg, var(--_button-bg));
-  border: var(--button-border-width, 1px) solid;
-  border-color: var(--button-border, var(--_button-border));
-  border-radius: var(--button-radius, var(--radius-md));
+  border-style: solid;
+  border-width: var(--_button-border-width);
+  border-radius: var(--button-radius, var(--_button-border-radius));
+  box-shadow: var(--button-shadow, none);
+  opacity: 1;
 
-  &:hover:not(:disabled, [aria-disabled='true']) {
-    color: var(--button-hover-color, var(--_button-hover-color));
-    background: var(--button-hover-bg, var(--_button-hover-bg));
-    border-color: var(--button-hover-border, var(--_button-hover-border));
+  :where(.svg-icon-start, .svg-icon-end, .svg-icon-only) {
+    flex-shrink: 0;
+    inline-size: var(--_button-icon-size);
+    block-size: var(--_button-icon-size);
+    color: currentcolor;
   }
 
-  &:active:not(:disabled, [aria-disabled='true']) {
-    color: var(--button-pressed-color, var(--_button-pressed-color));
-    background: var(--button-pressed-bg, var(--_button-pressed-bg));
-    border-color: var(--button-pressed-border, var(--_button-pressed-border));
-  }
+  @if $interactive {
+    &:focus-visible:not(:disabled, [aria-disabled='true']) {
+      @include paint(default);
+    }
 
-  &:disabled,
-  &[aria-disabled='true'] {
-    cursor: not-allowed;
-    opacity: 0.5;
+    &:active:not(:disabled, [aria-disabled='true']) {
+      @include paint(pressed);
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      @include paint(disabled);
+
+      cursor: not-allowed;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(:disabled, [aria-disabled='true'], :active) {
+        @include paint(hover);
+      }
+    }
+  } @else {
+    cursor: default;
   }
 }
 
-// Build a complete button with default color, variant, size and interaction states.
-// Apply the shell first so the selected options replace its neutral defaults.
-@mixin button($color: primary, $variant: filled, $size: md) {
-  @include shell;
-  @include size($size);
-  @include color($color);
-  @include variant($variant);
+// Font rendering stays with the shared icon API; button sizing stays local.
+@mixin icon($name, $weight: null) {
+  @include icon-font.icon($name, $weight);
+
+  flex-shrink: 0;
+  font-size: var(--_button-icon-size);
+  line-height: 1;
+}
+
+// Figma Slide moves the glyph half its width toward the icon's side.
+@mixin icon-animation($target, $animation: none, $direction: 1) {
+  @if $animation != none and $animation != slide {
+    @error 'Unknown button icon animation: #{$animation}';
+  }
+
+  @if $animation == slide {
+    @media (prefers-reduced-motion: no-preference) {
+      &#{$target} {
+        transition: translate var(--motion-duration) var(--motion-easing);
+      }
+
+      &:focus-visible:not(:disabled, [aria-disabled='true'])#{$target},
+      &:active:not(:disabled, [aria-disabled='true'])#{$target} {
+        translate: #{$direction * 50%};
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover:not(:disabled, [aria-disabled='true'])#{$target} {
+          translate: #{$direction * 50%};
+        }
+      }
+    }
+  }
+}
+
+@mixin icon-start($name: config.$icon-button-start, $animation: none, $weight: null) {
+  @include icon-animation(':not(.btn-custom-icon-start)::before', $animation, -1);
+
+  &:not(.btn-custom-icon-start)::before {
+    @include icon($name, $weight);
+  }
+}
+
+@mixin icon-end($name: config.$icon-button-end, $animation: none, $weight: null) {
+  @include icon-animation(':not(.btn-custom-icon-end)::after', $animation);
+
+  &:not(.btn-custom-icon-end)::after {
+    @include icon($name, $weight);
+  }
+}
+
+// Shape mixins set geometry only; icon-only adds the glyph.
+@mixin square {
+  inline-size: var(--_button-icon-only-width);
+  block-size: var(--_button-icon-only-height);
+  min-block-size: 0;
+  padding: 0;
+  font-size: var(--_button-icon-only-font-size);
+}
+
+@mixin round {
+  @include square;
+
+  border-radius: var(--radius-pill);
+}
+
+@mixin icon-only($round: false, $name: config.$icon-button-end, $weight: null, $animation: none) {
+  @if $round {
+    @include round;
+  } @else {
+    @include square;
+  }
+
+  @include icon-animation(':not(:has(.svg-icon-only))::before', $animation);
+
+  &:not(:has(.svg-icon-only))::before {
+    @include icon($name, $weight);
+
+    font-size: var(--_button-icon-only-font-size);
+  }
+}
+
+@mixin button($color: primary, $variant: filled, $size: md, $interactive: true) {
+  @include shell($size, $interactive);
+  @include variant($variant, $color);
 }

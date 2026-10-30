@@ -1,0 +1,36 @@
+@use 'sass:map';
+@use 'tokens';
+
+// Shared by public chips and module-owned filter controls.
+@mixin chip {
+  // Keep selection in a state value so the shared hover border can still win.
+  --_chip-border: var(--chip-border, #{map.get(tokens.$base, 'border-color')});
+  --focus-ring-offset: 2px;
+
+  display: inline-flex;
+  gap: map.get(tokens.$base, 'gap');
+  align-items: center;
+  max-inline-size: 100%;
+  padding-block: map.get(tokens.$base, 'padding-block');
+  padding-inline: map.get(tokens.$base, 'padding-inline');
+  font: inherit;
+  color: var(--chip-color, #{map.get(tokens.$base, 'color')});
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  background: var(--chip-bg, #{map.get(tokens.$base, 'background')});
+  border: 1px solid var(--_chip-border);
+  border-radius: map.get(tokens.$base, 'radius');
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not(:disabled, [aria-disabled='true']) {
+      border-color: var(--border-strong);
+    }
+  }
+}
+
+@mixin selected {
+  --_chip-border: var(--chip-border, #{map.get(tokens.$selected, 'border-color')});
+
+  color: var(--chip-color, #{map.get(tokens.$selected, 'color')});
+  background: var(--chip-bg, #{map.get(tokens.$selected, 'background')});
+}

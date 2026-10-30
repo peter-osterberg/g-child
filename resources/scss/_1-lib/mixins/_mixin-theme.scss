@@ -1,33 +1,34 @@
 @use 'sass:map';
 @use '@lib/tokens' as tokens;
 
-// Collect explicit override keys so every section can reset them to the shared color pairs.
-$variant-defaults: ();
-
-@each $theme in map.values(tokens.$themes) {
-  @each $name in map.keys(map.remove($theme, 'color-scheme')) {
-    @if not map.has-key(tokens.$theme-colors, $name) {
-      @error 'Unknown theme color `#{$name}`.';
-    }
-
-    $variant-defaults: map.set($variant-defaults, $name, map.get(tokens.$theme-colors, $name));
+// Keep the existing page-builder background names while themes own their canvas.
+@function canvas-name($theme-name) {
+  @if $theme-name == light {
+    @return 'bg-canvas';
   }
+
+  @return 'bg-canvas-#{$theme-name}';
 }
 
-// Select a section's scheme and apply its variant changes without repeating the base palette.
-// Reset known variant properties here so a nested section does not inherit its parent's overrides.
+// Each theme declares its canvas, color scheme and authored color differences.
 @mixin apply-theme($theme-name) {
-  @if not map.has-key(tokens.$themes, $theme-name) {
+  $theme: map.get(tokens.$themes, $theme-name);
+
+  @if not $theme {
     @error 'Unknown theme `#{$theme-name}`.';
   }
 
-  $theme: map.get(tokens.$themes, $theme-name);
+  @if not map.has-key($theme, 'bg-canvas') {
+    @error 'Theme `#{$theme-name}` needs bg-canvas.';
+  }
 
-  @each $name, $default in $variant-defaults {
-    $value: $default;
+  @if map.get($theme, 'color-scheme') != light and map.get($theme, 'color-scheme') != dark {
+    @error 'Theme `#{$theme-name}` needs a light or dark color-scheme.';
+  }
 
-    @if map.has-key($theme, $name) {
-      $value: map.get($theme, $name);
+  @each $name, $value in map.remove($theme, 'color-scheme') {
+    @if $name != 'bg-canvas' and not map.has-key(tokens.$theme-colors, $name) {
+      @error 'Unknown theme color `#{$name}`.';
     }
 
     --#{$name}: #{$value};

@@ -1,99 +1,70 @@
-// This function returns an SVG icon for select elements based on the provided Font Awesome family, weight and color.
-// The function supports both Font Awesome 7 Pro and Sharp variants with thin, light, regular and solid weights.
-// @param {String} $fa-family - The Font Awesome family to use (defaults to $base-fa)
-// @param {String} $fa-weight - The Font Awesome weight to use (defaults to $base-fa-weight)
-// @param {Color} $icon-color - The color to apply to the icon (defaults to $select-icon-color)
-// @return {String} The SVG icon as a data URL
+// Font Awesome Free v7.1.0 by @fontawesome. Copyright 2025 Fonticons, Inc.
+// https://fontawesome.com/license/free
 
-// Select icon based on the font family and weight
+// stylelint-disable-next-line scss/at-function-pattern -- Sass private helper.
+@function _svg-icon($path, $color, $view-box) {
+  @return url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$color}' viewBox='#{$view-box}'%3E%3Cpath d='#{$path}'/%3E%3C/svg%3E");
+}
+
 @function svg-select-icon($fa-family, $fa-weight, $icon-color) {
-  // Fa pro check icons
-  $select-icon-thin:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M186.3 365.7c3.1 3.1 8.2 3.1 11.3 0l176-176c3.1-3.1 3.1-8.2 0-11.3s-8.2-3.1-11.3 0L192 348.7 21.7 178.3c-3.1-3.1-8.2-3.1-11.3 0s-3.1 8.2 0 11.3l176 176z'/%3E%3C/svg%3E");
-  $select-icon-light:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M180.7 363.3c6.2 6.2 16.4 6.2 22.6 0l160-160c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L192 329.4 43.3 180.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l160 160z'/%3E%3C/svg%3E");
-  $select-icon-regular: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M209.5 369c-9.4 9.4-24.6 9.4-33.9 0L15.5 209c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l143 143 143-143c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-160 160z'/%3E%3C/svg%3E");
-  $select-icon-solid:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z'/%3E%3C/svg%3E");
+  $path: 'M209.5 369c-9.4 9.4-24.6 9.4-33.9 0L15.5 209c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l143 143 143-143c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-160 160z';
+  $view-box: '0 0 384 512';
 
-  // Fa sharp check icons
-  $select-icon-sharp-thin:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M192.3 371.3l5.7-5.7 176-176 5.7-5.7-11.3-11.3-5.7 5.7-170.3 170.3-170.3-170.3-5.7-5.7-11.3 11.3 5.7 5.7 176 176 5.7 5.7z'/%3E%3C/svg%3E");
-  $select-icon-sharp-light:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M192.1 374.6l11.3-11.3 160-160 11.3-11.3-22.6-22.6-11.3 11.3-148.7 148.7-148.7-148.7-11.3-11.3-22.6 22.6 11.3 11.3 160 160 11.3 11.3z'/%3E%3C/svg%3E");
-  $select-icon-sharp-regular: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 384 512'%3E%3Cpath d='M192.4 385.9l17-17 160-160 17-17-33.9-33.9-17 17-143 143-143-143-17-17-33.9 33.9 17 17 160 160 17 17z'/%3E%3C/svg%3E");
-  $select-icon-sharp-solid:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 448 512'%3E%3Cpath d='M224.3 397.3l182.6-182.6 22.6-22.6-45.3-45.3-22.6 22.6-137.4 137.4-137.4-137.4-22.6-22.6-45.3 45.3 22.6 22.6 160 160 22.6 22.6z'/%3E%3C/svg%3E");
-
-  // Set default icon
-  $select-icon: $select-icon-regular !default;
-
-  // Set check icon based on the base-fa and base-fa-weight
   @if $fa-family == 'Font Awesome 7 Pro' {
     @if $fa-weight == 'thin' or $fa-weight == 100 {
-      $select-icon: $select-icon-thin;
+      $path: 'M186.3 365.7c3.1 3.1 8.2 3.1 11.3 0l176-176c3.1-3.1 3.1-8.2 0-11.3s-8.2-3.1-11.3 0L192 348.7 21.7 178.3c-3.1-3.1-8.2-3.1-11.3 0s-3.1 8.2 0 11.3l176 176z';
     } @else if $fa-weight == 'light' or $fa-weight == 300 {
-      $select-icon: $select-icon-light;
+      $path: 'M180.7 363.3c6.2 6.2 16.4 6.2 22.6 0l160-160c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L192 329.4 43.3 180.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l160 160z';
     } @else if $fa-weight == 'regular' or $fa-weight == 400 {
-      $select-icon: $select-icon-regular;
+      $path: 'M209.5 369c-9.4 9.4-24.6 9.4-33.9 0L15.5 209c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l143 143 143-143c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-160 160z';
     } @else if $fa-weight == 'solid' or $fa-weight == 900 {
-      $select-icon: $select-icon-solid;
+      $path: 'M169.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 306.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z';
     }
   } @else if $fa-family == 'Font Awesome 7 Sharp' {
     @if $fa-weight == 'thin' or $fa-weight == 100 {
-      $select-icon: $select-icon-sharp-thin;
+      $path: 'M192.3 371.3l5.7-5.7 176-176 5.7-5.7-11.3-11.3-5.7 5.7-170.3 170.3-170.3-170.3-5.7-5.7-11.3 11.3 5.7 5.7 176 176 5.7 5.7z';
     } @else if $fa-weight == 'light' or $fa-weight == 300 {
-      $select-icon: $select-icon-sharp-light;
+      $path: 'M192.1 374.6l11.3-11.3 160-160 11.3-11.3-22.6-22.6-11.3 11.3-148.7 148.7-148.7-148.7-11.3-11.3-22.6 22.6 11.3 11.3 160 160 11.3 11.3z';
     } @else if $fa-weight == 'regular' or $fa-weight == 400 {
-      $select-icon: $select-icon-sharp-regular;
+      $path: 'M192.4 385.9l17-17 160-160 17-17-33.9-33.9-17 17-143 143-143-143-17-17-33.9 33.9 17 17 160 160 17 17z';
     } @else if $fa-weight == 'solid' or $fa-weight == 900 {
-      $select-icon: $select-icon-sharp-solid;
+      $path: 'M224.3 397.3l182.6-182.6 22.6-22.6-45.3-45.3-22.6 22.6-137.4 137.4-137.4-137.4-22.6-22.6-45.3 45.3 22.6 22.6 160 160 22.6 22.6z';
+      $view-box: '0 0 448 512';
     }
   }
 
-  @return $select-icon;
+  @return _svg-icon($path, $icon-color, $view-box);
 }
 
-// Check icon based on the font family and weight
 @function svg-check-icon($fa-family: $base-fa, $fa-weight: $base-fa-weight, $icon-color: $check-icon-color) {
-  // Fa pro check icons
-  $check-icon-thin:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M540.7 129.5C544.3 132.1 545 137.1 542.4 140.7L254.4 532.7C253 534.6 250.9 535.8 248.6 535.9C246.3 536 244 535.2 242.3 533.6L98.3 389.6C95.2 386.5 95.2 381.4 98.3 378.3C101.4 375.2 106.5 375.2 109.6 378.3L247.1 515.8L529.6 131.3C532.2 127.7 537.2 127 540.8 129.6z'/%3E%3C/svg%3E");
-  $check-icon-light:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M537.4 131.1C544.5 136.3 546.1 146.3 540.9 153.5L260.9 537.5C258.1 541.3 253.9 543.7 249.2 544C244.5 544.3 240 542.7 236.6 539.4L100.6 403.4C94.4 397.2 94.4 387 100.6 380.8C106.8 374.6 117 374.6 123.2 380.8L246 503.6L515 134.7C520.2 127.6 530.2 126 537.4 131.2z'/%3E%3C/svg%3E");
-  $check-icon-regular: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M534 132.5C544.8 140.2 547.2 155.2 539.5 166L275.5 534C271.4 539.7 265 543.4 258 543.9C251 544.4 244 542 239 537L103 401C93.6 391.6 93.6 376.4 103 367.1C112.4 357.8 127.6 357.7 136.9 367.1L253 483L500.5 138C508.2 127.2 523.2 124.8 534 132.5z'/%3E%3C/svg%3E");
-  $check-icon-solid:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3C!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--%3E%3Cpath d='M530.8 134.1C545.1 144.5 548.3 164.5 537.9 178.8L281.9 530.8C276.4 538.4 267.9 543.1 258.5 543.9C249.1 544.7 240 541.2 233.4 534.6L105.4 406.6C92.9 394.1 92.9 373.8 105.4 361.3C117.9 348.8 138.2 348.8 150.7 361.3L252.2 462.8L486.2 141.1C496.6 126.8 516.6 123.6 530.9 134z'/%3E%3C/svg%3E");
+  $path: 'M530.8 134.1C545.1 144.5 548.3 164.5 537.9 178.8L281.9 530.8C276.4 538.4 267.9 543.1 258.5 543.9C249.1 544.7 240 541.2 233.4 534.6L105.4 406.6C92.9 394.1 92.9 373.8 105.4 361.3C117.9 348.8 138.2 348.8 150.7 361.3L252.2 462.8L486.2 141.1C496.6 126.8 516.6 123.6 530.9 134z';
 
-  // Fa sharp check icons
-  $check-icon-sharp-thin:    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M547.5 134.3L542.8 140.7L254.8 532.7L249.3 540.2L242.7 533.6L98.7 389.6L93 383.9L104.3 372.6L110 378.3L247.4 515.7L529.9 131.2L534.6 124.8L547.5 134.3z'/%3E%3C/svg%3E");
-  $check-icon-sharp-light:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M550.5 140.5L541.1 153.4L261.1 537.4L250.1 552.5L236.9 539.3L100.9 403.3L89.6 392L112.2 369.4L123.5 380.7L246.3 503.5L515.3 134.6L524.7 121.7L550.6 140.6z'/%3E%3C/svg%3E");
-  $check-icon-sharp-regular: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M553.9 146.5L539.9 166L275.9 534L259.4 557L239.4 537L103.4 401L86.4 384L120.3 350.1L137.3 367.1L253.3 483.1L500.8 138.1L514.8 118.6L553.8 146.6z'/%3E%3C/svg%3E");
-  $check-icon-sharp-solid:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M557 152.9L538.2 178.8L282.2 530.8L260.2 561.1C259.5 560.4 208 508.9 105.7 406.6L83 384L128.3 338.7C130.2 340.6 171.6 382 252.4 462.8L486.4 141.1L505.2 115.2L557 152.8z'/%3E%3C/svg%3E");
-
-  // Default check icon
-  $check-icon: $check-icon-solid !default;
-
-  // Set check icon based on the base-fa and base-fa-weight
   @if $fa-family == 'Font Awesome 7 Pro' {
     @if $fa-weight == 'thin' or $fa-weight == 100 {
-      $check-icon: $check-icon-thin;
+      $path: 'M540.7 129.5C544.3 132.1 545 137.1 542.4 140.7L254.4 532.7C253 534.6 250.9 535.8 248.6 535.9C246.3 536 244 535.2 242.3 533.6L98.3 389.6C95.2 386.5 95.2 381.4 98.3 378.3C101.4 375.2 106.5 375.2 109.6 378.3L247.1 515.8L529.6 131.3C532.2 127.7 537.2 127 540.8 129.6z';
     } @else if $fa-weight == 'light' or $fa-weight == 300 {
-      $check-icon: $check-icon-light;
+      $path: 'M537.4 131.1C544.5 136.3 546.1 146.3 540.9 153.5L260.9 537.5C258.1 541.3 253.9 543.7 249.2 544C244.5 544.3 240 542.7 236.6 539.4L100.6 403.4C94.4 397.2 94.4 387 100.6 380.8C106.8 374.6 117 374.6 123.2 380.8L246 503.6L515 134.7C520.2 127.6 530.2 126 537.4 131.2z';
     } @else if $fa-weight == 'regular' or $fa-weight == 400 {
-      $check-icon: $check-icon-regular;
+      $path: 'M534 132.5C544.8 140.2 547.2 155.2 539.5 166L275.5 534C271.4 539.7 265 543.4 258 543.9C251 544.4 244 542 239 537L103 401C93.6 391.6 93.6 376.4 103 367.1C112.4 357.8 127.6 357.7 136.9 367.1L253 483L500.5 138C508.2 127.2 523.2 124.8 534 132.5z';
     } @else if $fa-weight == 'solid' or $fa-weight == 900 {
-      $check-icon: $check-icon-solid;
+      $path: 'M530.8 134.1C545.1 144.5 548.3 164.5 537.9 178.8L281.9 530.8C276.4 538.4 267.9 543.1 258.5 543.9C249.1 544.7 240 541.2 233.4 534.6L105.4 406.6C92.9 394.1 92.9 373.8 105.4 361.3C117.9 348.8 138.2 348.8 150.7 361.3L252.2 462.8L486.2 141.1C496.6 126.8 516.6 123.6 530.9 134z';
     }
   } @else if $fa-family == 'Font Awesome 7 Sharp' {
     @if $fa-weight == 'thin' or $fa-weight == 100 {
-      $check-icon: $check-icon-sharp-thin;
+      $path: 'M547.5 134.3L542.8 140.7L254.8 532.7L249.3 540.2L242.7 533.6L98.7 389.6L93 383.9L104.3 372.6L110 378.3L247.4 515.7L529.9 131.2L534.6 124.8L547.5 134.3z';
     } @else if $fa-weight == 'light' or $fa-weight == 300 {
-      $check-icon: $check-icon-sharp-light;
+      $path: 'M550.5 140.5L541.1 153.4L261.1 537.4L250.1 552.5L236.9 539.3L100.9 403.3L89.6 392L112.2 369.4L123.5 380.7L246.3 503.5L515.3 134.6L524.7 121.7L550.6 140.6z';
     } @else if $fa-weight == 'regular' or $fa-weight == 400 {
-      $check-icon: $check-icon-sharp-regular;
+      $path: 'M553.9 146.5L539.9 166L275.9 534L259.4 557L239.4 537L103.4 401L86.4 384L120.3 350.1L137.3 367.1L253.3 483.1L500.8 138.1L514.8 118.6L553.8 146.6z';
     } @else if $fa-weight == 'solid' or $fa-weight == 900 {
-      $check-icon: $check-icon-sharp-solid;
+      $path: 'M557 152.9L538.2 178.8L282.2 530.8L260.2 561.1C259.5 560.4 208 508.9 105.7 406.6L83 384L128.3 338.7C130.2 340.6 171.6 382 252.4 462.8L486.4 141.1L505.2 115.2L557 152.8z';
     }
   }
 
-  @return $check-icon;
+  @return _svg-icon($path, $icon-color, '0 0 640 640');
 }
 
-// Radio icon
+// A filled radio dot has no weight variants.
 @function svg-radio-icon($icon-color: $check-icon-color) {
-  $radio-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$icon-color}' viewBox='0 0 640 640'%3E%3Cpath d='M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z'/%3E%3C/svg%3E");
-
-  @return $radio-icon;
+  @return _svg-icon('M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z', $icon-color, '0 0 640 640');
 }

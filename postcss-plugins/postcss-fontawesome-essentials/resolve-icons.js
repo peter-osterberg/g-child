@@ -472,7 +472,8 @@ function createIconResolver(cfg) {
 		if (!/font awesome/i.test(family)) return;
 
 		const original = toTrimmedString(decl.value);
-		const parsed = parseVarFunction(original);
+		const iconValue = decl.prop === 'content' ? original.replace(/\s*\/\s*(?:""|'')$/, '') : original;
+		const parsed = parseVarFunction(iconValue);
 
 		if (parsed.varName && !parsed.hasFallback) {
 			log?.(`[postcss-fa-essentials] Skipping unresolvable icon var(): ${original} (no static fallback)`);
@@ -500,7 +501,7 @@ function createIconResolver(cfg) {
 			return;
 		}
 
-		decl.value = `"${unicode}"`;
+		decl.value = `"${unicode}"${iconValue === original ? '' : ' / ""'}`;
 		processedDecls.add(decl);
 
 		if (fontKey) {

@@ -1,8 +1,13 @@
 @use 'sass:map';
 @use 'tokens';
+@use 'sizes';
 @use 'mixins' as forms;
 
 @layer components {
+  .field:focus-within {
+    --field-label-color: var(--text-1);
+  }
+
   :where(
     input:not([type]),
     input[type='text'],
@@ -18,10 +23,20 @@
     input[type='week'],
     input[type='time'],
     select,
-    textarea
-  ),
-  :where(.input) {
+    textarea,
+    .input
+  ) {
     @include forms.shell;
+  }
+
+  @each $size in map.keys(sizes.$input-sizes) {
+    .input-#{$size} {
+      @include forms.size($size);
+    }
+  }
+
+  :where(select:not([multiple], [size]), select:not([multiple])[size='1']) {
+    @include forms.select-indicator;
   }
 
   :where(input[type='checkbox']),
@@ -34,34 +49,46 @@
     @include forms.radio;
   }
 
-  @each $size in map.keys(tokens.$sizes) {
-    .input-#{$size} {
-      @include forms.size($size);
-    }
+  :where(label, legend),
+  .field-label {
+    @include forms.label;
   }
 
-  @each $size in map.keys(tokens.$choice-sizes) {
-    .checkbox-#{$size},
-    .radio-#{$size} {
-      @include forms.choice-size($size);
-    }
+  .field:has([aria-invalid='true']) .field-label,
+  .field:has([aria-invalid='true']) > label {
+    --field-label-color: var(--text-1);
+  }
+
+  .field:has(:disabled) {
+    --field-label-color: var(--text-disabled);
+    --field-message-color: #{map.get(tokens.$field-message-states, 'disabled', 'color')};
+    --input-icon-color: var(--text-disabled);
+  }
+
+  .choice:has(:disabled) {
+    color: var(--text-disabled);
   }
 
   .field {
     @include forms.field;
   }
 
-  :where(label, legend),
-  .field-label {
-    @include forms.label;
+  .field-message,
+  .field-error,
+  .field-success,
+  .field-warning,
+  .field-info {
+    @include forms.message;
   }
 
-  .field-help {
-    @include forms.help;
+  .input-icon {
+    @include forms.input-icon;
   }
 
-  .field-error {
-    @include forms.error;
+  @each $status in error, success, warning, info {
+    .field-#{$status} {
+      @include forms.message-state($status);
+    }
   }
 
   .choice {

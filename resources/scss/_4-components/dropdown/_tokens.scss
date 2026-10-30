@@ -1,0 +1,11 @@
+$option: (
+  'background': var(--bg-surface-1),
+  'color': var(--text-1),
+  'gap': var(--spacing-2),
+  'padding-block': var(--spacing-2),
+  'padding-inline': var(--spacing-2),
+);
+$selected: (
+  'background': var(--primary-bg-subtle),
+  'color': var(--primary-text),
+);

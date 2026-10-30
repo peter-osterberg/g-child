@@ -1,0 +1,312 @@
+@use '@lib/variables' as *;
+@use '@lib/functions' as *;
+@use './mixin-icon-font' as *;
+@use 'sass:string';
+@use 'sass:meta';
+
+@mixin btn {
+  @layer components {
+    @layer root {
+      & {
+        // Resolve base button tokens into local variables before state overrides run.
+        --_btn-bg: var(--btn-bg, transparent);
+        --_btn-border: var(--btn-border, transparent);
+        --_btn-text: var(--btn-text, currentcolor);
+
+        display: inline-flex;
+        gap: var(--btn-gap, #{$btn-icon-gap});
+        align-items: center;
+        justify-content: center;
+        min-height: var(--btn-min-height, #{$btn-min-height});
+        padding-block: var(--btn-py, #{$btn-padding-y});
+        padding-inline: var(--btn-px, #{$btn-padding-x});
+        font-family: var(--btn-ff, #{$btn-font-family});
+        font-size: var(--btn-fs, #{$btn-font-size});
+        font-weight: var(--btn-fw, #{$btn-font-weight});
+        line-height: var(--btn-lh, #{$btn-line-height});
+        color: var(--_btn-text);
+        text-align: center;
+        letter-spacing: var(--btn-ls, #{$btn-letter-spacing});
+        white-space: nowrap;
+        text-decoration: none;
+        appearance: none;
+        cursor: pointer;
+        user-select: none;
+        background-color: var(--_btn-bg);
+        border: var(--btn-bw, #{$btn-border-width}) solid var(--_btn-border);
+        border-radius: var(--btn-br, #{$btn-border-radius});
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+
+        @media (--motion-ok) {
+          transition: var(--btn-duration, #{$btn-duration}) var(--btn-easing, #{$btn-easing});
+          transition-property: background-color, border-color, color, box-shadow;
+        }
+
+        &:where(:focus-visible) {
+          --_btn-bg: var(--btn-bg-hover, var(--btn-bg, transparent));
+          --_btn-border: var(--btn-border-hover, var(--btn-border, transparent));
+          --_btn-text: var(--btn-text-hover, var(--btn-text, currentcolor));
+        }
+
+        &:where(:disabled, [disabled], [aria-disabled='true'], .disabled) {
+          --btn-icon-translate: 0;
+
+          pointer-events: none;
+          cursor: not-allowed;
+          opacity: var(--btn-disabled-opacity, #{$btn-disabled-opacity});
+        }
+
+        @media (--mouse) {
+          &:where(:not(:disabled, [disabled], [aria-disabled='true'], .disabled, :active):hover) {
+            --_btn-bg: var(--btn-bg-hover, var(--btn-bg, transparent));
+            --_btn-border: var(--btn-border-hover, var(--btn-border, transparent));
+            --_btn-text: var(--btn-text-hover, var(--btn-text, currentcolor));
+            --btn-icon-translate: 0.25ch;
+          }
+
+          &:where(:not(:disabled, [disabled], [aria-disabled='true'], .disabled):hover:active) {
+            --_btn-bg: var(--btn-bg-active, var(--btn-bg-hover, var(--btn-bg, transparent)));
+            --_btn-border: var(--btn-border-active, var(--btn-border-hover, var(--btn-border, transparent)));
+            --_btn-text: var(--btn-text-active, var(--btn-text-hover, var(--btn-text, currentcolor)));
+            --btn-icon-translate: 0.25ch;
+          }
+        }
+
+        @media (--touch) {
+          &:where(:not(:disabled, [disabled], [aria-disabled='true'], .disabled):active) {
+            --_btn-bg: var(--btn-bg-active, var(--btn-bg-hover, var(--btn-bg, transparent)));
+            --_btn-border: var(--btn-border-active, var(--btn-border-hover, var(--btn-border, transparent)));
+            --_btn-text: var(--btn-text-active, var(--btn-text-hover, var(--btn-text, currentcolor)));
+            --btn-icon-translate: 0.25ch;
+          }
+        }
+
+        * {
+          pointer-events: none;
+          touch-action: none;
+        }
+      }
+    }
+  }
+}
+
+@mixin btn-variant($name) {
+  @layer components {
+    @layer variant {
+      & {
+        @if $name == 'filled' {
+          --btn-bg: var(--btn-color);
+          --btn-bg-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color)));
+          --btn-bg-hover: var(--btn-color-hover, var(--btn-color));
+          --btn-border: var(--btn-color);
+          --btn-border-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color)));
+          --btn-border-hover: var(--btn-color-hover, var(--btn-color));
+          --btn-text: var(--btn-color-on, var(--btn-color-text, currentcolor));
+          --btn-text-active: var(--btn-color-on, var(--btn-color-text, currentcolor));
+          --btn-text-hover: var(--btn-color-on, var(--btn-color-text, currentcolor));
+        } @else if $name == 'tonal' {
+          --btn-bg: #{alpha(var(--btn-color), 12%)};
+          --btn-bg-active: #{alpha(var(--btn-color-active, var(--btn-color-hover, var(--btn-color))), 24%)};
+          --btn-bg-hover: #{alpha(var(--btn-color-hover, var(--btn-color)), 18%)};
+          --btn-border: #{alpha(var(--btn-color), 16%)};
+          --btn-border-active: #{alpha(var(--btn-color-active, var(--btn-color-hover, var(--btn-color))), 28%)};
+          --btn-border-hover: #{alpha(var(--btn-color-hover, var(--btn-color)), 22%)};
+          --btn-text: var(--btn-color);
+          --btn-text-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color)));
+          --btn-text-hover: var(--btn-color-hover, var(--btn-color));
+        } @else if $name == 'outline' {
+          --btn-bg: transparent;
+          --btn-bg-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color)));
+          --btn-bg-hover: var(--btn-color-hover, var(--btn-color));
+          --btn-border: var(--btn-color);
+          --btn-border-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color)));
+          --btn-border-hover: var(--btn-color-hover, var(--btn-color));
+          --btn-text: var(--btn-color);
+          --btn-text-active: var(--btn-color-on, var(--btn-color-text, currentcolor));
+          --btn-text-hover: var(--btn-color-on, var(--btn-color-text, currentcolor));
+        } @else if $name == 'ghost' {
+          --btn-bg: transparent;
+          --btn-bg-active: #{alpha(var(--btn-color-active, var(--btn-color-hover, var(--btn-color))), 24%)};
+          --btn-bg-hover: #{alpha(var(--btn-color-hover, var(--btn-color)), 18%)};
+          --btn-border: transparent;
+          --btn-border-active: transparent;
+          --btn-border-hover: transparent;
+          --btn-text: var(--btn-color);
+          --btn-text-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color)));
+          --btn-text-hover: var(--btn-color-hover, var(--btn-color));
+        } @else if $name == 'text' {
+          --btn-bg: transparent;
+          --btn-bg-active: transparent;
+          --btn-bg-hover: transparent;
+          --btn-border: transparent;
+          --btn-border-active: transparent;
+          --btn-border-hover: transparent;
+          --btn-br: 0;
+          --btn-bw: 0;
+          --btn-min-height: 0;
+          --btn-px: 0;
+          --btn-py: 0;
+          --btn-text: var(--btn-color, currentcolor);
+          --btn-text-active: var(--btn-color-active, var(--btn-color-hover, var(--btn-color, currentcolor)));
+          --btn-text-hover: var(--btn-color-hover, var(--btn-color, currentcolor));
+
+          span {
+            text-decoration: $link-decoration;
+            text-decoration-thickness: 1px;
+            text-decoration-color: currentcolor;
+            text-underline-offset: $link-underline-offset;
+          }
+
+          &:where(:focus-visible),
+          &:where(:not(:disabled, [disabled], [aria-disabled='true'], .disabled):hover),
+          &:where(:not(:disabled, [disabled], [aria-disabled='true'], .disabled):active) {
+            span {
+              text-decoration-color: transparent;
+            }
+          }
+
+          &:where(:disabled, [disabled], [aria-disabled='true'], .disabled) {
+            span {
+              text-decoration-color: transparent;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin btn-color($name) {
+  @layer components {
+    @layer color {
+      & {
+        @if meta.type-of($name) == color {
+          --btn-color: #{$name};
+          --btn-color-active: color-mix(in oklch, var(--btn-color), var(--btn-color-text) 16%);
+          --btn-color-hover: color-mix(in oklch, var(--btn-color), var(--btn-color-text) 12%);
+          --btn-color-on: #{contrast-color($name)};
+          --btn-color-text: var(--btn-color-on);
+        } @else if is-current-color($name) or is-css-var($name) {
+          --btn-color: #{$name};
+          --btn-color-active: var(--btn-color);
+          --btn-color-hover: var(--btn-color);
+          --btn-color-on: var(--btn-on-color, #fff);
+          --btn-color-text: var(--btn-color-on);
+        } @else {
+          --btn-color: var(--#{$name});
+          --btn-color-active: var(--#{$name}-active);
+          --btn-color-hover: var(--#{$name}-hover);
+          --btn-color-on: var(--#{$name}-text);
+          --btn-color-text: var(--btn-color-on);
+        }
+      }
+    }
+  }
+}
+
+@mixin btn-size($size) {
+  @layer components {
+    @layer size {
+      & {
+        @if $size == sm or $size == 'sm' {
+          --btn-fs: #{$btn-sm-font-size};
+          --btn-gap: 1ex;
+          --btn-min-height: #{$btn-sm-min-height};
+          --btn-px: #{$btn-sm-padding-x};
+          --btn-py: #{$btn-sm-padding-y};
+        } @else if $size == lg or $size == 'lg' {
+          --btn-fs: #{$btn-lg-font-size};
+          --btn-gap: 1ex;
+          --btn-min-height: #{$btn-lg-min-height};
+          --btn-px: #{$btn-lg-padding-x};
+          --btn-py: #{$btn-lg-padding-y};
+        } @else if meta.type-of($size) == number or is-css-var($size) {
+          --btn-min-height: #{$size};
+        }
+      }
+    }
+  }
+}
+
+@mixin btn-block {
+  & {
+    width: 100%;
+  }
+}
+
+// Render an icon-only button with a round or square shape.
+// Reuse the global radius scale so icon buttons follow the theme shape settings.
+@mixin btn-icon-only($style: $icon-only-button-style) {
+  & {
+    @if $style == 'round' {
+      border-radius: var(--btn-br, var(--radius-round));
+    } @else if $style == 'square' {
+      border-radius: var(--btn-br, var(--radius-sm));
+    }
+
+    gap: 0;
+    inline-size: var(--btn-min-height, #{$btn-min-height});
+    padding: 0;
+    line-height: 1;
+
+    &::before,
+    &::after,
+    svg {
+      inline-size: round(1em, 4px);
+      block-size: round(1em, 4px);
+    }
+  }
+}
+
+@mixin btn-square {
+  & {
+    @include btn-icon-only('square');
+  }
+}
+
+@mixin btn-round {
+  & {
+    @include btn-icon-only('round');
+  }
+}
+
+@mixin btn-icon {
+  font-size: var(--btn-icon-fs, #{$btn-icon-size});
+}
+
+@mixin btn-icon-start($icon: $icon-button-start, $family: null, $weight: null, $animate: true) {
+  &:not(.btn-custom-icon-start)::before {
+    @include btn-icon;
+    @include icon($icon, $family, $weight);
+
+    @media (--motion-ok) {
+      transition: var(--btn-duration, #{$btn-duration}) var(--btn-easing, #{$btn-easing});
+
+      @if $animate {
+        translate: calc(var(--btn-icon-translate, 0) * -1);
+        transition-property: color, translate;
+      } @else {
+        transition-property: color;
+      }
+    }
+  }
+}
+
+@mixin btn-icon-end($icon: $icon-button-end, $family: null, $weight: null, $animate: true) {
+  &:not(.btn-custom-icon-end)::after {
+    @include btn-icon;
+    @include icon($icon, $family, $weight);
+
+    @media (--motion-ok) {
+      transition: var(--btn-duration, #{$btn-duration}) var(--btn-easing, #{$btn-easing});
+
+      @if $animate {
+        translate: var(--btn-icon-translate, 0);
+        transition-property: color, translate;
+      } @else {
+        transition-property: color;
+      }
+    }
+  }
+}

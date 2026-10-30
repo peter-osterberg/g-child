@@ -1,59 +1,163 @@
-// Form defaults reference semantic theme colors so they follow each section's light/dark mode.
-$colors: (
-  'bg': var(--bg-surface-1),
-  'color': var(--text-2),
-  'border': var(--border),
+@use '../../_1-lib/functions/function-size' as *;
+
+// Imported from Figma with console/import-component-scss.mjs.
+
+$input: (
+  'background': var(--bg-surface-1),
+  'border-color': var(--border),
+  'border-width': 1px,
+  'border-radius': var(--radius-sm),
+  'box-shadow': none,
+  'min-height': var(--control-md-min-height),
+  'padding-block': var(--spacing-2),
+  'padding-inline': var(--spacing-3),
+  'gap': var(--spacing-3),
+  'field-gap': var(--spacing-2),
+  'font-family': var(--body-font-family),
+  'font-size': var(--font-size-sm),
+  'font-weight': var(--body-font-weight),
+  'line-height': 1.5,
+  'letter-spacing': 0em,
+  'text-transform': none,
+  'text-decoration': none,
+  'color': var(--text-1),
+  'placeholder-color': var(--text-2),
+  'opacity': 1,
+);
+$input-states: (
   'hover': (
     'border-color': var(--border-strong),
-    'background': var(--bg-surface-1),
-    'color': var(--text-2),
   ),
   'focus': (
-    'border-color': var(--border),
-    'background': var(--bg-surface-1),
     'ring-color': var(--focus-ring-color),
-    'color': var(--text-2),
+    'ring-width': 2px,
+    'ring-offset': size(0px),
   ),
   'error': (
     'border-color': var(--danger-border),
-    'background': var(--bg-surface-1),
-    'color': var(--text-2),
   ),
   'disabled': (
-    'border-color': var(--border),
     'background': var(--bg-surface-3),
     'color': var(--text-disabled),
   ),
 );
-
-// Text-control sizes.
-$sizes: (
-  'sm': (
-    'padding-y': var(--spacing-1),
-    'padding-x': var(--spacing-3),
-    'font-size': var(--font-size-sm),
-    'min-height': 2.5rem,
-    'radius': var(--radius-sm),
+$input-icon: (
+  'color': var(--text-2),
+  'icon-size': var(--font-size-sm),
+);
+$label: (
+  'color': var(--text-2),
+  'font-family': var(--body-font-family),
+  'font-size': var(--font-size-sm),
+  'font-weight': var(--body-font-weight),
+  'line-height': 1.5,
+  'letter-spacing': 0em,
+  'text-transform': none,
+  'text-decoration': none,
+);
+$field-message: (
+  'color': var(--text-2),
+  'font-family': var(--body-font-family),
+  'font-weight': var(--body-font-weight),
+  'line-height': 1.5,
+  'letter-spacing': 0em,
+  'text-transform': none,
+  'text-decoration': none,
+  'font-size': var(--font-size-md),
+);
+$field-message-states: (
+  'error': (
+    'color': var(--danger-text),
   ),
-  'md': (
-    'padding-y': var(--spacing-2),
-    'padding-x': var(--spacing-4),
-    'font-size': var(--font-size-md),
-    'min-height': 3rem,
-    'radius': var(--radius-md),
+  'disabled': (
+    'color': var(--text-disabled),
   ),
-  'lg': (
-    'padding-y': var(--spacing-3),
-    'padding-x': var(--spacing-5),
-    'font-size': var(--font-size-lg),
-    'min-height': 3.5rem,
-    'radius': var(--radius-lg),
+  'success': (
+    'color': var(--success-text),
+  ),
+  'warning': (
+    'color': var(--warning-text),
+  ),
+  'info': (
+    'color': var(--info-text),
   ),
 );
-
-// Native checkbox and radio sizes.
-$choice-sizes: (
-  'sm': 1rem,
-  'md': 1.25rem,
-  'lg': 1.5rem,
+$choice: (
+  'background': var(--bg-surface-1),
+  'border-color': var(--border),
+  'border-width': 1px,
+  'box-shadow': none,
+  'width': var(--spacing-4),
+  'height': var(--spacing-4),
+  'padding-block': size(0px),
+  'padding-inline': size(0px),
+  'gap': size(0px),
+);
+$choice-states: (
+  'unchecked': (
+    'background': var(--bg-surface-1),
+    'border-color': var(--border),
+    'box-shadow': none,
+    'opacity': 1,
+    'label-color': var(--text-1),
+  ),
+  'hover': (
+    'background': var(--bg-surface-2),
+    'border-color': var(--border-strong),
+    'box-shadow': none,
+    'opacity': 1,
+    'label-color': var(--text-1),
+  ),
+  'focus': (
+    'background': var(--bg-surface-1),
+    'border-color': var(--border),
+    'box-shadow': none,
+    'opacity': 1,
+    'ring-color': var(--focus-ring-color),
+    'ring-width': 2px,
+    'ring-offset': size(0px),
+    'label-color': var(--text-1),
+  ),
+  'checked': (
+    'background': var(--primary-bg),
+    'border-color': var(--primary-bg),
+    'indicator-color': var(--primary-on-color),
+    'box-shadow': none,
+    'opacity': 1,
+    'label-color': var(--text-1),
+  ),
+  'checked-hover': (
+    'background': var(--primary-bg-hover),
+    'border-color': var(--primary-bg-hover),
+    'indicator-color': var(--primary-on-color-hover),
+    'box-shadow': none,
+    'opacity': 1,
+    'label-color': var(--text-1),
+  ),
+  'checked-focus': (
+    'background': var(--primary-bg),
+    'border-color': var(--primary-bg),
+    'indicator-color': var(--primary-on-color),
+    'box-shadow': none,
+    'opacity': 1,
+    'ring-color': var(--focus-ring-color),
+    'ring-width': 2px,
+    'ring-offset': size(0px),
+    'label-color': var(--text-1),
+  ),
+  'disabled': (
+    'background': var(--bg-surface-3),
+    'border-color': var(--border),
+    'box-shadow': none,
+    'opacity': 1,
+    'label-color': var(--text-disabled),
+  ),
+);
+$checkbox: (
+  'border-radius': var(--radius-xs),
+  'indicator': 'check',
+);
+$radio: (
+  'border-radius': var(--radius-pill),
+  'indicator': 'dot',
 );

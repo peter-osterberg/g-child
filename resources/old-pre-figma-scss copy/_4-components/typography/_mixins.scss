@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use '@lib/tokens' as tokens;
+
+// Apply the body font family, weight, line height and letter spacing.
+// Keep size separate so this role can be combined with any text size.
+@mixin body {
+  font-family: var(--body-font-family), sans-serif;
+  font-weight: var(--body-font-weight);
+  line-height: var(--body-line-height);
+  letter-spacing: var(--body-letter-spacing);
+}
+
+// Apply the heading font family, weight, line height and letter spacing.
+// Keep size separate so the visual role is independent of the HTML heading level.
+@mixin heading {
+  font-family: var(--heading-font-family), sans-serif;
+  font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+// Set a shared font size and its body and heading spacing values.
+// Export both spacing types so the same size works with either typography role.
+@mixin size($size: md) {
+  $size: '#{$size}';
+
+  @if not map.has-key(tokens.$font-size, $size) {
+    @error 'Unknown typography size: #{$size}';
+  }
+
+  --_typography-body-space: var(--body-space-#{$size});
+  --_typography-heading-gap: var(--heading-gap-#{$size});
+  --_typography-heading-space: var(--heading-space-#{$size});
+
+  font-size: var(--font-size-#{$size});
+}
+
+// Space rich-text children using body spacing or heading spacing for headings and .heading.
+// Scope margins to prose so component text can use the same fonts without extra gaps.
+@mixin prose {
+  > * {
+    margin-block: 0 var(--_typography-body-space, var(--body-space-md));
+  }
+
+  > :first-child {
+    margin-block-start: 0;
+  }
+
+  > :last-child {
+    margin-block-end: 0;
+  }
+
+  > :where(h1, h2, h3, h4, h5, h6, .heading) {
+    margin-block:
+      var(--_typography-heading-gap, var(--heading-gap-3xl))
+      var(--_typography-heading-space, var(--heading-space-3xl));
+  }
+}

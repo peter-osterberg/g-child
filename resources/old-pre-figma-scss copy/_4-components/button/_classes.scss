@@ -1,0 +1,27 @@
+@use 'sass:map';
+@use 'tokens';
+@use 'mixins' as button;
+
+@layer components {
+  :where(.btn) {
+    @include button.shell;
+  }
+
+  @each $variant in filled, outline, ghost {
+    .btn-#{$variant} {
+      @include button.variant($variant);
+    }
+  }
+
+  @each $size in map.keys(tokens.$sizes) {
+    .btn-#{$size} {
+      @include button.size($size);
+    }
+  }
+
+  @each $color in tokens.$colors {
+    .btn-#{$color} {
+      @include button.color($color);
+    }
+  }
+}

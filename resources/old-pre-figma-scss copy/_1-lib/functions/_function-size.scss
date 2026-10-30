@@ -1,0 +1,24 @@
+@use 'sass:math';
+
+$html-font-size:   16px;
+$base-round-value: 4px;
+
+// Strip units so px values can be converted into relative units and rounded consistently.
+@function strip-unit($value) {
+  @return math.div($value, ($value * 0 + 1));
+}
+
+// Convert px-based design tokens to rem values against the document root.
+@function rem($pxValue) {
+  @return #{math.div(strip-unit($pxValue), strip-unit($html-font-size))}rem;
+}
+
+// Convert px values to ems relative to a provided context size.
+@function em($pxValue, $contextPxValue) {
+  @return #{math.div(strip-unit($pxValue), strip-unit($contextPxValue))}em;
+}
+
+// Round line-height values to the nearest rhythm increment to reduce subpixel layout drift.
+@function lh($value, $roundValue: $base-round-value) {
+  @return #{round(nearest, $value * 1em, rem($roundValue))};
+}

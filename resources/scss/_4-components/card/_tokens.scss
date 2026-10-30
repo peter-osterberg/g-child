@@ -1,26 +1,61 @@
-$sizes: (
+// Imported from Figma with console/import-component-scss.mjs.
+
+$card: (
+  'background': var(--bg-surface-1),
+  'border-color': var(--border),
+  'box-shadow': var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur)
+  var(--shadow-sm-spread) var(--shadow-color),
+);
+$card-sizes: (
   'sm': (
-    'padding-y': var(--spacing-2),
-    'padding-x': var(--spacing-2),
+    'padding-block': var(--spacing-2),
+    'padding-inline': var(--spacing-2),
     'border-radius': var(--radius-none),
-    'border-width': var(--border-width-none),
+    'border-width': 0px,
+    'gap': var(--spacing-2),
   ),
   'md': (
-    'padding-y': var(--spacing-4),
-    'padding-x': var(--spacing-4),
+    'padding-block': var(--spacing-4),
+    'padding-inline': var(--spacing-4),
     'border-radius': var(--radius-md),
-    'border-width': var(--border-width-sm),
+    'border-width': 1px,
+    'gap': var(--spacing-4),
   ),
   'lg': (
-    'padding-y': var(--spacing-5),
-    'padding-x': var(--spacing-5),
+    'padding-block': var(--spacing-5),
+    'padding-inline': var(--spacing-5),
     'border-radius': var(--radius-lg),
-    'border-width': var(--border-width-md),
+    'border-width': 2px,
+    'gap': var(--spacing-5),
   ),
   'xl': (
-    'padding-y': var(--spacing-6),
-    'padding-x': var(--spacing-6),
+    'padding-block': var(--spacing-6),
+    'padding-inline': var(--spacing-6),
     'border-radius': var(--radius-none),
-    'border-width': var(--border-width-none),
+    'border-width': 0px,
+    'gap': var(--spacing-6),
+  ),
+);
+$card-states: (
+  'default': (
+    'background': var(--bg-surface-1),
+    'border-color': var(--border),
+    'box-shadow': var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur)
+    var(--shadow-sm-spread) var(--shadow-color),
+    'opacity': 1,
+  ),
+  'hover': (
+    'background': var(--bg-surface-2),
+    'border-color': var(--border-strong),
+    'box-shadow': var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur)
+    var(--shadow-md-spread) var(--shadow-color),
+    'opacity': 1,
+  ),
+  'focus': (
+    'background': var(--bg-surface-1),
+    'border-color': var(--primary-border),
+    'box-shadow': var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur)
+    var(--shadow-sm-spread) var(--shadow-color),
+    'opacity': 1,
   ),
 );

@@ -11,7 +11,7 @@
     @include card.interactive;
   }
 
-  @each $size in map.keys(tokens.$sizes) {
+  @each $size in map.keys(tokens.$card-sizes) {
     .card-#{$size} {
       @include card.size($size);
     }

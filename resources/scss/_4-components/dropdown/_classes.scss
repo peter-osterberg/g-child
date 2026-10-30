@@ -1,0 +1,27 @@
+@use 'mixins' as dropdown;
+
+@layer components {
+  :where(.dropdown) {
+    @include dropdown.shell;
+  }
+
+  :where(.dropdown-control) {
+    @include dropdown.control;
+  }
+
+  :where(.dropdown-menu) {
+    @include dropdown.menu;
+  }
+
+  :where(.dropdown-option) {
+    @include dropdown.option;
+  }
+
+  .dropdown:not(.is-open) > .dropdown-menu {
+    display: none;
+  }
+
+  .dropdown-option[aria-selected='true'] {
+    @include dropdown.selected;
+  }
+}

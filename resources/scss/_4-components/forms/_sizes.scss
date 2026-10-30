@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use 'tokens';
+
+// Theme-owned sizes survive Figma imports. The exported control remains the md default.
+$input-sizes: (
+  'sm': (
+    'min-height': var(--control-sm-min-height),
+    'padding-block': var(--spacing-1),
+    'padding-inline': var(--spacing-2),
+    'font-size': var(--font-size-xs),
+  ),
+  'md': (
+    'min-height': map.get(tokens.$input, 'min-height'),
+    'padding-block': map.get(tokens.$input, 'padding-block'),
+    'padding-inline': map.get(tokens.$input, 'padding-inline'),
+    'font-size': map.get(tokens.$input, 'font-size'),
+  ),
+  'lg': (
+    'min-height': var(--control-lg-min-height),
+    'padding-block': var(--spacing-2),
+    'padding-inline': var(--spacing-4),
+    'font-size': var(--font-size-md),
+  ),
+);

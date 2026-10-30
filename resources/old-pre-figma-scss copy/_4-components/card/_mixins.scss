@@ -1,0 +1,54 @@
+/* stylelint-disable order/custom-properties-alphabetical-order */
+@use 'sass:map';
+@use 'tokens';
+
+// Set padding, corner radius and border width from the shared card size scale.
+// Public CSS variables allow local adjustments without creating another size.
+@mixin size($size: md) {
+  $config: map.get(tokens.$sizes, $size);
+
+  @if $config {
+    @each $key, $value in $config {
+      --_card-#{$key}: var(--card-#{$key}, #{$value});
+    }
+  } @else {
+    @error 'Unknown card size: #{$size}';
+  }
+}
+
+// Render a neutral card with medium sizing and optional surface styling.
+// Keep content layout flexible so the shell works for different kinds of cards.
+@mixin shell {
+  --_card-padding-y: var(--card-padding-y, var(--spacing-4));
+  --_card-padding-x: var(--card-padding-x, var(--spacing-4));
+  --_card-border-radius: var(--card-border-radius, var(--radius-md));
+  --_card-border-width: var(--card-border-width, var(--border-width-sm));
+
+  padding-block: var(--_card-padding-y);
+  padding-inline: var(--_card-padding-x);
+  background-color: var(--card-bg, transparent);
+  border: var(--_card-border-width) solid var(--card-border, transparent);
+  border-radius: var(--_card-border-radius);
+  box-shadow: var(--card-shadow, none);
+}
+
+// Build a complete card for components that do not use the .card classes.
+// Apply the chosen size after the shell so it replaces the medium defaults.
+@mixin card($size: md) {
+  @include shell;
+  @include size($size);
+}
+
+// Highlight the card when its .card-link is keyboard-focused or hovered.
+// Limit hover to suitable pointers so touch users do not get an emulated hover state.
+@mixin interactive {
+  &:has(a:focus-visible) {
+    --card-bg: var(--bg-surface-2);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:has(a:hover) {
+      --card-bg: var(--bg-surface-2);
+    }
+  }
+}

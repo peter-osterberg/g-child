@@ -247,7 +247,8 @@ $select-icon-dark: null !default;
 
 // Checkbox and radio icons for the light theme.
 $check-icon-color: map.get($colors, 'white');
-$check-icon: svg-check-icon($icon-font-base, 900, $check-icon-color);
+$check-icon-weight: 900;
+$check-icon: svg-check-icon($icon-font-base, $check-icon-weight, $check-icon-color);
 $radio-icon: svg-radio-icon($check-icon-color);
 
 // Checkbox and radio icons for the dark theme.
@@ -257,7 +258,7 @@ $radio-icon-dark: null !default;
 
 @if $has-dark-theme {
   $check-icon-color-dark: map.get($colors, 'white');
-  $check-icon-dark: svg-check-icon($icon-font-base, 900, $check-icon-color-dark);
+  $check-icon-dark: svg-check-icon($icon-font-base, $check-icon-weight, $check-icon-color-dark);
   $radio-icon-dark: svg-radio-icon($check-icon-color-dark);
 }
 

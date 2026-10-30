@@ -1,0 +1,50 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:string';
+@use '@lib/tokens' as tokens;
+@use '@lib/mixins/mixin-api' as api;
+@use '@lib/mixins/mixin-theme' as theme;
+
+// Publish the raw palette as CSS custom properties for every downstream theme and component token.
+:root {
+  @include api.theme-colors(tokens.$colors);
+
+  @include api.theme-colors(tokens.$theme-colors);
+
+  color-scheme: light;
+}
+
+// Sections only select a scheme and reset/apply the small set of variant properties.
+@each $name in map.keys(tokens.$themes) {
+  $selectors: ("[data-theme='#{$name}']");
+
+  @each $canvas, $theme-name in tokens.$theme-by-background {
+    @if $theme-name == $name {
+      $selectors: list.append($selectors, '.#{$canvas}', comma);
+    }
+  }
+
+  #{$selectors} {
+    @include theme.apply-theme($name);
+  }
+}
+
+// Each canvas class paints its background and uses its registered theme above.
+@each $canvas in map.keys(tokens.$theme-colors) {
+  @if string.index($canvas, 'bg-canvas') == 1 {
+    @if not map.has-key(tokens.$theme-by-background, $canvas) {
+      @error 'Canvas `#{$canvas}` needs a theme mapping.';
+    }
+
+    @if not map.has-key(tokens.$themes, map.get(tokens.$theme-by-background, $canvas)) {
+      @error 'Canvas `#{$canvas}` needs a registered theme.';
+    }
+
+    .#{$canvas} {
+      --bg-color: var(--#{$canvas});
+
+      color: var(--text-1);
+      background-color: var(--bg-color);
+    }
+  }
+}

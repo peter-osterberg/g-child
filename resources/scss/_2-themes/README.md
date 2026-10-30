@@ -1,40 +1,46 @@
 # Bakgrunder och teman
 
-Redaktören väljer en bakgrund i sidbyggaren. PHP lägger på motsvarande canvas-klass och SCSS väljer tema och färger.
+Varje tema äger en obligatorisk canvasfärg och sitt färgschema:
 
-| Bakgrund | Klass | Tema |
-| --- | --- | --- |
-| Standard | `bg-canvas` | `light` |
-| Mörk | `bg-canvas-dark` | `dark` |
-| Rosa | `bg-canvas-pink` | `pink` |
-
-```html
-<section class="bg-canvas-dark">
-  <!-- Mörk bakgrund och dark-temats färger för text och komponenter. -->
-  <div class="bg-canvas">
-    <!-- Ljus bakgrund och återställda light-färger. -->
-  </div>
-</section>
+```scss
+$themes: (
+  'light': (
+    'bg-canvas': var(--neutral-50),
+    'color-scheme': light,
+  ),
+  'dark': (
+    'bg-canvas': var(--neutral-950),
+    'color-scheme': dark,
+  ),
+  'pink': (
+    'bg-canvas': var(--red-100),
+    'color-scheme': light,
+    'text-1': var(--red-950),
+  ),
+);
 ```
 
-## Ansvar
+Exemplet visar strukturen. Projektets faktiska färgval finns i `_1-lib/_tokens.scss`.
 
-- `$colors` i `_1-lib/_tokens.scss` innehåller paletten.
-- `$theme-colors` innehåller semantiska färger. Nycklar som börjar med `bg-canvas` genererar bakgrundsklasser.
-- `$themes` anger varje temas `color-scheme` och färgavvikelser. Alla färgnycklar måste finnas i `$theme-colors`.
-- `$theme-by-background` kopplar canvas-nycklar till teman. Varje canvas ska ha en koppling till ett registrerat tema; annars avbryts kompileringen.
-- `Style_Options::color_picker_options()` registrerar bakgrundsval med samma nycklar som i `$theme-colors`.
-- `Child_Functions::css_classes_relationship()` lägger till canvas-klassen på sektioner, rader, kolumner och moduler.
-- `Child_Functions::css_variables_relationship()` tar bort G-Themes egna färgregler för canvas-val. Klassen styr `--bg-color`, `background-color` och `color: var(--text-1)`.
+- `$colors` innehåller paletten.
+- `$theme-colors` innehåller gemensamma semantiska färger. Light/Dark-par använder `light-dark()`.
+- `$themes` innehåller canvas, färgschema och endast färgavvikelser från valt basmode. Ingen separat `$canvases` behövs.
 
-Temavärden återställs vid varje ny canvas-gräns. Det gör att nästlade sektioner får rätt färger även när ett yttre tema har egna avvikelser. Övriga färgval behåller G-Themes vanliga rendering.
+SCSS genererar färgprover, canvas-klasser och `data-theme`-regler från `$themes`. Light behåller `.bg-canvas`; övriga teman får exempelvis `.bg-canvas-dark` och `.bg-canvas-pink`. `data-theme="pink"` sätter temat utan att måla bakgrunden. Canvas-klassen applicerar även bakgrundsfärgen.
 
-`data-theme="dark"` kan fortfarande användas manuellt för att välja tema. Sidbyggarens canvas-val behöver inget extra attribut.
+Gemensamma färgdefinitioner skrivs i en enda regel för root och temagränser. De återställer nästlade färgavvikelser och binder alias till det lokala temat. Varje temas egen regel innehåller canvas, `color-scheme`, färgavvikelser och eventuella ändrade SVG-bilder. Formulärens Light/Dark-bilder delas mellan teman med samma färgschema.
 
-## Lägga till en bakgrund
+## Figma-export
 
-1. Lägg till en `bg-canvas…`-nyckel i `$theme-colors`.
-2. Koppla samma nyckel till ett tema i `$theme-by-background`.
-3. Lägg till samma nyckel och en översatt etikett i `color_picker_options()`.
+Light och Dark är basmodes. För varje extra mode jämför exporten dess färgvärden med båda baserna och väljer den med flest matchningar; Light väljs vid lika resultat. Temat får alltid sin `bg-canvas` och basens `color-scheme`. Övriga värden exporteras bara när de skiljer sig från basen. Ett mode utan `bg/canvas` ger exportfel.
 
-Kontrollera kontrast och nästlade ljusa/mörka sektioner i webbläsaren när färger ändras. Äldre sparade `background-1`–`background-4`-val behöver väljas om; ingen innehållsmigrering görs automatiskt.
+Komponentimportören importerar endast komponentmaps. Globala färgmaps förs över till `_1-lib/_tokens.scss` separat.
+
+## Lägga till ett tema
+
+1. Lägg till temat med `bg-canvas`, `color-scheme` och eventuella färgavvikelser i `$themes`.
+2. Registrera bakgrundsval och översatt etikett i `Style_Options::color_picker_options()`.
+
+`Child_Functions::css_classes_relationship()` applicerar canvas-klassen på sidbyggarens komponenter. `css_variables_relationship()` tar bort G-Themes egna färgregler för canvas-val.
+
+Kör `node console/check-theme-colors.mjs` för kontroller av temaregler, canvas, färgavvikelser, alias, SVG-bilder och nästlade teman. Kontrollera kontrast och nästlade teman i webbläsaren när färger ändras.

@@ -1,0 +1,14 @@
+$base: (
+  'background': var(--bg-surface-1),
+  'border-color': var(--border),
+  'color': var(--text-2),
+  'gap': var(--spacing-2),
+  'padding-block': var(--spacing-1),
+  'padding-inline': var(--spacing-2),
+  'radius': var(--radius-sm),
+);
+$selected: (
+  'background': var(--primary-bg),
+  'border-color': var(--primary-bg),
+  'color': var(--primary-on-color),
+);

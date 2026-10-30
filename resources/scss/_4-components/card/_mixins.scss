@@ -5,11 +5,11 @@
 // Set padding, corner radius and border width from the shared card size scale.
 // Public CSS variables allow local adjustments without creating another size.
 @mixin size($size: md) {
-  $config: map.get(tokens.$sizes, $size);
+  $config: map.get(tokens.$card-sizes, $size);
 
   @if $config {
-    @each $key, $value in $config {
-      --_card-#{$key}: var(--card-#{$key}, #{$value});
+    @each $key, $value in map.remove($config, 'gap') {
+      --_card-#{$key}: #{$value};
     }
   } @else {
     @error 'Unknown card size: #{$size}';
@@ -18,37 +18,62 @@
 
 // Render a neutral card with medium sizing and optional surface styling.
 // Keep content layout flexible so the shell works for different kinds of cards.
-@mixin shell {
-  --_card-padding-y: var(--card-padding-y, var(--spacing-4));
-  --_card-padding-x: var(--card-padding-x, var(--spacing-4));
-  --_card-border-radius: var(--card-border-radius, var(--radius-md));
-  --_card-border-width: var(--card-border-width, var(--border-width-sm));
+@mixin shell($size: md) {
+  @include size($size);
 
-  padding-block: var(--_card-padding-y);
-  padding-inline: var(--_card-padding-x);
-  background-color: var(--card-bg, transparent);
-  border: var(--_card-border-width) solid var(--card-border, transparent);
-  border-radius: var(--_card-border-radius);
-  box-shadow: var(--card-shadow, none);
+  box-sizing: border-box;
+  padding-block: var(--card-padding-block, var(--_card-padding-block));
+  padding-inline: var(--card-padding-inline, var(--_card-padding-inline));
+  background-color: var(--card-bg, #{map.get(tokens.$card, 'background')});
+  border: var(--card-border-width, var(--_card-border-width)) solid var(--card-border, #{map.get(tokens.$card, 'border-color')});
+  border-radius: var(--card-border-radius, var(--_card-border-radius));
+  box-shadow: var(--card-shadow, #{map.get(tokens.$card, 'box-shadow')});
+  opacity: map.get(tokens.$card-states, 'default', 'opacity');
 }
 
 // Build a complete card for components that do not use the .card classes.
-// Apply the chosen size after the shell so it replaces the medium defaults.
+// Select the size once so compositions do not emit the medium defaults first.
 @mixin card($size: md) {
-  @include shell;
-  @include size($size);
+  @include shell($size);
 }
 
 // Highlight the card when its .card-link is keyboard-focused or hovered.
 // Limit hover to suitable pointers so touch users do not get an emulated hover state.
 @mixin interactive {
   &:has(a:focus-visible) {
-    --card-bg: var(--bg-surface-2);
+    @include state(focus, $from: default);
   }
 
   @media (hover: hover) and (pointer: fine) {
     &:has(a:hover) {
-      --card-bg: var(--bg-surface-2);
+      @include state(hover, $from: default);
+    }
+  }
+}
+
+@mixin state($state, $from: null) {
+  $values: map.get(tokens.$card-states, $state);
+  $base: ();
+
+  @if $from == default {
+    $base: map.merge(tokens.$card, ('opacity': map.get(tokens.$card-states, 'default', 'opacity')));
+  } @else if $from {
+    $base: map.get(tokens.$card-states, $from);
+  }
+
+  @each $property in background, border-color, box-shadow, opacity {
+    $value: map.get($values, $property);
+
+    @if $value != map.get($base, $property) {
+      @if $property == background {
+        background-color: var(--card-bg, #{$value});
+      } @else if $property == border-color {
+        border-color: var(--card-border, #{$value});
+      } @else if $property == box-shadow {
+        box-shadow: var(--card-shadow, #{$value});
+      } @else if $property == opacity {
+        opacity: $value;
+      }
     }
   }
 }
